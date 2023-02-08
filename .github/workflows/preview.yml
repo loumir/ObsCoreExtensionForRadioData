@@ -1,7 +1,7 @@
 name: Update PDF Preview
 
 env:
-  doc_name: ObsCoreExtensionForVisibilityData
+  doc_name: ObsCoreExtensionForRadioData
 
 on:
   push:
