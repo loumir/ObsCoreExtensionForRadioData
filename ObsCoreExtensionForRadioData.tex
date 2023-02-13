@@ -231,7 +231,9 @@ telescopes.
  
 \subsection{s\_resolution}
 \label{sec:res}
-
+In the case of single dish this is the beam size inferred from the wavelength and diameter. 
+In the case of interferometry, a typical value for the spatial resolution will be given by $\lambda / L$ where $\lambda$ 
+is the mid value of the spectral range and L is the longest distance in the \emph{uv} plane.
 
 \subsection{s\_region}
 
@@ -380,7 +382,7 @@ In the registry, the two service tables will be described in the tableset of the
 \sptablerule
 \texttt{uv\_distance\_max}&\texttt{maximal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;stat.max&m&interferometry \cr
 \sptablerule
-\texttt{uv\_distribution\_exc}&\texttt{excentricity of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Excentricity}&stat.fourier;pos& \cr
+\texttt{uv\_distribution\_exc}&\texttt{excentricity of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Excentricity}&stat.fourier;pos&&interferometry \cr
 \sptablerule
 \texttt{uv\_distribution\_fill}&\texttt{filling factor of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline FillingFactor}&stat.fourier;pos&&interferometry \cr
 \sptablerule
