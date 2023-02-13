@@ -2,7 +2,6 @@
 \input tthdefs
 
 \newcommand{\xtype}[1]{\texttt{#1}}
-\newcommand{\ucd}[1]{\texttt{#1}}
 
 \usepackage{listings}
 \lstloadlanguages{XML,sh}
@@ -172,7 +171,6 @@ We consider that consistent ObsCore records as described above defines datasets 
 a dataproduct type set to ``visibility''.
 
 
-
 Contrary to what occurs with direct imaging observations, the PSF of the interferometer
 is filtering spatial scales (large scales, when the small baselines are insufficiently 
 sampled; and vice versa for small scales with long baselines).
@@ -233,9 +231,6 @@ telescopes.
  
 \subsection{s\_resolution}
 \label{sec:res}
-In the case of single dish this is the beam size inferred from the wavelength and diameter. 
-In the case of interferometry, a typical value for the spatial resolution will be given by $\lambda / L$ where $\lambda$ 
-is the mid value of the spectral range and L is the longest distance in the \emph{uv} plane.
 
 
 \subsection{s\_region}
@@ -249,7 +244,6 @@ In the case of single dish data it is generally a flux or flux density in Jy.
 
 In the case of visibility data the "observable" is a complex number representing Fourier 
 coefficients of the image Fourier transform. Its UCD string is \emph{stat.fourier}. 
-
 
 \subsection{t\_exptime}
 TBC
@@ -386,7 +380,7 @@ In the registry, the two service tables will be described in the tableset of the
 \sptablerule
 \texttt{uv\_distance\_max}&\texttt{maximal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;stat.max&m&interferometry \cr
 \sptablerule
-\texttt{uv\_distribution\_exc}&\texttt{excentricity of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Excentricity}&stat.fourier;pos&&interferometry \cr
+\texttt{uv\_distribution\_exc}&\texttt{excentricity of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Excentricity}&stat.fourier;pos& \cr
 \sptablerule
 \texttt{uv\_distribution\_fill}&\texttt{filling factor of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline FillingFactor}&stat.fourier;pos&&interferometry \cr
 \sptablerule
