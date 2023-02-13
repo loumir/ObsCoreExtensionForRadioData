@@ -1,16 +1,16 @@
 # ivoatex Makefile.  The ivoatex/README for the targets available.
 
 # short name of your document (edit $DOCNAME.tex; would be like RegTAP)
-DOCNAME = ObsCoreExtensionForVisibilityData
+DOCNAME = ObsCoreExtensionForRadioData
 
 # count up; you probably do not want to bother with versions <1.0
 DOCVERSION = 1.0
 
 # Publication date, ISO format; update manually for "releases"
-DOCDATE = 2022-10-14
+DOCDATE = 2023-02-13
 
 # What is it you're writing: NOTE, WD, PR, or REC
-DOCTYPE =  NOTE
+DOCTYPE =  WD
 
 AUTHOR_EMAIL=francois.bonnarel@astro.unistra.fr
 
