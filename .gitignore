@@ -16,3 +16,4 @@ role_diagram.svg
 
 # OS-specific
 .DS_Store
+.project
