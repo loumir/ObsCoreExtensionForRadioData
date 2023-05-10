@@ -65,7 +65,7 @@ interest of the radio astronomy community to distribute their data in the VO. Ma
 distribute their data using VO standards\footnote{https://ivoa.net/documents/Notes/RadioVOImp/index.html}. 
 While reduced radio data products, such as images or spectral cubes, %(and single dish data - {\it is that true ?} ) 
 are mostly covered by the ObsCore model, the lower level observational data 
-(interferometric visibilities, single dish data in SDFITS format or whatever) require additional description parameters. For interferometry, this was already exposed 
+(interferometric visibilities, single dish data in SDFITS, filterbank or whatever other specific formats) require additional description parameters. For interferometry, this was already exposed 
 in 2010 when Anita Richards wrote a note called "Radio interferometry data in the VO" 
 \footnote{https://wiki.ivoa.net/internal/IVOA/SiaInterface/Anita-InterferometryVO.pdf} which is 
 still worth reading. Among other goals, the current specification tries to cover the needs exposed in this note. 
@@ -117,7 +117,8 @@ It would be better to introduce the constant absolute resolution in frequency un
 
 \subsection{Single dish and beam forming data}
 
-Typically Single Dish data gather emission in a central beam for each spectral sample in the spectral band and polarization. They provide spectra (the special case where observers span the time axis, record time stamps and thus produce dynamical spectra is tackled in an other document). In a spectrum case the spatial "field of view" and spatial "resolution" may be considered as the same concept because it's not possible to distinguish two sources inside the beam. Another perspective on this is to consider that spatial resolution doesn't make sense for spectra. 
+We list here all the radio observation receivers and modes which provide direct measurements of fluxes for some positions, frequencies, polarization and time stamps.
+In the simplest case Single Dish data gather emission in a central beam for each spectral sample in the spectral band and polarization and for some time stamps. They can provide either spectra, time series or dynamical spectra ( the case where observers span the time axis, record time stamps and thus produce dynamical spectra is however tackled in an other document). 
 
 However in many cases more sophisticated observing modes allow to span wider parts of the sky. Fig \ref{fig:SD} shows some of these modes. 
 
@@ -126,7 +127,10 @@ It is important to add these observing scan modes in the dataset description in 
 
 Observing configuration features such as multi-feed receptors available on the telescope (allowing multi spectra observation at the same time) should also be given. 
 
-In the case of beamforming data obtained with an array of antennae, "beamforming" should also be considered as an observing configuration feature. 
+In the case of beamforming data obtained with an array of antennas, "beamforming" should also be considered as an observing configuration feature. 
+
+The spatial resolution is related to the single beam size, while the spatial field of view size and shapes are strongly related to the observation modes and receiver type. 
+In the spectrum, timeseries or dynamical spectrum case the spatial "field of view" size and resolution  may be considered as the same concept because it's not possible to distinguish two sources inside the beam.  
 
 \begin{figure}[H]
 \centering
@@ -200,13 +204,16 @@ table or only via a DataLink service.
 If none of these \emph{uv} characterization features are available to be exposed in the service 
 we can still predict ranges of some of those by using some kind of facility description.  
 Important features are the antenna diameter (or maximum antenna diameter), the number of 
-antennae and the minimum and maximum distance between antennae of the array.
+antennas and the minimum and maximum distance between antennas of the array.
+
+In addition to these specifities most of the scan modes shown on figure~\ref{fig:SD} also 
+apply to some interferometry observations and should be described. 
 
 \section{ObsCore attributes definition valid for radio data}
 \label{sec:ObsCoreRadDef}
 
 %Some mandatory or optional parameters will have peculiar estimation for visibility data.
-For visibilities some of the definitions on Obscore datamodel elements need to be adjusted 
+For radio data some of the definitions on Obscore datamodel elements need to be adjusted 
 to fit the peculiarity of medata for datasets partition, uv space, etc.
 
 \subsection{obs\_id}
@@ -217,7 +224,7 @@ observation.
 
 \subsection{obs\_publisher\_did}
 
-Visibility data observations can be split in several subparts with homogeneous spatial, 
+Radio data observations can be split in several subparts with homogeneous spatial, 
 time, spectral coverage intervals, spectral resolution, etc. Each part can be described by 
 a single ObsCore dataset and has its own obs\_publisher\_did. It has to be unique in the 
 Virtual Observatory domain.
@@ -226,7 +233,7 @@ Virtual Observatory domain.
 \label{sec:fov}
 
 A typical value for the field of view size will be given by $\lambda / D$ where $\lambda$ 
-is the mid value of the spectral range and D is the  diameter of the telecope or the largest diameter of the array antennae or 
+is the mid value of the spectral range and D is the the measuring system aperture scale which can be  the diameter of a telescope antenna in the simplest cases.
 telescopes.
  
 \subsection{s\_resolution}
@@ -237,21 +244,22 @@ is the mid value of the spectral range and L is the longest distance in the \emp
 
 \subsection{s\_region}
 
-For single dish data it will strongly depnd of the scanning mode. 
+For single dish data it will strongly depend of the scanning mode. 
 This shape will be the typical contour of the detectable beam for interferometry. Of course it cannot be accurate. 
 
 \subsection{o\_ucd}
 
-In the case of single dish data it is generally a flux or flux density in Jy.
+In the case of calibrated single dish data it is generally a flux or flux density in Jy. 
+Uncalibrated Raw counts measurements in ADU deserve a new UCD. 
 
 In the case of visibility data the "observable" is a complex number representing Fourier 
 coefficients of the image Fourier transform. Its UCD string is \emph{stat.fourier}. 
 
 \subsection{t\_exptime}
-TBC
+There is no specific radio definition for this concept. To be useful, the value should be estimated for each single dataset in the observation.
 
 \subsection{t\_resolution}
-TBC 
+The resolution for time is defined as the minimal time interval for which events can be separated, In practice it is difficult to distinguish from each individual mezasurement typical duration.
 
 \section{ObsCore extension for radio data}
 
@@ -388,18 +396,18 @@ In the registry, the two service tables will be described in the tableset of the
 \sptablerule
 \texttt{uv\_distribution\_fill}&\texttt{filling factor of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline FillingFactor}&stat.fourier;pos;arith.ratio&&interferometry \cr
 \sptablerule
-% mireille here for antennae features , it is clear it belongs to instrument. 
+% mireille here for antennas features , it is clear it belongs to instrument. 
 %Not useful to use the term in the name .
-%\texttt{instrument\_ant\_number}&\texttt{number of antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&instr.baseline;meta.number& \cr
+%\texttt{instrument\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&instr.baseline;meta.number& \cr
 %\sptablerule
-\texttt{instrument\_ant\_number}&\texttt{number of antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param&&interferometry, beamforming \cr
+\texttt{instrument\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param&&interferometry, beamforming \cr
 \sptablerule
 % same for all antenae features
-\texttt{instrument\_ant\_min\_dist}&\texttt{minimum distance between antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m&interferometry \cr
+\texttt{instrument\_ant\_min\_dist}&\texttt{minimum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m&interferometry \cr
 \sptablerule
-\texttt{instrument\_ant\_max\_dist}&\texttt{maximum distance between antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MaxDist}&instr.baseline;stat.max&m&interferometry \cr
+\texttt{instrument\_ant\_max\_dist}&\texttt{maximum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MaxDist}&instr.baseline;stat.max&m&interferometry \cr
 \sptablerule
-\texttt{instrument\_ant\_diameter}&\texttt{diameter of telecope or antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr.param&m&radio \cr
+\texttt{instrument\_ant\_diameter}&\texttt{diameter of telecope or antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr.param&m&radio \cr
 \sptablerule
 \texttt{instrument\_feed}&\texttt{number of feeds}&\texttt{Provenance.ObsConfig.\newline Instrument.Feed}&instr.param&&single dish \cr
 \sptablerule
