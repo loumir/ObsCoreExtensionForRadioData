@@ -56,7 +56,7 @@ and Particle Physics ESFRI Research Infrastructures) funded by the EU Horizon
 \section{Introduction}
 
 
-ObsCore specification \citep{std:OBSCORE} defines both a minimal datamodel to describe datasets 
+ObsCore specification \citep{2017ivoa.spec.0509L} defines both a minimal datamodel to describe datasets 
 and a table consistent with the model which can be served by TAP services. It has been successful 
 to define a lot of data discovery services in astronomy.
 
@@ -340,7 +340,7 @@ These uv\_coverage\_map and s\_resolution\_beam\_dirty parameters are  intended 
 files containing these maps. 
 Implementers may want to avoid adding url columns to the ObsCore table. 
 
-In that case DataLink \citep{std:DataLink} may provide a solution. The semantics FIELD in the 
+In that case DataLink \citep{2015ivoa.spec.0617D} may provide a solution. The semantics FIELD in the 
 \{link\} response  will contain \#auxiliary  for links to this map while  the content\_qualifier 
 FIELD could contain the utype defined here in this ObsCore extension.
 
@@ -356,14 +356,14 @@ In the registry, the two service tables will be described in the tableset of the
 
         
 \begin{landscape}
-\begin{longtable}{l  p{4cm} p{4cm} p{4cm} l l l}
+\begin{longtable}{l  p{4cm} p{4cm} p{4.5cm} l l l}
 \sptablerule
-\textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}&{validity}\cr
+\textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}&\textbf{validity}\cr
 \sptablerule
 \sptablerule
-\texttt{ s\_resolution\_min}&\texttt{ Angular resolution, longest baseline and  max frequency dependant}&{ Char.SpatialAxis.\newline Resolution.Bounds.\newline Limits.LoLim}&{pos.AngResol;stat.min}&{arcsec}&radio\cr
+\texttt{ s\_resolution\_min}&\texttt{ Angular resolution, longest baseline and  max frequency dependant}&{ Char.SpatialAxis.\newline Resolution.Bounds.\newline Limits.LoLim}&{pos.angResolution;stat.min}&{arcsec}&radio\cr
 \sptablerule
-\texttt{s\_resolution\_max}&\texttt{Angular resolution, longest baseline and min frequency dependant}&\texttt{Char.SpatialAxis.\newline Resolution.Bounds.\newline Limits.HiLim}&{pos.AngResol;stat.max}&arcsec&radio\cr
+\texttt{s\_resolution\_max}&\texttt{Angular resolution, longest baseline and min frequency dependant}&\texttt{Char.SpatialAxis.\newline Resolution.Bounds.\newline Limits.HiLim}&{pos.angResolution;stat.max}&arcsec&radio\cr
 \sptablerule
 \texttt{s\_fov\_min}&\texttt{field of view diameter,  min value, max frequency dependant}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.LowLim}&{phys.angSize;instr.fov;\newline stat.min}&deg&radio\cr
 \sptablerule
@@ -378,41 +378,43 @@ In the registry, the two service tables will be described in the tableset of the
 \sptablerule
 \texttt{t\_exp\_max}&\texttt{maximum integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline HiLim}&{time.duration;obs.exposure;\newline stat.max}&s&radio\cr
 \sptablerule
+\texttt{t\_exp\_mean}&\texttt{average integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline HiLim}&{time.duration;obs.exposure\newline stat.mean}&s&radio\cr
+\sptablerule
 \texttt{uv\_distance\_min}&\texttt{minimal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;stat.min&m&interferometry \cr
 \sptablerule
 \texttt{uv\_distance\_max}&\texttt{maximal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;stat.max&m&interferometry \cr
 \sptablerule
-\texttt{uv\_distribution\_exc}&\texttt{excentricity of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Excentricity}&stat.fourier;pos&&interferometry \cr
+\texttt{uv\_distribution\_ecc}&\texttt{eccentricity of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Eccentricity}&stat.fourier;pos&&interferometry \cr
 \sptablerule
-\texttt{uv\_distribution\_fill}&\texttt{filling factor of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline FillingFactor}&stat.fourier;pos&&interferometry \cr
+\texttt{uv\_distribution\_fill}&\texttt{filling factor of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline FillingFactor}&stat.fourier;pos;arith.ratio&&interferometry \cr
 \sptablerule
 % mireille here for antennae features , it is clear it belongs to instrument. 
 %Not useful to use the term in the name .
 %\texttt{instrument\_ant\_number}&\texttt{number of antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&instr.baseline;meta.number& \cr
 %\sptablerule
-\texttt{ant\_number}&\texttt{number of antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&instr.baseline;meta.number&&interferometry, beamforming \cr
+\texttt{instrument\_ant\_number}&\texttt{number of antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param&&interferometry, beamforming \cr
 \sptablerule
 % same for all antenae features
 \texttt{instrument\_ant\_min\_dist}&\texttt{minimum distance between antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m&interferometry \cr
 \sptablerule
 \texttt{instrument\_ant\_max\_dist}&\texttt{maximum distance between antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MaxDist}&instr.baseline;stat.max&m&interferometry \cr
 \sptablerule
-\texttt{instrument\_ant\_diameter}&\texttt{diameter of telecope or antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr&m&radio \cr
+\texttt{instrument\_ant\_diameter}&\texttt{diameter of telecope or antennae in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr.param&m&radio \cr
 \sptablerule
-\texttt{instrument\_feed}&\texttt{number of feeds}&\texttt{Provenance.ObsConfig.\newline Instrument.Feed}&instr&&single dish \cr
+\texttt{instrument\_feed}&\texttt{number of feeds}&\texttt{Provenance.ObsConfig.\newline Instrument.Feed}&instr.param&&single dish \cr
 \sptablerule
-\texttt{sky\_scan\_mode}&\texttt{scan mode among\newline on-off,raster map, on the fly map\newline }&\texttt{Provenance.\newline Observation.\newline sky\_scan\_mode}&instr&&single dish \cr
+\texttt{sky\_scan\_mode}&\texttt{scan mode (on-off, \newline raster map, on-the-fly map,...)\newline }&\texttt{Provenance.\newline Observation.\newline sky\_scan\_mode}&instr.param&&single dish \cr
 \sptablerule
-\texttt{uv\_distribution\_map}&\texttt{uv distribution map}&\texttt{Char.UVAxis.\newline  Sampling.\newline Sensitivity.Map}&stat.fourier;pos&&interferometry \cr
+\texttt{uv\_distribution\_map}&\texttt{uv distribution map}&\texttt{Char.UVAxis.\newline  Sampling.\newline Sensitivity.Map}&stat.fourier;pos;meta.ref.url&&interferometry \cr
 \sptablerule
-\texttt{s\_resolution\_beam\_dirty}&\texttt{dirty beam}&\texttt{Char.SpatialAxis.\newline Resolution.\newline Variability.DirtyBeam.\newline Map}&{pos.AngResol}&&interferometry\cr
+\texttt{s\_resolution\_beam\_dirty}&\texttt{dirty beam}&\texttt{Char.SpatialAxis.\newline Resolution.\newline Variability.DirtyBeam.\newline Map}&{pos.angResolution;instr.beam;\newline meta.ref.url}&&interferometry\cr
 \sptablerule
-\caption{ObsCore radio data extension parameters}
+\caption{ObsCore radio data extension parameters proposal}
 \label{tab:ExtensionAtt}
 \end{longtable}
 \end{landscape}
 
 
-\bibliography{ivoatex/ivoabib}
+\bibliography{ivoatex/ivoabib,ivoatex/docrepo}
 
 \end{document}
