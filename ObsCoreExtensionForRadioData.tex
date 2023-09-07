@@ -123,14 +123,17 @@ aperture scale).
 Similarly, the resolution power quantity, commonly provided to describe optical spectroscopic data, does not make much sense in the radio domain and it is generally not used.
 To properly represent radio data it would be necessary to introduce a new ObsCore term for the absolute spectral resolution in frequency unit, for which a representative value for each observation can be given. 
 
-We note that the interpretation of the spatial field of view as based on a mid/representative value for $\lambda$ should be better clarified in the ObsCore definition of this parameter.
-We also point out that in the radio domain the field of view is an instantaneous concept, i.e. the instantaneous footprint (a circular primary beam in the case of mono-feed receivers, a more complex shape in the case of multi-feed/beamforming/PAFs), while in ObsCore it is defined as the approximate size of the region covered by the data product. 
-This means that the region covered by an observation can be larger than the instantaneous field of view. This happens for instance in a SD radio map, in an interferometric map/mosaic, etc.
+%We note that the interpretation of the spatial field of view as based on a mid/representative value for $\lambda$ should be better clarified in the ObsCore definition of this parameter.
+%We also point out that in the radio domain the field of view is an instantaneous concept, i.e. the instantaneous footprint (a circular primary beam in the case of mono-feed receivers, a more complex shape in the case of multi-feed/beamforming/PAFs), while in ObsCore it is defined as the approximate size of the region covered by the data product. 
+%This means that the region covered by an observation can be larger than the instantaneous field of view. This happens for instance in a SD radio map, in an interferometric map/mosaic, etc.
 
-Modern radio instrumentation offer the possibility of {\it n} different spectral windows within the same observation. 
-If the more common approach to ObsCore is applied, such observations would be represented at the highest granularity as many entries in an ObsCore Table. However, this might puzzle a user trying to understand the actual setup of the observation. In order to optimize data discoverability and ease data access, different levels of granularity may be adopted depending on the scientific content of the observation (see Sect. \ref{subsec:sd} for an example).
+Modern radio instrumentation offer the possibility of {\it n} different spectral windows within the same observation with significant separation or different resolutions.
+Such observations may be represented at the highest granularity as many entries in an ObsCore Table. However it's up to data provider to decide which level of granularity is best adapted in order to optimize data discoverability and ease data access, depending on the scientific content of the observation (see Sect. \ref{subsec:sd} for an example).
 
-The introduction of sky\_scan\_mode in ObsCore Extension is useful to describe the spatial scanning strategies in both interferomentric and SD radio observations. However, its definition does not encompass scan modes in the spectral domain, like frequency switching or spectral scan. A more general scan\_mode term would better represent both the spatial and the spectral scanning modes. Alternatively, a further parameter frequency\_scan\_mode for the spectral domain aloce could be added in the ObsCore Extension for radio data.
+%Modern radio instrumentation offer the possibility of {\it n} different spectral windows within the same observation. 
+%If the more common approach to ObsCore is applied, such observations would be represented at the highest granularity as many entries in an ObsCore Table. However, this might puzzle a user trying to understand the actual setup of the observation. In order to optimize data discoverability and ease data access, different levels of granularity may be adopted depending on the scientific content of the observation (see Sect. \ref{subsec:sd} for an example).
+
+%The introduction of sky\_scan\_mode in ObsCore Extension is useful to describe the spatial scanning strategies in both interferomentric and SD radio observations. However, its definition does not encompass scan modes in the spectral domain, like frequency switching or spectral scan. A more general scan\_mode term would better represent both the spatial and the spectral scanning modes. Alternatively, a further parameter frequency\_scan\_mode for the spectral domain aloce could be added in the ObsCore Extension for radio data.
 
 
 
