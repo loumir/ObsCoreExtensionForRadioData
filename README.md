@@ -7,4 +7,6 @@ Previous version of the project available in the legacy repository https://githu
 
 
 
-[![PDF-Preview](https://img.shields.io/badge/Preview-PDF-blue)](../../releases/download/auto-pdf-preview/ObsCoreExtensionForRadioData-draft.pdf)
+
+
+[![PDF-Preview](https://img.shields.io/badge/Preview-PDF-blue)](../../releases/download/auto-pdf-preview/ObsCoreExtensionForRadioData.pdf)
