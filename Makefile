@@ -9,7 +9,6 @@ DOCVERSION = 1.0
 # Publication date, ISO format; update manually for "releases"
 DOCDATE = 2023-09-29
 
-
 # What is it you're writing: NOTE, WD, PR, or REC
 DOCTYPE =  WD
 
