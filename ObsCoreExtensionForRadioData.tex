@@ -64,7 +64,7 @@ to define a lot of data discovery services in astronomy.
 The emergence  of  the Radioastronomy Interest Group in the IVOA in April 2020 confirmed the strong 
 interest of the radio astronomy community to distribute their data in the VO. Many teams now 
 distribute their data using VO standards\footnote{https://ivoa.net/documents/Notes/RadioVOImp/index.html}. 
-While reduced radio data products, such as images or spectral cubes, %(and single dish data - {\it is that true ?} ) 
+While reduced radio data products, such as images or spectral cubes,%(and single dish data - {\it is that true ?} ) 
 are mostly covered by the ObsCore model, the lower level observational data 
 (interferometric visibilities, single dish data in SDFITS, filterbank or whatever other specific formats) require additional description parameters. For interferometry, this was already exposed 
 in 2010 when Anita Richards wrote a note called "Radio interferometry data in the VO" 
@@ -115,7 +115,9 @@ That's why we should also provide their translation into frequencies.
 Receivers with a (ultra)wide bandwidth, up to tens of GHz, are 
 nowadays commonly used for both interferometric and Single Dish (herefater SD) radio observations. 
 Given that the spatial field of view and resolution linearly depend on wavelength, these quantities may significantly vary across the observed bandwidth in a radio observation. 
-Generally only a representative value (for instance the median) for these two parameters can be given. It is 
+Generally only a representative value (for instance the
+%median
+receiver nominal frequency) for these two parameters can be given. It is 
 noticeable that this is the case for any measuring system allowing a large interval of 
 $\lambda/D$ (where $\lambda$ and $D$ are the wavelengths and the measuring system
 aperture scale).
@@ -123,17 +125,9 @@ aperture scale).
 Similarly, the resolution power quantity, commonly provided to describe optical spectroscopic data, does not make much sense in the radio domain and it is generally not used.
 To properly represent radio data it would be necessary to introduce a new ObsCore term for the absolute spectral resolution in frequency unit, for which a representative value for each observation can be given. 
 
-%We note that the interpretation of the spatial field of view as based on a mid/representative value for $\lambda$ should be better clarified in the ObsCore definition of this parameter.
-%We also point out that in the radio domain the field of view is an instantaneous concept, i.e. the instantaneous footprint (a circular primary beam in the case of mono-feed receivers, a more complex shape in the case of multi-feed/beamforming/PAFs), while in ObsCore it is defined as the approximate size of the region covered by the data product. 
-%This means that the region covered by an observation can be larger than the instantaneous field of view. This happens for instance in a SD radio map, in an interferometric map/mosaic, etc.
-
 Modern radio instrumentation offer the possibility of {\it n} different spectral windows within the same observation with significant separation or different resolutions.
-Such observations may be represented at the highest granularity as many entries in an ObsCore Table. However it's up to data provider to decide which level of granularity is best adapted in order to optimize data discoverability and ease data access, depending on the scientific content of the observation (see Sect. \ref{subsec:sd} for an example).
-
-%Modern radio instrumentation offer the possibility of {\it n} different spectral windows within the same observation. 
-%If the more common approach to ObsCore is applied, such observations would be represented at the highest granularity as many entries in an ObsCore Table. However, this might puzzle a user trying to understand the actual setup of the observation. In order to optimize data discoverability and ease data access, different levels of granularity may be adopted depending on the scientific content of the observation (see Sect. \ref{subsec:sd} for an example).
-
-%The introduction of sky\_scan\_mode in ObsCore Extension is useful to describe the spatial scanning strategies in both interferomentric and SD radio observations. However, its definition does not encompass scan modes in the spectral domain, like frequency switching or spectral scan. A more general scan\_mode term would better represent both the spatial and the spectral scanning modes. Alternatively, a further parameter frequency\_scan\_mode for the spectral domain aloce could be added in the ObsCore Extension for radio data.
+Such observations may be represented at the highest granularity as many entries in an ObsCore Table. However it's up to data provider to decide which level of granularity is best adapted in order to optimize data discoverability and ease data access, depending on the scientific content of the observation.
+%(see Sect. \ref{subsec:sd} for an example).
 
 
 
@@ -153,15 +147,15 @@ Spatial resolution in the SD case is intended as the beam size. This holds true 
 Contrary to what usually happens for  interferometric observations, for some radio telescopes a SD observation (scan) contains only one scientific target (for example INAF ones). In any case, each target in an observation is listed as a separate entry in an ObsCore Table sharing the same obs\_id.
 
 Complex frequency setups are possible in the same observation, as already mentioned in Sect. \ref{sec:specificities}.
-%For instance, new multi-band receivers acquire simultaneously different frequency bands with different setups (bandwidth, max/min frequency, etc.). Moreover, modern digital backends allow the simultaneous acquisition of more than one spectral window (each with its spectral resolution) inside each receiver band. Such a complex observation should be properly represented in an ObsCore Table.
-%As an example: the new tri-band K-Q-W receiver being installed on board of the INAF radio telescopes observes simultaneously the K, Q and W frequency bands in the same observations. It can be coupled with a digital backend delivering {\it n} different spectral windows for each of the three observed bands. In this example, if the highest-granularity approach to ObsCore is applied, such a case would be described with $3n$ entries in a ``flat'' ObsCore Table. In case of broadband spectro-polarimetric observations, like the simultaneous study of many emission lines, $n$ may become large. Thus, such numerous ObsCore entries associated to the same dataset might make it difficult for a user to understand the observing setup. The possibility to adopt different levels of granularity in an ObsCore Table might be considered.
 
-The ObsCore definition of t\_resolution as the minimal interpretable interval between two points along the
-time axis (being it an average or representative value) is generally not applicable for SD data. Typically time is not an independent variable in SD measurements, it can be saved together with spatial/spectral/intensity information as a timestamp associated to each data sample.
-Even in the case of on-source tracking, time information in SD data is not intended for time domain studies.
-
-%Finally, also in the SD case we note that currently allowed terms for dataproduct\_type do not permit a proper data characterisation. A revision of the reserved list of terms for dataproduct\_type is currently under discussion within IVOA.
-
+The ObsCore parameter t\_resolution, defined as the minimal interpretable interval between two points along the
+time axis (being it an average or representative value), has a limited application for SD data except for on-source tracking
+observations like those for pulsar/FRB studies.
+Typically, time is not an independent variable in SD measurements and it can be saved together with spatial/spectral/intensity
+information as a timestamp associated to each data sample.
+A more comprehensive discussion on ObsCore parameters for time-domain data is given in the Pulsar
+and FRB Radio Data Discovery and Access IVOA Note\footnote{\url{https://wiki.ivoa.net/internal/IVOA/RadioastronomyInterestGroupFifthVirtualMeeting/PulsarRadioDataAccess.pdf}}.
+%Even in the case of on-source tracking, time information in SD data is not intended for time domain studies.
 
 
 
@@ -248,11 +242,11 @@ apply to some interferometry observations and should be described.
 
 %Some mandatory or optional parameters will have peculiar estimation for visibility data.
 For radio data some of the definitions on Obscore datamodel elements need to be adjusted 
-to fit the peculiarity of medata for datasets partition, uv space, etc.
+to fit the peculiarity of metadata for datasets partition, uv space, etc.
 
 \subsection{obs\_id}
 
-Astronomers usually know what they identify as a single observation : a complex set of 
+Astronomers usually know what they identify as a single observation: a complex set of 
 measurements made in a given sequence of time. obs\_id should define unambiguously each 
 observation.
 
@@ -267,15 +261,18 @@ Virtual Observatory domain.
 \label{sec:fov}
 
 A typical value for the field of view size is to be computed on the observation by taking into account the sky scan geometry and receiver type in use.
-s\_fov coincides with the instantaneous field of view $\lambda / D$ only for pointed observations (for instance, an ON in the SD case) obtained with a mono-feed receiver. In this case, $\lambda$ is the mid value of the spectral range and D coincides with the telescope diameter (SD case) or the largest diameter of the array antennae or telescopes (interferometric case). 
+s\_fov coincides with the instantaneous field of view $\lambda / D$ only for pointed observations (for instance, an ON in the SD case) obtained with a mono-feed receiver. In this case, $\lambda$ is the
+%mid value of the spectral range
+receiver nominal wavelength and D coincides with the telescope diameter (SD case) or the largest diameter of the array antennae or telescopes (interferometric case). 
 
 
 
 \subsection{s\_resolution}
 \label{sec:res}
-In the case of single dish using mono- or multi-feed/PAF receivers this is the beam size inferred from the wavelength and telescope diameter. 
+In the case of SD using mono- or multi-feed/PAF receivers this is the beam size inferred from the wavelength and telescope diameter. 
 In the case of interferometry, a typical value for the spatial resolution will be given by $\lambda / L$ where $\lambda$ 
-is the mid value of the spectral range and L is the typical longest distance in the \emph{uv} plane.
+is the %mid value of the spectral range
+receiver nominal wavelength and L is the longest distance in the \emph{uv} plane.
 For beamforming applied to SD s\_resolution is set by the size of one individual electronically-formed beam, while in the interferometric case it is ruled by the maximum distance among the stations.
  
  
@@ -295,7 +292,14 @@ Total duration of the observation for the given dataset/ObsCore entry. Example: 
 
 
 \subsection{t\_resolution}
-Not applicable for single dish data (see Sect. \ref{subsec:sd}). For interferometric observations it is the integration time set at the correlation level.
+%Not applicable for single dish data (see Sect. \ref{subsec:sd}). 
+The ObsCore parameter t\_resolution (see Sect. \ref{subsec:sd}) has a limited application for SD data
+except for on-source tracking observations like those for pulsar/FRB studies and could be set to the
+exposure time or could be NULL. For time-domain data, t\_resolution can be set according to the Pulsar
+and FRB Radio Data Discovery and Access IVOA Note\footnote{\url{https://wiki.ivoa.net/internal/IVOA/RadioastronomyInterestGroupFifthVirtualMeeting/PulsarRadioDataAccess.pdf}}.
+
+For interferometric observations it is the integration time set at the correlation level.
+
 
 \subsection{dataproduct\_type and dataproduct\_subtype}
 
