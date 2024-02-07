@@ -28,12 +28,13 @@ jobs:
     
     - name: Build the document
       run: make ${{ env.doc_name }}-draft.pdf
+
     
     - name: Check the output
       run: |
         test -f ${{ env.doc_name }}-draft.pdf
         test -f ${{ env.doc_name }}.bbl
-    
+        
     - name: Move the auto-pdf-preview tag
       uses: weareyipyip/walking-tag-action@v2
       with:
@@ -58,3 +59,4 @@ jobs:
         assets: ${{ env.doc_name }}-draft.pdf
         replace_assets: true
         github_token: ${{ secrets.GITHUB_TOKEN }}
+  
