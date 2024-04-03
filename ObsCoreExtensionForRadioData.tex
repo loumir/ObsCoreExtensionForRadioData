@@ -42,7 +42,7 @@
 \begin{document}
 
 \begin{abstract}
-This is a proposed extension to the ObsCore specification for discovery and selection of radio data.
+This is a proposed extension to the ObsCore specification for data description, discovery and selection of radio data.
 \end{abstract}
 
 \section*{Acknowledgments}
@@ -58,8 +58,8 @@ and Particle Physics ESFRI Research Infrastructures) funded by the EU Horizon
 
 
 ObsCore specification \citep{2017ivoa.spec.0509L} defines both a minimal datamodel to describe datasets 
-and a table consistent with the model which can be served by TAP services. It has been  a back bone data model 
-for  multi-wavelength data  discovery services in astronomy.
+and a table consistent with the model which can be served by TAP services. It has been a back bone data model 
+for  multi-wavelength data discovery services in astronomy.
 
 The emergence  of  the Radioastronomy Interest Group in the IVOA in April 2020 confirmed the strong 
 interest of the radio astronomy community to distribute their data in the VO. Many teams now 
@@ -103,7 +103,7 @@ multi-messenger astronomy.
 %The role of this Visibility ObsCore extension in the IVOA is very close to ObsCore itself. It's only a fine grain improvement of this specification. 
 % Mireille's  suggestion 
 This Radio ObsCore extension in the IVOA, relies  on ObsCore itself and expands it
-to allow data providers to describe their radio data within the  ObsTAP framework.
+to allow data providers to describe their radio data further the  ObsTAP framework.
 Its goal is to clarify how  ObsCore metadata  can be used in the  radio context and to add new specific features to the existing ObsCore metadata.
 
 \section{Radio data specifities from the Data Discovery point of view}
@@ -124,7 +124,7 @@ noticeable that this is the case for any measuring system allowing a large inter
 $\lambda/D$ (where $\lambda$ and $D$ are the wavelength and the measuring system
 aperture scale).
  
-Similarly, the resolution power quantity, commonly provided to describe optical spectroscopic data, is not relevant in the radio domain and it is generally not used.
+Similarly, the resolution power quantity, commonly provided to describe optical spectroscopic data, is generally not used in the radio domain.
 Instead one could introduce a new ObsCore element for the absolute spectral resolution, in frequency unit, for which a representative value for each observation can be given. 
 
 Modern radio instrumentation offers the possibility of several  spectral windows within the same observation with significant separation or different resolutions.
@@ -407,8 +407,7 @@ We include the same term here in the extension.
 \subsection{Auxiliary datasets useful for data quality estimation}
 
 Auxiliary datasets such as  \emph{uv} distribution map, dirty beam maps, frequency/amplitude plots, phase/amplitude plots are useful for astronomers to check data quality.  
-In that case DataLink \citep{2015ivoa.spec.0617D} may provide a solution to attach these auxiliary data to ObsCore records. The semantics FIELD in the \{link\} response  will contain \#auxiliary  for links to these maps or plots while  the content\_qualifier FIELD introduced from 1.1  could contain a vocabulary as defined in this ObsCore extension in table \ref{tab:ExtensionAtt}.
-
+In that case DataLink \citep{2015ivoa.spec.0617D} may provide a solution to attach these auxiliary data to ObsCore records. The semantics FIELD in the \{link\} response  will contain \#auxiliary  for links to these maps or plots while  the content\_qualifier FIELD introduced from 1.1  could contain a vocabulary as defined in ( TO BE COMPLETED ). 
 
 \section{How to implement the extension in a TAP service}i
 \label{sec:implementation}
@@ -417,7 +416,6 @@ The ObsCore extension for radio (including or not visibility data) described abo
 \textit{ In practice a  table containing only the extension attributes  MAY be added to the same schema. The full extension table will then be a view joining the core table and the  table with extension attribue only via an extended ObsTAP ADQL query. A single dataset in each observation will be associated to a single row in ObsCore. It will be identified by a unique obs\_publisher\_did. This obs\_publisher\_did can be used as a foreign key to join the main table and the extension table.}
 
 In the registry, the Obscore table and the Extended table MUST be described in the tableset of the service. They will show respectively the ObsCore Model utype "ivo://ivoa.net/std/ObsCore\#core-1.0" an the extended Obscore Model utype "ivo://ivoa.net/std/ObsCore\#radioExt-1.0" . 
-
 
 
 %first table 
@@ -460,17 +458,18 @@ In the registry, the Obscore table and the Extended table MUST be described in t
 \sptablerule
 \texttt{uv\_distribution\_map}&\texttt{uv distribution map}&\texttt{Char.UVAxis.\newline  Sampling.\newline Sensitivity.Map}&stat.fourier;pos;meta.ref.url&&interferometry \cr
 \sptablerule
-\texttt{s\_beam\_dirty}&\texttt{dirty beam}&\texttt{- (via DataLink}&{via DataLink}&&interferometry\cr
-\sptablerule
-\texttt{phase\_amplitude}&\texttt{phase amplitude plot}&\texttt{via DataLink}&{via DataLink}&&interferometry\cr
-\sptablerule
-\texttt{frequency\_amplitude}&\texttt{dirty beam}&\texttt{via DataLink}&{via DataLink}&&interferometry\cr
-\sptablerule
+%\texttt{s\_beam\_dirty}&\texttt{dirty beam}&\texttt{- (via DataLink}&{via DataLink}&&interferometry\cr
+%\sptablerule
+%\texttt{phase\_amplitude}&\texttt{phase amplitude plot}&\texttt{via DataLink}&{via DataLink}&&interferometry\cr
+%\sptablerule
+%\texttt{frequency\_amplitude}&\texttt{dirty beam}&\texttt{via DataLink}&{via DataLink}&&interferometry\cr
+%\sptablerule
 \caption{ObsCore extension proposal for radio data}
 \label{tab:ExtensionAtt}
 \end{longtable}
 \end{landscape}
 
+%second table 
 \begin{landscape}
 \begin{longtable}{l  p{4cm} p{4cm} p{4.5cm} l l l}
 \sptablerule
