@@ -1,7 +1,103 @@
-\section{ADQL usecases}
+\section{Science use cases and translation to ADQL queries  based on ObsCore Radio extension  }
 \label{ADQLusecases}
 
-\subsection{Use case 1.1}
+\subsection{Science case }
+\subsection{Use case - s\_resolution\_min}
+\textit{Comparative study of low surface brightness extended emission surrounding compact sources, like for instance Virgo A. Select any dataset map (raster or on-the-fly) with s\_resolution\_min larger than the desired spatial resolution of 1 arcmin.}
+Show me all datasets satisfying: \\
+I. Minimum spatial resolution < 0.017 deg \\
+II Target Virgo A or position inside 15 arcmin from 187.7059308,+12.3911232 \\
+III Scan mode is raster map or on-the-fly map
+
+\begin{verbatim}
+s_resolution_min > 0.017 AND
+WHERE (target_name = 'Virgo A' OR
+CONTAINS(POINT(s_ra, s_dec),CIRCLE,187.7059308,+12.3911232,0.25)) = 1)) AND
+(scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
+\end{verbatim}
+
+\subsection{Use case - s\_resolution\_max}
+\textit{Morphological study of SNR IC443. Select any dataset of type map (raster or on-the-fly) with s\_resolution\_max less than the desired spatial resolution of 1 arcmin.}
+
+Show me all datasets satisfying: \\
+I. Maximum spatial resolution < 0.017 deg \\
+II Target IC443 or position inside 15 arcmin from 94.2500000,+22.5699997 \\
+
+\begin{verbatim}
+s_resolution_max < 0.017 AND
+WHERE (target_name = 'IC443' OR
+CONTAINS(POINT(s_ra,s_dec),CIRCLE(94.2500000,+22.5699997,0.25)) = 1)) AND
+(scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
+\end{verbatim}
+
+\subsection{Use case - s\_fov\_min A}
+\textit{Select any dataset with minimum field of view larger than 0.8 degree. For instance, investigate the region surrounding cluster Abell 194.}
+
+Show me all datasets satisfying:\\
+I. Minimum FOV > 0.8 deg \\
+II Target name = Abell 194 or position inside 15 arcmin from 21.5054167, -1.3672221 \\
+\begin{verbatim}
+SELECT * FROM ivoa.ObscoreRadioExtended
+WHERE s_fov_min > 0.8 AND
+(target_name = 'Abell 194' OR
+CONTAINS(POINT(s_ra,s_dec),CIRCLE(21.5054167,-1.3672221,0.25)) = 1)) AND
+(scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
+\end{verbatim}
+
+\subsection{Use case - s\_fov\_min B}
+\textit{Pictor A has a typical angular extension  arcminutes , select any image/cube completely containing the target}
+Show me all datasets satisfying: \\
+I. Target name = Pictor A \\
+II. The circle defined by the minimum FOV of the dataset fully contains the circle delimiting Pictor A. \\
+\begin{verbatim}
+WHERE target_name = 'Pictor A' AND
+CONTAINS(CIRCLE(79.9571789, -45.7788479,(8/60)/2),
+CIRCLE(s_ra, s_dec, s_fov_min/2)) = 1)
+\end{verbatim}
+
+Nb: The above queries can be run with s\_resolution\_min and s\_fov\_max instead of s\_resolution\_max and s\_fov\_min respectively, to obtain results in which at least part of the dataset satisfy the condition.
+For instance, consider datasets with a large observed bandwidth, like those taken with wide/ultrawide band receivers.
+The condition s\_resolution\_max<d\_typical may not be satisfied. At the same time, the user may want to select those dataset where the desired condition on spatial resolution is matched at least partially  within the observed band.
+
+\subsection{Use case - dataproduct\_type}
+\textit{Select all observations of calibrator source 3C48 with the Medicina Grueff radio telescope at frequencies in the range 20-21 GHz, to investigate its flux variability (light curve) in the years 2000-2023}
+Show me all datasets satisfying: \\
+I. Target name = 3C 48 \\
+II. obs\_collection = ?INAF-Medicina, single dish?\\
+III. Observed frequency in the range 20-21 GHz \\
+IV. dataproduct\_type = spatial\_profile or dataproduct\_type = map\\
+V. 51544 < observation time (MJD) < 60309 \\
+\begin{verbatim}
+SELECT * FROM ivoa.ObscoreRadioExtended
+WHERE obs_collection EQ ?INAF-Medicina, single dish? AND
+(em_min >=20000 AND em_max <= 21000) AND
+(dataproduct_type EQ 'spatial profile' OR scan_mode LIKE "*map*") AND
+target_name = '3C48' AND
+(t_min >= 51544 AND t_max <= 60309)
+\end{verbatim}
+
+\subsection{Use case - f\_resolution, f\_min, f\_max}
+\textit{Select any cube with spectral resolution better than 1 MHz and spectral range inside the 1 to 1.5 GHz band.}
+
+Show me all datasets satisfying:\\
+I. Product type is cube \\
+II. spectral resolution better than 1 MHz \\
+f\_min and f\_max are computed by means of a user defined function. \\
+\begin{verbatim}
+SELECT * FROM ivoa.ObscoreRadioExtended
+WHERE dataproduct_type = 'cube' AND
+f_resolution < 1000000 AND
+f_min > 1.0 e+9 AND
+f_max < 1.5e+9
+\end{verbatim}
+
+% Mireille Louys: shall we also look for spectra with these frequency constrains ? 
+
+
+ 
+% end section Alexandra's science case 
+
+\subsection{FB : Use case 1.1 data product and targer object selection }
 \textit{Any raw interferometry observation containing target Fornax cluster.}\\
 \\
 Show me all  observation identifiers satisfying:\\
@@ -21,7 +117,8 @@ I. Minimum FOV > 0.5 deg \\
       SELECT * FROM ivoa.ObscoreRadioExtended
       WHERE fov_min > 0.5 
 \end{verbatim}
-\subsection{Use case 1.3}
+
+\subsection{Use case 1.3/ time selection }
 \textit{Any cube  with absolute spectral resolution better than 1 Mhz and spectral range inside the 1 to 1.5 Ghz band.}\\ \\
 Show me all datasets satisfying:\\
 I. Product type is cube \\
@@ -34,8 +131,9 @@ IV. higher spectral limit < 1.5Ghz
       f_resolution < 1000 AND
       f_min > 1000 AND
       f_max < 1500
-\end{verbatim}
-\subsection{Use case 1.4}
+\end{verbatim} 
+
+\subsection{Use case 1.4 / freq selection }
 \textit{Any low frequency image or cube  defined as smaller than 1 Ghz.}\\ \\
 Show me all datasets satisfying:\\
 I. Product type is image or cube \\
@@ -46,7 +144,8 @@ II. higher spectral limit < 1Ghz
       dataproduct_type = 'cube') AND
       f_max  < 1000
 \end{verbatim}
-\subsection{Use case 1.5}
+
+\subsection{Use case 1.5 / scale selection}
 \textit{Any visibility dataset  where  maximum angular scale is larger than 0.5degrees.}\\ \\
 Show me all datasets satisfying:\\
 I. Product type is visibility \\
@@ -56,7 +155,8 @@ II. Maximum angular scale  >  0.5 deg
       WHERE dataproduct_type = 'visibility' AND
       max_angular_scale > 0.5 
 \end{verbatim}
-\subsection{Use case 1.6}
+
+\subsection{Use case 1.6 / instrument type and mode selection }
 \textit{Any single dish  dataset  in raster mode around 3C 273.}\\ \\
 Show me all datasets satisfying:\\
 I. Instrument type is Single dish \\
@@ -68,10 +168,11 @@ IV. position inside 3 arcmin around  	187.2779159404900 +02.0523882305500
       WHERE instrument_type = 'SD' AND
       scan_mode = 'raster' AND
       (target_name = '3C 273' OR
-       CONTAINS(POINT(s_ra,s_dec),CIRCLE(187.2779159404900, +02.0523882305500,0.05)) = 1)     
+       CONTAINS(POINT(s_ra,s_dec), CIRCLE(187.2779159404900, +02.0523882305500,0.05)) = 1)     
 \end{verbatim}
 
-\subsection{Use case 1.7}
+% use case FB 
+\subsection{Use case 1.7 instrument type selection}
 \textit{Any single dish or beam forming dataset  with spectral range inside the 500 Mhz - 1Ghz band and in the Coma Cluster.}\\ \\
 Show me all datasets satisfying:\\
 I. Instrument type is Single dish or beam forming \\
@@ -86,13 +187,14 @@ IV. position inside 18 arcmin around 194.93502 +27.91246
 \end{verbatim}
 
 
-\subsection{Use case 1.8}
+\subsection{Use case 1.8 instrument type and freq selection }
 \textit{Any single dish or beam forming dataset  with spectral range inside the 500 Mhz - 1Ghz band and in the Coma Cluster.}\\ \\
 Show me all datasets satisfying:\\
 I. Instrument type is Single dish or beam forming \\
 II. lower spectral limit > 500 Mhz \\
 III. higher spectral limit < 1Ghz \\
 IV. position inside 18 arcmin around 194.93502 +27.91246
+
 \begin{verbatim}
       SELECT * FROM ivoa.ObscoreRadioExtended
       WHERE (instrument_type = 'SD' OR
@@ -103,7 +205,7 @@ IV. position inside 18 arcmin around 194.93502 +27.91246
 \end{verbatim}
 
 
-\subsection{Use case 1.9}
+\subsection{Use case 1.9 uv distribution selection}
 \textit{Any visibility data of good quality from th uv distribution point of view.}\\ \\
 Show me all datasets satisfying:\\
 I. Product type = visibility \\
@@ -118,7 +220,7 @@ III. uv distribtion factor eccentricity  < 0.1 \\
 \end{verbatim}
 
 
-\subsection{Use case 1.10}
+\subsection{Use case 1.10 -instrument parameters selection }
 \textit{Any interferometry data of good quality and significant spatial resolution from the instrumental point of view. }\\ \\
 Show me all datasets satisfying:\\
 I. Instrument type = visibility \\
@@ -133,7 +235,7 @@ III. antenna maximum distance in meters  > 5000 \\
 \end{verbatim}
 
 
-\subsection{Use case 1.11}
+\subsection{Use case 1.11 - time selection }
 \textit{Any timeseries obtained in beam forming mode with time resolution better than 0.1 second and time sample maximal duration smaller than 0.05 second. }\\ \\
 Show me all datasets satisfying:\\
 I. Instrument type = beam forming\\
