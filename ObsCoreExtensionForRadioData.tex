@@ -583,45 +583,85 @@ other services may choose to join on, say, artificial keys.
 \label{tab:ExtensionAtt_instrumental}
 \end{longtable}
 \end{landscape}
+% c!ommented below : Markus PR version
+%\section{Registry Aspects}
+%\label{sec:registry}
+%
+%Services compliant with this specification are registered using
+%VODataService \citep{2021ivoa.spec.1102D} tablesets.  Compliant tables
+%use the utype
+%$$
+%\hbox{\nolinkurl{ivo://ivoa.net/std/obsradio#table-1.0}.}
+%$$
+%
+%While it is admitted that the table only sits in the tableset of the
+%embedding TAP service, implementors are urged to use a seperate registry
+%record with the main TAP service as an auxiliary capability
+%\citep{2019ivoa.spec.0520D}.  In this way, meaningful information
+%on coverage in space, time, and spectraum as per VODataService 1.2 can
+%be communicated to the Registry, which, again, data providers are urged
+%to do.  There is no expectation that the coverage information only
+%pertains to data with entries in \verb|ivoa.obs_radio|, i.e., it may be
+%a copy of the coverage of the full Obscore table.\todo{Is that
+%acceptable?  Or should we require pure radio coverage?}
+%
+%A sample registry record for an obs\_radio table comes with this
+%specification\footnote{\auxiliaryurl{sample-record.xml}}.
+%
+%To obtain access URLs of all TAP services that have compliant tables
+%together with their table names (which in this major version are fixed
+%to \verb|ivoa.obs_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
+%query like:
+%
+%\begin{lstlisting}
+%SELECT DISTINCT(access_url), table_name
+%FROM rr.res_table
+%  NATURAL JOIN rr.capability
+%  NATURAL JOIN rr.interface
+%WHERE
+%  standard_id LIKE 'ivo://ivoa.net/std/tap%'
+%  AND intf_role='std'
+%  AND table_utype LIKE 'ivo://ivoa.net/std/obsradio#table-1.%'
+%\end{lstlisting}
 
 \section{Registry Aspects}
 \label{sec:registry}
 
 Services compliant with this specification are registered using
-VODataService \citep{2021ivoa.spec.1102D} tablesets.  Compliant tables
+VODataService \citep{2021ivoa.spec.1102D} tablesets. Compliant tables
 use the utype
 $$
-\hbox{\nolinkurl{ivo://ivoa.net/std/obsradio#table-1.0}.}
+\hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore#radioExt-1.0}.}
 $$
 
 While it is admitted that the table only sits in the tableset of the
 embedding TAP service, implementors are urged to use a seperate registry
 record with the main TAP service as an auxiliary capability
-\citep{2019ivoa.spec.0520D}.  In this way, meaningful information
+\citep{2019ivoa.spec.0520D}. In this way, meaningful information
 on coverage in space, time, and spectraum as per VODataService 1.2 can
 be communicated to the Registry, which, again, data providers are urged
-to do.  There is no expectation that the coverage information only
+to do. There is no expectation that the coverage information only
 pertains to data with entries in \verb|ivoa.obs_radio|, i.e., it may be
-a copy of the coverage of the full Obscore table.\todo{Is that
-acceptable?  Or should we require pure radio coverage?}
+a copy of the coverage of the basic Obscore table.\todo{Is that
+acceptable? Or should we require pure radio coverage?}
 
-A sample registry record for an obs\_radio table comes with this
+A sample registry record for an obscore_radio table comes with this
 specification\footnote{\auxiliaryurl{sample-record.xml}}.
 
 To obtain access URLs of all TAP services that have compliant tables
 together with their table names (which in this major version are fixed
-to \verb|ivoa.obs_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
+to \verb|ivoa.obscore_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
 query like:
 
 \begin{lstlisting}
 SELECT DISTINCT(access_url), table_name
 FROM rr.res_table
-  NATURAL JOIN rr.capability
-  NATURAL JOIN rr.interface
+NATURAL JOIN rr.capability
+NATURAL JOIN rr.interface
 WHERE
-  standard_id LIKE 'ivo://ivoa.net/std/tap%'
-  AND intf_role='std'
-  AND table_utype LIKE 'ivo://ivoa.net/std/obsradio#table-1.%'
+standard_id LIKE 'ivo://ivoa.net/std/tap%'
+AND intf_role='std'
+AND table_utype LIKE 'ivo://ivoa.net/std/ObsCore#radioExt-%'
 \end{lstlisting}
 
 \appendix
