@@ -426,7 +426,7 @@ In that case DataLink \citep{2015ivoa.spec.0617D} may provide a solution to atta
 response  will contain \#auxiliary  for links to these maps or plots while  the content\_qualifier FIELD introduced from 1.1  could contain a vocabulary as defined in ( TO BE COMPLETED ).
 
 
-\section{The ivoa.obs\_radio table}
+\section{The ivoa.obscore\_radio table}
 \label{sec:implementation}
 % commented below: Markus version
 %The ObsCore Extension for Radio is accessed as a table within a TAP
@@ -467,7 +467,7 @@ However, in order to allow for later evolution -- which may allow
 multiple compliant tables per service --, this name should not be used
 for discovery (see sect.~\ref{sec:registry}).
 
-A TAP service that has \verb|ivoa.obs_radio| must also have a table
+A TAP service that has \verb|ivoa.obscore_radio| must also have a table
 compliant to any version 1 of ObsCore, i.e., a table
 \verb|ivoa.obscore|; containing only the basic ObsCore attributes.
 This table can be implemented as a simple view on the \verb|ivoa.obscore_radio|
@@ -487,10 +487,11 @@ ivoa.obscore_radio
 WHERE
 [constraints]
 \end{lstlisting}
-without having to know the exact foreign key(s) in use on any given
-service.  This means that while one service can opt to join on
-\verb|obs_publisher_did| (we expect this to be a very common choice),
-other services may choose to join on, say, artificial keys.
+% commented : Markus initial PR
+%without having to know the exact foreign key(s) in use on any given
+%service.  This means that while one service can opt to join on
+%\verb|obs_publisher_did| (we expect this to be a very common choice),
+%other services may choose to join on, say, artificial keys.
 
 % main text previous Markus PR
 %The ObsCore extension for radio (including or not visibility data) described above SHOULD  be added to the main ObsCore table.
@@ -641,7 +642,7 @@ record with the main TAP service as an auxiliary capability
 on coverage in space, time, and spectraum as per VODataService 1.2 can
 be communicated to the Registry, which, again, data providers are urged
 to do. There is no expectation that the coverage information only
-pertains to data with entries in \verb|ivoa.obs\_radio|, i.e., it may be
+pertains to data with entries in \verb|ivoa.obscore_radio|, i.e., it may be
 a copy of the coverage of the basic Obscore table.\todo{Is that
 acceptable? Or should we require pure radio coverage?}
 
@@ -650,7 +651,7 @@ specification\footnote{\auxiliaryurl{sample-record.xml}}.
 
 To obtain access URLs of all TAP services that have compliant tables
 together with their table names (which in this major version are fixed
-to \verb|ivoa.obscore\_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
+to \verb|ivoa.obscore_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
 query like:
 
 \begin{lstlisting}
