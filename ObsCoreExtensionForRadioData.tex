@@ -402,36 +402,64 @@ In that case DataLink \citep{2015ivoa.spec.0617D} may provide a solution to atta
 
 \section{The ivoa.obs\_radio table}
 \label{sec:implementation}
-
-The ObsCore Extension for Radio is accessed as a table within a TAP
+% commented below: Markus version
+%The ObsCore Extension for Radio is accessed as a table within a TAP
+%\citep{2019ivoa.spec.0927D} service.\todo{I think we should require a
+%few UDFs on TAP services: ivo\_interval\_overlaps, ivo\_specconv}  At this
+%point, the name of this table is fixed to \verb|ivoa.obs_radio|.
+%However, in order to allow for later evolution -- which may allow
+%multiple compliant tables per service --, this name should not be used
+%for discovery (see sect.~\ref{sec:registry}).
+%
+%A TAP service that has \verb|ivoa.obs_radio| must also have a table
+%compliant to any version 1 of ObsCore, i.e., a table
+%\verb|ivoa.obscore|; the two tables must share exactly the columns such
+%that a \verb|NATURAL JOIN| will yield per-dataset rows of obscore and
+%radio extension metadata.  Which columns these are is site-specific.
+%
+%To ensure that all compliant services can execute the same queries,
+%all columns in table~\ref{tab:ExtensionAtt} must be present in such a
+%table, although any may be NULL.  Additional columns may be present, and
+%at least a foreign key into \verb|ivoa.obscore| will typcially
+%user-visible\todo{can we make rules such that such additional columns
+%will not interfere with later extensions?}.
+%
+%The intention is that clients will write queries like
+%\begin{lstlisting}
+%SELECT [any obscore and obs_radio columns or expressions]
+%FROM
+%  ivoa.obscore
+%  NATURAL JOIN ivoa.obs_radio
+%WHERE
+%  [constraints]
+%\end{lstlisting}
+The ObsCore Extension for Radio data is accessed in a table containing also ObsCore fields within a TAP
 \citep{2019ivoa.spec.0927D} service.\todo{I think we should require a
-few UDFs on TAP services: ivo\_interval\_overlaps, ivo\_specconv}  At this
-point, the name of this table is fixed to \verb|ivoa.obs_radio|.
+few UDFs on TAP services: ivo_interval_overlaps, ivo_specconv} At this
+point, the name of this table is fixed to \verb|ivoa.obscore_radio|.
 However, in order to allow for later evolution -- which may allow
 multiple compliant tables per service --, this name should not be used
 for discovery (see sect.~\ref{sec:registry}).
 
 A TAP service that has \verb|ivoa.obs_radio| must also have a table
 compliant to any version 1 of ObsCore, i.e., a table
-\verb|ivoa.obscore|; the two tables must share exactly the columns such
-that a \verb|NATURAL JOIN| will yield per-dataset rows of obscore and
-radio extension metadata.  Which columns these are is site-specific.
+\verb|ivoa.obscore|; containing only the basic ObsCore attributes.
+This table can be implemented as a simple view on the \verb|ivoa.obscore_radio|
+table
 
 To ensure that all compliant services can execute the same queries,
 all columns in table~\ref{tab:ExtensionAtt} must be present in such a
-table, although any may be NULL.  Additional columns may be present, and
-at least a foreign key into \verb|ivoa.obscore| will typcially
-user-visible\todo{can we make rules such that such additional columns
+table, although any may be NULL. Additional columns may be present\todo{can we make rules such that such additional columns
 will not interfere with later extensions?}.
 
 The intention is that clients will write queries like
 \begin{lstlisting}
 SELECT [any obscore and obs_radio columns or expressions]
 FROM
-  ivoa.obscore
-  NATURAL JOIN ivoa.obs_radio
+ivoa.obscore_radio
+
 WHERE
-  [constraints]
+[constraints]
 \end{lstlisting}
 without having to know the exact foreign key(s) in use on any given
 service.  This means that while one service can opt to join on
