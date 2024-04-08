@@ -30,7 +30,7 @@ VECTORFIGURES = role_diagram.pdf
 AUX_FILES =
 
 include ivoatex/Makefile
-voatex/Makefile:
+ivoatex/Makefile:
 	@echo "*** ivoatex submodule not found.  Initialising submodules."
 	@echo
 	git submodule update --init
