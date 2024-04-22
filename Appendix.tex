@@ -56,9 +56,10 @@ CONTAINS(CIRCLE(79.9571789, -45.7788479,(8/60)/2),
 CIRCLE(s_ra, s_dec, s_fov_min/2)) = 1)
 \end{verbatim}
 
-\subsection {Nb: The above queries can be run with s\_resolution\_min and s\_fov\_max instead of s\_resolution\_max and s\_fov\_min respectively, to obtain results in which at least part of the dataset satisfy the condition.}
+\todo{Nb: The above queries can be run with s\_resolution\_min and s\_fov\_max instead of s\_resolution\_max and s\_fov\_min respectively, to obtain results in which at least part of the dataset satisfy the condition.
+
 For instance, consider datasets with a large observed bandwidth, like those taken with wide/ultrawide band receivers.
-The condition s\_resolution\_max<d\_typical may not be satisfied. At the same time, the user may want to select those dataset where the desired condition on spatial resolution is matched at least partially  within the observed band.
+The condition s\_resolution\_max<d\_typical may not be satisfied. At the same time, the user may want to select those dataset where the desired condition on spatial resolution is matched at least partially  within the observed band.}
 
 \subsection{Use case - dataproduct\_type}
 \textit{Select all observations of calibrator source 3C48 with the Medicina Grueff radio telescope at frequencies in the range 20-21 GHz, to investigate its flux variability (light curve) in the years 2000-2023}
