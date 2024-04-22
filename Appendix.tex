@@ -3,21 +3,22 @@
 
 \subsection{Science case }
 \subsection{Use case - s\_resolution\_min}
-\textit{Comparative study of low surface brightness extended emission surrounding compact sources, like for instance Virgo A. Select any dataset map (raster or on-the-fly) with s\_resolution\_min larger than the desired spatial resolution of 1 arcmin.}
+\textit{Comparative study of low surface brightness extended emission surrounding compact sources, like for instance Virgo A.
+Select any dataset map (raster or on-the-fly) with s\_resolution\_min better than the desired spatial resolution of 1 arcmin.}
 Show me all datasets satisfying: \\
 I. Minimum spatial resolution < 0.017 deg \\
 II Target Virgo A or position inside 15 arcmin from 187.7059308,+12.3911232 \\
 III Scan mode is raster map or on-the-fly map
 
 \begin{verbatim}
-s_resolution_min > 0.017 AND
+s_resolution_min < 0.017 AND
 WHERE (target_name = 'Virgo A' OR
 CONTAINS(POINT(s_ra, s_dec),CIRCLE,187.7059308,+12.3911232,0.25)) = 1)) AND
 (scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
 \end{verbatim}
 
 \subsection{Use case - s\_resolution\_max}
-\textit{Morphological study of SNR IC443. Select any dataset of type map (raster or on-the-fly) with s\_resolution\_max less than the desired spatial resolution of 1 arcmin.}
+\textit{Morphological study of SNR IC443. Select any dataset obtained in scanning mode map (raster or on-the-fly) with s\_resolution\_max less than the desired spatial resolution of 1 arcmin.}
 
 Show me all datasets satisfying: \\
 I. Maximum spatial resolution < 0.017 deg \\
@@ -30,8 +31,8 @@ CONTAINS(POINT(s_ra,s_dec),CIRCLE(94.2500000,+22.5699997,0.25)) = 1)) AND
 (scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
 \end{verbatim}
 
-\subsection{Use case - s\_fov\_min A}
-\textit{Select any dataset with minimum field of view larger than 0.8 degree. For instance, investigate the region surrounding cluster Abell 194.}
+\subsection{Use case - s\_fov\_min - large field of views}
+\textit{Select any dataset obtained in scanning mode map (raster or on-the-fly) with minimum field of view larger than 0.8 degree. For instance, investigate the region surrounding cluster Abell 194.}
 
 Show me all datasets satisfying:\\
 I. Minimum FOV > 0.8 deg \\
@@ -44,8 +45,8 @@ CONTAINS(POINT(s_ra,s_dec),CIRCLE(21.5054167,-1.3672221,0.25)) = 1)) AND
 (scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
 \end{verbatim}
 
-\subsection{Use case - s\_fov\_min B}
-\textit{Pictor A has a typical angular extension  arcminutes , select any image/cube completely containing the target}
+\subsection{Use case - s\_fov\_min - extended target completly included}
+\textit{Pictor A has a typical angular extension  of 8 arcminutes , select any image/cube completely containing the target}
 Show me all datasets satisfying: \\
 I. Target name = Pictor A \\
 II. The circle defined by the minimum FOV of the dataset fully contains the circle delimiting Pictor A. \\
@@ -55,7 +56,7 @@ CONTAINS(CIRCLE(79.9571789, -45.7788479,(8/60)/2),
 CIRCLE(s_ra, s_dec, s_fov_min/2)) = 1)
 \end{verbatim}
 
-Nb: The above queries can be run with s\_resolution\_min and s\_fov\_max instead of s\_resolution\_max and s\_fov\_min respectively, to obtain results in which at least part of the dataset satisfy the condition.
+\subsection {Nb: The above queries can be run with s\_resolution\_min and s\_fov\_max instead of s\_resolution\_max and s\_fov\_min respectively, to obtain results in which at least part of the dataset satisfy the condition.}
 For instance, consider datasets with a large observed bandwidth, like those taken with wide/ultrawide band receivers.
 The condition s\_resolution\_max<d\_typical may not be satisfied. At the same time, the user may want to select those dataset where the desired condition on spatial resolution is matched at least partially  within the observed band.
 
