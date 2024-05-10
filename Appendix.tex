@@ -4,14 +4,15 @@
 %\subsection{Science case }
 \subsection{Use case - s\_resolution\_min}
 \textit{Comparative study of low surface brightness extended emission surrounding compact sources, like for instance Virgo A.
-Select any dataset map (raster or on-the-fly) with s\_resolution\_min better than the desired spatial resolution of 1 arcmin.}
+In order to avoid washing out of diffuse emission the spatial resolution should not be too high.
+Select any dataset map (raster or on-the-fly) with s\_resolution\_min larger than the desired spatial resolution of 1 arcmin.}
 Show me all datasets satisfying: \\
-I. Minimum spatial resolution < 0.017 deg \\
+I. Minimum spatial resolution > 0.017 deg \\
 II Target Virgo A or position inside 15 arcmin from 187.7059308,+12.3911232 \\
 III Scan mode is raster map or on-the-fly map
 
 \begin{verbatim}
-s_resolution_min < 0.017 AND
+s_resolution_min > 0.017 AND
 WHERE (target_name = 'Virgo A' OR
 CONTAINS(POINT(s_ra, s_dec),CIRCLE,187.7059308,+12.3911232,0.25)) = 1)) AND
 (scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
