@@ -262,7 +262,7 @@ Virtual Observatory domain.
 \subsection{s\_fov}
 \label{sec:fov}
 
-A typical value for the field of view size is to be computed on the observation by taking into account the sky scan geometry and receiver type in use.
+A typical value for the field of view size is to be computed on the observation by taking into account the sky scan geometry and the receiver type in use.
 s\_fov coincides with the instantaneous field of view $\lambda / D$ only for pointed observations (for instance, an ON in the SD case) obtained with a mono-feed receiver. In this case, $\lambda$ is the
 %mid value of the spectral range
 receiver nominal wavelength and D coincides with the telescope diameter (SD case) or the largest diameter of the array antennae or telescopes (interferometric case). 
@@ -284,7 +284,8 @@ This shape will be the typical contour of the detectable beam for interferometry
 
 \subsection{o\_ucd}
 
-In the current UCD vocabulary (UCD1+ controlled vocabulary - Updated List of Terms Version 1.5) there appear to be no primary words suitable to describe raw SD data. o\_ucd=phot.flux.density, which fits well for appropriate data, does not seem appropriate, since the single dish measured quantity is expressed in raw counts coming from the digitisation of a voltage signal generated in the receiver chain by the incoming electromagnetic field. Further discussion on o\_ucd is ongoing within the Semantics WG.
+In the current UCD vocabulary (UCD1+ controlled vocabulary - Updated List of Terms Version 1.5) there appear to be no primary words suitable to describe raw SD data. o\_ucd=phot.flux.density, does not seem appropriate, since the single dish measured quantity is expressed in raw counts coming from the digitization of a voltage signal generated in the receiver chain by the incoming electromagnetic field. Further discussion on o\_ucd is ongoing within the Semantics WG.
+o\_ucd=phys.voltage is validated for addition into the next version for UCD1+ controlled vocabulary - Updated List of Terms Version 1.6.
 
 In the case of visibility data the "observable" is a complex number representing Fourier 
 coefficients of the image Fourier transform. Its UCD string is \emph{stat.fourier}. 
@@ -348,11 +349,9 @@ semi distance between the most positive point along the $x$/$y$ axis and the mos
 among the $y$ axis. For instance, if the range of the rotated UV will cover on the $x \in [-10, 
 10]$ the major axis distance would be 10, a similar procedure is done on the y axis. 
 
-This procedure allows the definition of the \emph{uv} distribution eccentricity:
-
-uv\_distribution\_exc computed as follows:
+This procedure allows the definition of the \emph{uv} distribution eccentricity, \emph{uv\_distribution\_ecc} computed as follows:
 \begin{equation}
-uv\_distribution\_exc = \sqrt{1-\frac{b^2}{a^2}}
+uv\_distribution\_ecc = \sqrt{1-\frac{b^2}{a^2}}
 \end{equation}
 where a is the major axis length and b is the minor axis length.
 The filling factor of the \emph{uv} plane (hereafter uv\_distribution\_fill) is computed as the average 
@@ -384,7 +383,7 @@ in the preliminary analysis $N^{uv}_{samples} = 1000$.
 
 \subsection{time parameters}
 \emph{t\_exp\_min, t\_exp\_max }and \emph{t\_exp\_mean} are added in the case of variation in the individual timestamps 
-duration. This is usually not the case for SD data and these parameters will be set to NULL.
+duration. This is usually not the case for SD data and these parameters will be set to NULL in this case.
 
 
 \subsection{observation and instrumental parameters}
