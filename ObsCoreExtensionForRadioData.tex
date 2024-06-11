@@ -4,8 +4,8 @@
 \newcommand{\xtype}[1]{\texttt{#1}}
 
 \usepackage{listings}
-\lstloadlanguages{XML,sh}
-\lstset{flexiblecolumns=true,basicstyle=\small,tagstyle=\ttfamily}
+\lstloadlanguages{XML,SQL}
+\lstset{flexiblecolumns=true,basicstyle=\ttfamily}
 \usepackage[utf8]{inputenc}
 \usepackage{todonotes}
 \usepackage{textcomp}
@@ -13,6 +13,8 @@
 \usepackage{lscape}
 \usepackage{longtable}
 \hyphenation{image/mosaic}
+
+\marginparwidth=4cm
 
 \title{IVOA Obscore Extension for Radio data}
 
@@ -32,11 +34,12 @@
 
 
 
+
 \editor{Fran\c cois Bonnarel, Mark Kettenis , Mireille Louys}
 
 \previousversion{}
 
-       
+
 
 
 \begin{document}
@@ -47,7 +50,7 @@ This is a proposed extension to the ObsCore specification for data description, 
 
 \section*{Acknowledgments}
 
-The authors would like to thank all the participants in DM-WG and Radioastronomy-IG discussions 
+The authors would like to thank all the participants in DM-WG and Radioastronomy-IG discussions
 for their ideas, critical reviews, and contributions to this document.
 We acknowledge also the support of  ESCAPE (European Science Cluster of Astronomy
 and Particle Physics ESFRI Research Infrastructures) funded by the EU Horizon
@@ -57,75 +60,69 @@ and Particle Physics ESFRI Research Infrastructures) funded by the EU Horizon
 \section{Introduction}
 
 
-ObsCore specification \citep{2017ivoa.spec.0509L} defines both a minimal datamodel to describe datasets 
-and a table consistent with the model which can be served by TAP services. It has been a back bone data model 
-for  multi-wavelength data discovery services in astronomy.
+ObsCore specification \citep{2017ivoa.spec.0509L} defines both a minimal datamodel to describe datasets
+and a table consistent with the model which can be served by TAP services. It has been successful
+to define a lot of data discovery services in astronomy.
 
-The emergence  of  the Radioastronomy Interest Group in the IVOA in April 2020 confirmed the strong 
-interest of the radio astronomy community to distribute their data in the VO. Many teams now 
-distribute their data using VO standards \footnote{https://ivoa.net/documents/Notes/RadioVOImp/index.html}. 
-While reduced radio data products, such as images or spectral cubes,%(and single dish data - {\it is that true ?} ) 
-are mostly covered by the ObsCore model, the lower level observational data 
-(interferometric visibilities, single dish data in SDFITS, filterbank or whatever other specific formats) require 
-additional description parameters. 
-
-For interferometry, this need  was already exposed 
+The emergence  of  the Radioastronomy Interest Group in the IVOA in April 2020 confirmed the strong
+interest of the radio astronomy community to distribute their data in the VO. Many teams now
+distribute their data using VO standards\footnote{https://ivoa.net/documents/Notes/RadioVOImp/index.html}.
+While reduced radio data products, such as images or spectral cubes,%(and single dish data - {\it is that true ?} )
+are mostly covered by the ObsCore model, the lower level observational data
+(interferometric visibilities, single dish data in SDFITS, filterbank or whatever other specific formats) require additional description parameters.
+For interferometry, this need  was already exposed
 in 2010 by Anita Richards in a IVOA Note  "Radio interferometry data in the VO" 
 \footnote{https://wiki.ivoa.net/internal/IVOA/SiaInterface/Anita-InterferometryVO.pdf} which captures precisely the requirements in the radio community.
  
- Various discovery use cases have been collected in the radio community and gathered in the \ref{ADQLusecases} appendix.  
-  The current specification suggests addition of new features in the ObsCore metadata profile to fill the gap. 
-
+ Various discovery use cases have been collected in the radio community and gathered in the \ref{ADQLusecases} appendix.
+  The current specification suggests addition of new features in the ObsCore metadata profile to fill the gap.
 % Mireille an attempt to widen the scope ??
 With the expansion of large radio astronomy projects such as LOFAR, NenuFAR, the future SKA, ngVLA, etc...
-and the emergence of interesting research topics matching data in all electromagnetic regimes, the 
-Virtual Observatory framework can facilitate a wider access to radio data for experts and 
-non-specialists radio astronomers in order to support collaborations in multi-wavelength, 
-multi-messenger astronomy. 
+and the emergence of interesting research topics matching data in all electromagnetic regimes, the
+Virtual Observatory framework can facilitate a wider access to radio data for experts and
+non-specialists radio astronomers in order to support collaborations in multi-wavelength,
+multi-messenger astronomy.
 
 %mireille:
 % the needs for today as explored in recent meetings in Escape framework can also be summarized here
 % add a short paragraph here
-%Although the interferometry data are nowadays dominant in radio field, similar issues occur for 
-%optical interferometry data. The extension we are defining here is valid for both domains.  
-
-
-\begin{figure}[H]
-\centering
-
+%Although the interferometry data are nowadays dominant in radio field, similar issues occur for
+%optical interferometry data. The extension we are defining here is valid for both domains.
+\begin{figure}
 \includegraphics[width=0.9\textwidth]{role_diagram.pdf}
 \label{fig:architecture}
 \end{figure}
-
-% Mireille : it seems this is not the good diagram but the one of SIA 
-% change architecture diag
+% Mireille : it seems this is not the good diagram but the one of SIA
+% change architexture diag
 
 %The role of this Visibility ObsCore extension in the IVOA is very close to ObsCore itself. It's only a fine grain improvement of this specification. 
-% Mireille's  suggestion 
+% Mireille's  suggestion
 This Radio ObsCore extension in the IVOA, relies  on ObsCore itself and expands it
 to allow data providers to describe their radio data further the  ObsTAP framework.
 Its goal is to clarify how  ObsCore metadata  can be used in the  radio context and to add new specific features to the existing ObsCore metadata.
 
+
 \section{Radio data specifities from the Data Discovery point of view}
 \label{sec:specificities}
 
-On the lower end of the radio spectrum, radio astronomers generally make use of 
-frequencies for designating the spectral ranges of their observation. The standard 
-ObsCore attributes \emph{em\_min, em\_max} are expressed in wavelength and are not really convenient. 
-That's why we should also provide their translation into frequencies. 
-        
-Receivers with a (ultra)wide bandwidth, up to tens of GHz, are 
-nowadays commonly used for both interferometric and Single Dish (herefater SD) radio observations. 
-Given that the spatial field of view and resolution linearly depend on wavelength, these quantities may significantly vary across the observed bandwidth in a radio observation. 
+
+On the lower end of the radio spectrum, radio astronomers generally make use of
+frequencies for designating the spectral ranges of their observation. The standard
+ObsCore attributes \emph{em\_min, em\_max} are expressed in wavelength and are not really convenient.
+That's why we should also provide their translation into frequencies.
+
+Receivers with a (ultra)wide bandwidth, up to tens of GHz, are
+nowadays commonly used for both interferometric and Single Dish (herefater SD) radio observations.
+Given that the spatial field of view and resolution linearly depend on wavelength, these quantities may significantly vary across the observed bandwidth in a radio observation.
 Generally only a representative value (for instance the
 %median
-receiver nominal frequency) for these two parameters can be given. It is 
-noticeable that this is the case for any measuring system allowing a large interval of 
+receiver nominal frequency) for these two parameters can be given. It is
+noticeable that this is the case for any measuring system allowing a large interval of
 $\lambda/D$ (where $\lambda$ and $D$ are the wavelength and the measuring system
 aperture scale).
  
 Similarly, the resolution power quantity, commonly provided to describe optical spectroscopic data, is generally not used in the radio domain.
-Instead one could introduce a new ObsCore element for the absolute spectral resolution, in frequency unit, for which a representative value for each observation can be given. 
+Instead one could introduce a new ObsCore element for the absolute spectral resolution, in frequency unit, for which a representative value for each observation can be given.
 
 Modern radio instrumentation offers the possibility of several  spectral windows within the same observation with significant separation or different resolutions.
 Such observations may be represented at the highest granularity as  a set of combined data sets represented by several entries in an ObsCore Table. However it's up to data provider to decide which level of granularity is best adapted in order to optimize data discoverability and ease data access, depending on the scientific content of the observation.
@@ -135,16 +132,16 @@ Such observations may be represented at the highest granularity as  a set of com
 
 \subsection{Single dish data}\label{subsec:sd}
 
-Single Dish observations can be done with different types of receiving systems. Typical frontends are mono-feed, multi-feed and phased array feed (PAF), the last two suitable to efficiently span wider parts of the sky. 
+Single Dish observations can be done with different types of receiving systems. Typical frontends are mono-feed, multi-feed and phased array feed (PAF), the last two suitable to efficiently span wider parts of the sky.
 Data can be acquired by various backend systems providing either the total intensity (integrated over the whole available bandwidth) or the spectroscopic/spectropolarimetric intensity (acquired in each spectral channel/sample).
 Data are saved as raw counts resulting from the digitization of the voltage signal measured by the receiving system.
 Commonly-used SD data formats are registered FITS standard conventions (FITS, SDFITS and MBFITS) or unregistered conventions like the standard FITS-based format delivered by the INAF radio telescopes.
 
 The combination of telescope, frontend and backend permits the realization of various observing strategies characterized by specific spatial and/or spectral patterns.
-Typical SD observing strategies are: on source, frequency switching, ON-OFF observations, raster or on-the-fly (OTF) mapping, raster or OTF cross-scan, skydip calibrations, see Fig~\ref{fig:SD}. For each spatial position in the observation, SD data gather emission for any of the spectral samples in the given frequency band and polarization.  
+Typical SD observing strategies are: on source, frequency switching, ON-OFF observations, raster or on-the-fly (OTF) mapping, raster or OTF cross-scan, skydip calibrations, see Fig~\ref{fig:SD}. For each spatial position in the observation, SD data gather emission for any of the spectral samples in the given frequency band and polarization.
 If multi-feed/PAFs are used, a set of spatial positions are simultaneously measured. Scan modes should be described in ObsCore in order to allow astronomers to better understand the structure of the data which will be retrieved.
 
-Spatial resolution in the SD case is intended as the beam size. This holds true for any type of receivers, since also for multi-feed/PAF ones the spatial resolution is ruled by the size of the individual beam. 
+Spatial resolution in the SD case is intended as the beam size. This holds true for any type of receivers, since also for multi-feed/PAF ones the spatial resolution is ruled by the size of the individual beam.
 
 Contrary to what usually happens for  interferometric observations, for some radio telescopes a SD observation (scan) contains only one scientific target (for example INAF ones). In any case, each target in an observation is listed as a separate entry in an ObsCore Table sharing the same \emph{obs\_id}.
 
@@ -154,7 +151,7 @@ The ObsCore parameter t\_resolution, defined as the minimal interpretable interv
 time axis (being it an average or representative value), has a limited application for SD data except for on-source tracking
 observations like those for pulsar/FRB studies.
 Typically, time is not an independent variable in SD measurements and it can be saved together with spatial/spectral/intensity
-information as a timestamp associated to each data sample.
+information as a timestamp associated to each data sample
 A more comprehensive discussion on ObsCore parameters for time-domain data is given in the Pulsar
 and FRB Radio Data Discovery and Access IVOA Note\footnote{\url{https://wiki.ivoa.net/internal/IVOA/RadioastronomyInterestGroupFifthVirtualMeeting/PulsarRadioDataAccess.pdf}}.
 %Even in the case of on-source tracking, time information in SD data is not intended for time domain studies.
@@ -175,155 +172,168 @@ and FRB Radio Data Discovery and Access IVOA Note\footnote{\url{https://wiki.ivo
 \subsection{Visibility data }
 \label{sec:visibility}
 
-Visibility data are sets of complex numbers corresponding to the amplitude and phase 
-of correlation coefficients measured between pair of antennas (i.e., a baseline), at 
-a given time, a given wavelength or polarisation. The visibility data are a sparse 
-representation of the observed sky. The visibility data sets can be processed to obtain 
-interferometric images, through inverse Fourier algorithms. Each visibility measurement 
-corresponds to an interferometric fringe system on the sky. 
+Visibility data are sets of complex numbers corresponding to the amplitude and phase
+of correlation coefficients measured between pair of antennas (i.e., a baseline), at
+a given time, a given wavelength or polarisation. The visibility data are a sparse
+representation of the observed sky. The visibility data sets can be processed to obtain
+interferometric images, through inverse Fourier algorithms. Each visibility measurement
+corresponds to an interferometric fringe system on the sky.
 
-The imaging algorithms include a calibration step allowing to set the center of the 
+The imaging algorithms include a calibration step allowing to set the center of the
 reconstructed image, setting this direction as a phase reference. The visibilities
-are then usually represented in a spatial frequency plane, called the \emph{uv} plane, 
-whose orientation is perpendicular to phase reference direction. The instantaneous PSF 
-(Point Spread Function) of an interferometer is the Fourier transform of all baselines 
-sampled in the \emph{uv} plane. Hence, the quality of the reconstructed images are 
+are then usually represented in a spatial frequency plane, called the \emph{uv} plane,
+whose orientation is perpendicular to phase reference direction. The instantaneous PSF
+(Point Spread Function) of an interferometer is the Fourier transform of all baselines
+sampled in the \emph{uv} plane. Hence, the quality of the reconstructed images are
 directly related to the set of baselines used for the measurements.
 
 Visibility data are usually organised as sets of matrices for various phase references
 (i.e., pointing, or fields) and configuration of the baselines, such as their
-distances and orientations. Such matrices may or may not be regularly sampled in time, 
+distances and orientations. Such matrices may or may not be regularly sampled in time,
 wavelength and polarisation.
-    
-%How can the ObsCore parameters describe the characterization of these observations? 
-As for any other observation product described with ObsCore, the description may be split into
-several records in the ObsCore table, when ObsCore parameters cannot represent the 
-variety of the observation results coverage (e.g., if there are several observed ``fields'', 
-requiring different s\_ra and s\_dec value, or various groups of spectral bands, etc.) 
 
-We consider that consistent ObsCore records as described above defines datasets with 
+%How can the ObsCore parameters describe the characterization of these observations?
+As for any other observation product described with ObsCore, the description may be split into
+several records in the ObsCore table, when ObsCore parameters cannot represent the
+variety of the observation results coverage (e.g., if there are several observed ``fields'',
+requiring different s\_ra and s\_dec value, or various groups of spectral bands, etc.)
+
+We consider that consistent ObsCore records as described above defines datasets with
 a dataproduct type set to ``visibility''.
 
 
 Contrary to what occurs with direct imaging observations, the PSF of the interferometer
-is filtering spatial scales (large scales, when the small baselines are insufficiently 
+is filtering spatial scales (large scales, when the small baselines are insufficiently
 sampled; and vice versa for small scales with long baselines).
-For large spectral ranges, the variations of the field of view and the spatial resolution 
-along the axis may become so large that the typical value cannot be sufficient to 
-characterize the dataset. Ranges of values for such parameters are required to accurately 
+For large spectral ranges, the variations of the field of view and the spatial resolution
+along the axis may become so large that the typical value cannot be sufficient to
+characterize the dataset. Ranges of values for such parameters are required to accurately
 describe such datasets.
 
-The quality of the data strongly depends from the distribution of the visibility measurements 
-in the \emph{uv} plane : the more complete the \emph{uv} sampling plane, the better the reconstructed image. 
-The \emph{uv} plane distribution can be characterized by several numbers. 
-The minimal and maximum distance between measurements in the \emph{uv} plane provide assessments for 
-spatial resolution and largest angular scale. 
-Beside this a \emph{uv} plane filling factor of the distribution will allow to predict the quality 
+The quality of the data strongly depends from the distribution of the visibility measurements
+in the \emph{uv} plane : the more complete the \emph{uv} sampling plane, the better the reconstructed image.
+The \emph{uv} plane distribution can be characterized by several numbers.
+The minimal and maximum distance between measurements in the \emph{uv} plane provide assessments for
+spatial resolution and largest angular scale.
+Beside this a \emph{uv} plane filling factor of the distribution will allow to predict the quality
 of reconstruction of the image in the distance plane (sky).
-Eventually, the ellipticity of the distribution is a measure of the distortions that can 
+Eventually, the ellipticity of the distribution is a measure of the distortions that can
 affect the reconstruction.
 
-Radio astronomers also check the quality of the visibility data by looking at some maps of 
-the data structure. The \emph{uv} coverage map can show how complete and regular is the sampling in 
-the \emph{uv} plane and give an hint of resolution and maximum angular scale. 
-The visualisation of the dirty beam, which is the Fourier transform of the \emph{uv} sampling 
-function gives an hint of the intrinsic quality of possible reconstruction. As maps they are 
-not queriable. So links to these kind of maps will not be exposed in the extension 
-table but only via a DataLink service. 
+Radio astronomers also check the quality of the visibility data by looking at some maps of
+the data structure. The \emph{uv} coverage map can show how complete and regular is the sampling in
+the \emph{uv} plane and give an hint of resolution and maximum angular scale.
+The visualisation of the dirty beam, which is the Fourier transform of the \emph{uv} sampling
+function gives an hint of the intrinsic quality of possible reconstruction. As maps they are
+not queriable. So links to these kind of maps will not be exposed in the extension
+table but only via a DataLink service.
 
-If none of these \emph{uv} characterization features are available to be exposed in the service 
-we can still predict ranges of some of those by using some kind of facility description.  
-Important features are the antenna diameter (or maximum antenna diameter), the number of 
+If none of these \emph{uv} characterization features are available to be exposed in the service
+we can still predict ranges of some of those by using parameters of the instrumental configuration. 
+Important features are the antenna diameter (or maximum antenna diameter), the number of
 antennas and the minimum and maximum distance between antennas of the array.
+% Mir explain here why they help to guess minimal baseline and 
 
-In addition to these specifities most of the scan modes shown on figure~\ref{fig:SD} also 
-apply to some interferometry observations and should be described. 
+In addition to these specifities most of the scan modes shown on figure~\ref{fig:SD} also
+apply to some interferometry observations and should be described.
 
 \section{ObsCore attributes definition valid for radio data}
 \label{sec:ObsCoreRadDef}
 
 %Some mandatory or optional parameters will have peculiar estimation for visibility data.
-For radio data some of the definitions on ObsCore data model attributes need to be adjusted 
+For radio data some of the definitions on ObsCore data model attributes need to be adjusted
 to fit the peculiarity of metadata for datasets partition, \emph{uv} space, etc.
+Here is a list of common ObsCore parameters already available for the radio data discovery.
 
 \subsection{obs\_id}
 
-Astronomers usually know what they identify as a single observation: a complex set of 
-measurements made in a given sequence of time. obs\_id should define unambiguously each 
-observation.
+Astronomers usually know what they identify as a single observation: a complex set of
+measurements made in a given sequence of time. \emph{obs\_id} should define unambiguously each
+observation. It is provided by the observation pipeline to identify what is collected for one observation operation.
 
 \subsection{obs\_publisher\_did}
 
-Radio data observations can be split in several subparts with homogeneous spatial, 
-time, spectral coverage intervals, spectral resolution, etc. Each part can be described by 
-a single ObsCore dataset and has its own obs\_publisher\_did. It has to be unique in the 
+Radio data observations can be split in several subparts with homogeneous spatial,
+time, spectral coverage intervals, spectral resolution, etc. Each part can be described by
+a single dataset and has its own \emph{obs\_publisher\_did}. It has to be unique in the
 Virtual Observatory domain.
+It identifies a dataset with homogeneous properties in terms of coverage on all physical axes : temporal, spectral, spatial.
 
 \subsection{s\_fov}
 \label{sec:fov}
-
-A typical value for the field of view size is to be computed on the observation by taking into account the sky scan geometry and the receiver type in use.
-s\_fov coincides with the instantaneous field of view $\lambda / D$ only for pointed observations (for instance, an ON in the SD case) obtained with a mono-feed receiver. In this case, $\lambda$ is the
+This attribute measures the size of the field covered. 
+It usually depends on the spectral interval and of the telescope diameter.
+A typical value for  the size of the field of view is to be computed on the observation by taking into account the sky scan geometry and the receiver type in use.
+\emph{s\_fov } coincides with the instantaneous field of view $\lambda / D$ only for pointed observations (for instance, an ON in the SD case) obtained with a mono-feed receiver. In this case, $\lambda$ is the
 %mid value of the spectral range
-receiver nominal wavelength and D coincides with the telescope diameter (SD case) or the largest diameter of the array antennae or telescopes (interferometric case). 
-
-
+receiver nominal wavelength and D coincides with the telescope diameter (SD case) or the largest diameter of the array antennae or telescopes (interferometric case).
+In interferometry, the correlator can also restrict the fov depending on the trade-off set to build the signal. 
 
 \subsection{s\_resolution}
 \label{sec:res}
-In the case of SD using mono- or multi-feed/PAF receivers this is the beam size inferred from the wavelength and telescope diameter. 
-In the case of interferometry, a typical value for the spatial resolution will be given by $\lambda / L$ where $\lambda$ 
+In the case of SD using mono- or multi-feed/PAF receivers this is the beam size inferred from the wavelength and telescope diameter.
+In the case of interferometry, a typical value for the spatial resolution will be given by $\lambda / L$ where $\lambda$
 is the %mid value of the spectral range
 receiver nominal wavelength and L is the longest distance in the \emph{uv} plane.
-For beamforming applied to SD \emph{s\_resolution} is set by the size of one individual electronically-formed beam, while in the interferometric case it is ruled by the maximum distance among the stations.
- 
+
+For beamforming applied to SD \emph{s\_resolution} is set by the size of one individual electronically-formed beam, while in the interferometric
+case it is ruled by the maximum distance among the radio stations.
  
 \subsection{s\_region}
+The shape of the covered region. 
 For single dish data it will strongly depend on the scanning mode and type of receiver in use.
-This shape will be the typical contour of the detectable beam for interferometry. Of course it cannot be accurate. 
+This shape will be the typical contour of the detectable beam for interferometry. Of course it cannot be accurate.
 
 \subsection{o\_ucd}
+This is UCD string  to qualify what is the observable quantity varying along the axes. 
+In the current UCD vocabulary (UCD1+ controlled vocabulary - Updated List of Terms Version 1.5) there appear to be no primary words suitable to describe raw SD data. \emph{o\_ucd=phot.flux.density} does not seem appropriate, since the single dish measured quantity is expressed in raw counts coming from the digitization of a voltage signal generated in the receiver chain by the incoming electromagnetic field. 
+\emph{o\_ucd=phys.voltage} is validated for addition into the next version for UCD1+ controlled vocabulary - Updated List of Terms Version 1.6.
 
-In the current UCD vocabulary (UCD1+ controlled vocabulary - Updated List of Terms Version 1.5) there appear to be no primary words suitable to describe raw SD data. o\_ucd=phot.flux.density, does not seem appropriate, since the single dish measured quantity is expressed in raw counts coming from the digitization of a voltage signal generated in the receiver chain by the incoming electromagnetic field. Further discussion on o\_ucd is ongoing within the Semantics WG.
-o\_ucd=phys.voltage is validated for addition into the next version for UCD1+ controlled vocabulary - Updated List of Terms Version 1.6.
-
-In the case of visibility data the "observable" is a complex number representing Fourier 
-coefficients of the image Fourier transform. Its UCD string is \emph{stat.fourier}. 
+In the case of visibility data the "observable" is a complex number representing Fourier
+coefficients of the image Fourier transform. Its UCD string is \emph{stat.fourier}.
 
 \subsection{t\_exptime}
-Total duration of the observation for the given dataset or ObsCore entry. Example: in case of multiple targets, \emph{t\_exptime} will be computed for each source and written in the appropriate ObsCore Table entry. 
+Total duration of the observation for the given dataset or ObsCore entry. For instance  in case of multiple targets, \emph{t\_exptime}
+will be computed for each source and written in the appropriate ObsCore Table entry.
+
 
 
 \subsection{t\_resolution}
-%Not applicable for single dish data (see Sect. \ref{subsec:sd}). 
-The ObsCore parameter t\_resolution (see Sect. \ref{subsec:sd}) has a limited application for SD data
-except for on-source tracking observations like those for pulsar/FRB studies and could be set to the
+%Not applicable for single dish data (see Sect. \ref{subsec:sd}).
+The ObsCore parameter \emph{t\_resolution} (see Sect. \ref{subsec:sd}) has a limited application for SD data
+except for \textit{on-source} tracking observations like those for pulsar/FRB studies and could be set to the
 exposure time or could be NULL. For time-domain data, \emph{t\_resolution} can be set according to the Pulsar
 and FRB Radio Data Discovery and Access IVOA Note \footnote{\url{https://wiki.ivoa.net/internal/IVOA/RadioastronomyInterestGroupFifthVirtualMeeting/PulsarRadioDataAccess.pdf}}.
 
 For interferometric observations it is the integration time set at the correlation level.
 
-
 \subsection{dataproduct\_type and dataproduct\_subtype}
 
-Radio astronomy data cover a wide variety of dataproduct types from visibility for raw interferometry data to cubes, images, spectra, time series or even measurements (in the case of single dish on scan mode). Single dish observations in some modes show specifities which are not covered by the current ObsCore \emph{dataproduct\_type} vocabulary. This is the case of spatial profiles obtained with on the fly cross scan or of the tables of flux measurements obtained on a regular spatial grid but with specific time stamp for each spot as in the raster map  mode.
-A new external standard IVOA vocabulary is currently defined for dataproduct types \footnote{https://www.ivoa.net/rdf/product-type/2023-06-26/product-type.html} and tackles some of these specificities.
-However some of them SHOULD be covered in the \emph{dataproduct\_subtype} attribute if no new term is introduced in the standard vocabulary.
+Radio astronomy data cover a wide variety of data product types from visibility for raw interferometry data to cubes, images, spectra, time series
+or even measurements (in the case of single dish on scan mode). Single dish observations in some modes show specifities which are not covered by
+the current ObsCore \emph{dataproduct\_type} vocabulary. This is the case of spatial profiles obtained with on the fly cross scan or of the
+tables of flux measurements obtained on a regular spatial grid but with specific time stamp for each spot as in the raster map  mode.
+A new external standard IVOA vocabulary is currently defined for data product types \footnote{https://www.ivoa.net/rdf/product-type/2023-06-26/product-type.html}
+and tackles some of these specificities. However some of them SHOULD be covered in the \emph{dataproduct\_subtype} attribute if no new term is introduced in the standard vocabulary.
 
 \section{ObsCore extension specific for radio data}
 
-Table \ref{tab:ExtensionAtt} shows the %additional 
+Table \ref{tab:ExtensionAtt} shows the %additional
 querying parameters we propose to add to ObsCore in order to better describe radio single dish and visibility data.
 The last column indicates if the attribute is useful for all radio datasets or only for visibilities, beam forming, or single dish data.
 
 \subsection{spatial parameters}
 \emph{s\_fov\_min, s\_fov\_max} are estimated like the typical value (see subsection \ref{sec:fov}). 
-In the case of SD pointed observations with mono-feed receivers and the majority of interferometric observations the minimum and maximum $\lambda$ values in the spectral range(s) will be used in the formula. In the case of mapping scans or multi-feed/PAF receivers \emph{ s\_fov\_min} and \emph{s\_fov\_max} are derived as the minimum and maximum sizes of the circular region encompassing the covered area.
+In the case of SD pointed observations with mono-feed receivers and the majority of interferometric observations the minimum and maximum
+$\lambda$ values in the spectral range(s) will be used in the formula. In the case of mapping scans or multi-feed/PAF receivers
+\emph{ s\_fov\_min} and \emph{s\_fov\_max} are derived as the minimum and maximum sizes of the circular region encompassing the covered area.
+
 
 \emph{s\_resolution\_min, s\_resolution\_max} are estimated like the typical value (see subsection \ref{sec:res}) where $\lambda$ is replaced by the minimum and maximum wavelength of the spectral range(s). The size D is the telescope diameter for SD observations and the largest distance in the \emph{uv} plane. Beam forming may represent an exception to this rule, see \ref{sec:res}.
 
-In the case of interferometry, the \emph{s\_maximum\_angular\_scale} is estimated as $\lambda/l$ where $\lambda$ is the typical 
-wavelength and l is the typical smallest distance in the \emph{uv} plane. 
+In the case of interferometry, the \emph{s\_maximum\_angular\_scale} is estimated as $\lambda/l$ where $\lambda$ is the typical
+wavelength and l is the typical smallest distance in the \emph{uv} plane.
+
 
 \subsection{frequency characterization}
 
@@ -339,82 +349,153 @@ The absolute \emph{uv}\_distance\_min and \emph{uv}\_distance\_max  in the \emph
 %are evaluated by fitting an ellipse on the visibilities present in the uv plane.
 
 % Mireille but still for the spec it is good to redefine them here
-To compute the ellipse's eccentricity of the \emph{uv} distribution a principal component analysis 
-(PCA) with 2 components is performed over the data points sampling the \emph{uv} plane to select the 
+To compute the ellipse's eccentricity of the \emph{uv} distribution a principal component analysis
+(PCA) with 2 components is performed over the data points sampling the \emph{uv} plane to select the
 main axis of data scattering. 
-The first component is used to rotate the distribution of uv in a way that the major variation 
-of the distribution is leaning towards the $x$ axis of a bi dimensional $xy$ Cartesian plane. 
-The major axis length and the minor axis length of the ellipse are therefore defined as the 
-semi distance between the most positive point along the $x$/$y$ axis and the most negative point 
-among the $y$ axis. For instance, if the range of the rotated UV will cover on the $x \in [-10, 
-10]$ the major axis distance would be 10, a similar procedure is done on the y axis. 
+The first component is used to rotate the distribution of uv in a way that the major variation
+of the distribution is leaning towards the $x$ axis of a bi dimensional $xy$ Cartesian plane.
+The major axis length and the minor axis length of the ellipse are therefore defined as the
+semi distance between the most positive point along the $x$/$y$ axis and the most negative point
+among the $y$ axis. For instance, if the range of the rotated UV will cover on the $x \in [-10,
+10]$ the major axis distance would be 10, a similar procedure is done on the y axis.
 
 This procedure allows the definition of the \emph{uv} distribution eccentricity, \emph{uv\_distribution\_ecc} computed as follows:
 \begin{equation}
 uv\_distribution\_ecc = \sqrt{1-\frac{b^2}{a^2}}
 \end{equation}
 where a is the major axis length and b is the minor axis length.
-The filling factor of the \emph{uv} plane (hereafter uv\_distribution\_fill) is computed as the average 
-number of samples found in a $N^{uv}_{samples}$x$N^{uv}_{samples}$ equi-spaced grid enclosing the 
+The filling factor of the \emph{uv} plane (hereafter \emph{uv\_distribution\_fill}) is computed as the average
+number of samples found in a $N^{uv}_{samples}$x$N^{uv}_{samples}$ equi-spaced grid enclosing the
 rotated ellipse. In formulas, the boundaries of a cell (i,j) are defined by the boundaries
 \begin{equation}
-u \in [u_{min} + \frac{u_{max} - u_{min}}{N^{uv}_{samples}} \cdot i , u_{min} + \frac{u_{max} - 
+u \in [u_{min} + \frac{u_{max} - u_{min}}{N^{uv}_{samples}} \cdot i , u_{min} + \frac{u_{max} -
 u_{min}}{N^{uv}_{samples}} \cdot (i + 1)]
-\end{equation} 
+\end{equation}
 and
 \begin{equation}
-v \in [v_{min} + \frac{v_{max} - v_{min}}{N^{uv}_{samples}} \cdot j , v_{min} + \frac{v_{max} - 
+v \in [v_{min} + \frac{v_{max} - v_{min}}{N^{uv}_{samples}} \cdot j , v_{min} + \frac{v_{max} -
 v_{min}}{N^{uv}_{samples}} \cdot (j + 1)]
-\end{equation} 
-where $u_{max}$/$v_{max}$ are the respective maximum u/v of the \emph{uv} sample and 
+\end{equation}
+where $u_{max}$/$v_{max}$ are the respective maximum u/v of the \emph{uv} sample and
 $u_{min}$/$v_{min}$ is the minimum u/v of the \emph{uv} sample.
 
-Given the above boundaries the number of samples within a cell (i,j) will be $n^{uv}_{i,j}$ 
-and uv\_distribution\_fill will be then computed as 
+Given the above boundaries the number of samples within a cell (i,j) will be $n^{uv}_{i,j}$
+and uv\_distribution\_fill will be then computed as
 \begin{equation}
-uv\_distribution\_fill = \frac{\sum^{N^{uv}_{samples}}_{i=1} \sum^{N^{uv}_{samples}}_{j=1} 
+uv\_distribution\_fill = \frac{\sum^{N^{uv}_{samples}}_{i=1} \sum^{N^{uv}_{samples}}_{j=1}
 n^{uv}_{i,j} }{(N^{uv}_{samples}) ^ 2},
 \end{equation}
 
 in the preliminary analysis $N^{uv}_{samples} = 1000$.
 
 
-% Mireille: moved time param below uv space because uv plane deals with spatial features 
+% Mireille: moved time param below uv space because uv plane deals with spatial features
 
 \subsection{time parameters}
-\emph{t\_exp\_min, t\_exp\_max }and \emph{t\_exp\_mean} are added in the case of variation in the individual timestamps 
+\emph{t\_exp\_min, t\_exp\_max}and \emph{t\_exp\_mean} are added in the case of variation in the individual timestamps 
 duration. This is usually not the case for SD data and these parameters will be set to NULL in this case.
 
-
-\subsection{observation and instrumental parameters}
+\subsection{observational configuration and instrumental parameters}
 These parameters are intended to describe the main telescope(s) characteristics for both SD antennas and interferometers. 
 Such instrumental characteristics give an approximate idea on the spanned angular scales, field of view, product types, etc.
 
-The more global parameter to define is the instrument type allowing to discriminate single dish observations from interferometry or beam forming. 
+The more global parameter to define is the instrument type allowing to discriminate single dish observations from interferometry or beam forming ones.
 
-Parameters \emph{instrument\_ant\_number, instrument\_ant\_min\_dist} and  \emph{instrument\_ant\_max\_dist} are related to interferometers only while 
-\emph{instrument\_ant\_diameter, instrument\_feed } are valid also for SD.
-We note that \emph{instrument\_feed} could also  account for the number of beams in the case of a beam forming/PAF receiver.
+Parameters \emph{instr\_ant\_number, instr\_ant\_min\_dist} and  \emph{instr\_ant\_max\_dist} are related to interferometers only while 
+\emph{instr\_ant\_diameter, instr\_feed } are valid also for SD.
+We note that \emph{instr\_feed} could also  account for the number of beams in the case of a beam forming/PAF receiver.
 
-The scanning strategy adopted in an observation is described by the parameter \emph{scan\_mode}. This parameter covers both spatial and frequency scanning modes (see Sect.~\ref{subsec:sd} for details). 
+The scanning strategy adopted in an observation is described by the parameter \emph{scan\_mode}. This parameter covers both spatial
+and frequency scanning modes (see Sect.~\ref{subsec:sd} for details).
 It is applicable to  SD as well as  interferometry cases.
 
 Pointing mode distinguishes targeted observations from  fixed alt-azimuth or wobble ones. The ObsLocTAP specification \citep{2021ivoa.spec.0724S} defines the term \emph{tracking\_type} for describing this as well as a  vocabulary for these modes. 
 We include the same term here in the extension.
 
-
 \subsection{Auxiliary datasets useful for data quality estimation}
 
-Auxiliary datasets such as  \emph{uv} distribution map, dirty beam maps, frequency/amplitude plots, phase/amplitude plots are useful for astronomers to check data quality.  
-In that case DataLink \citep{2015ivoa.spec.0617D} may provide a solution to attach these auxiliary data to ObsCore records. The semantics FIELD in the \{link\} response  will contain \#auxiliary  for links to these maps or plots while  the content\_qualifier FIELD introduced from 1.1  could contain a vocabulary as defined in ( TO BE COMPLETED ). 
+Auxiliary datasets such as  \emph{uv} distribution map, dirty beam maps, frequency/amplitude plots, phase/amplitude plots are useful for astronomers to check data quality.
+In that case DataLink \citep{2015ivoa.spec.0617D} may provide a solution to attach these auxiliary data to ObsCore records. The semantics FIELD in the \{link\}
+response  will contain \#auxiliary  for links to these maps or plots while  the content\_qualifier FIELD introduced from 1.1  could contain a vocabulary as defined in ( TO BE COMPLETED ).
 
-\section{How to implement the extension in a TAP service}i
+
+\section{The ivoa.obscore\_radio table}
 \label{sec:implementation}
+% commented below: Markus version
+%The ObsCore Extension for Radio is accessed as a table within a TAP
+%\citep{2019ivoa.spec.0927D} service.\todo{I think we should require a
+%few UDFs on TAP services: ivo\_interval\_overlaps, ivo\_specconv}  At this
+%point, the name of this table is fixed to \verb|ivoa.obs_radio|.
+%However, in order to allow for later evolution -- which may allow
+%multiple compliant tables per service --, this name should not be used
+%for discovery (see sect.~\ref{sec:registry}).
+%
+%A TAP service that has \verb|ivoa.obs_radio| must also have a table
+%compliant to any version 1 of ObsCore, i.e., a table
+%\verb|ivoa.obscore|; the two tables must share exactly the columns such
+%that a \verb|NATURAL JOIN| will yield per-dataset rows of obscore and
+%radio extension metadata.  Which columns these are is site-specific.
+%
+%To ensure that all compliant services can execute the same queries,
+%all columns in table~\ref{tab:ExtensionAtt} must be present in such a
+%table, although any may be NULL.  Additional columns may be present, and
+%at least a foreign key into \verb|ivoa.obscore| will typcially
+%user-visible\todo{can we make rules such that such additional columns
+%will not interfere with later extensions?}.
+%
+%The intention is that clients will write queries like
+%\begin{lstlisting}
+%SELECT [any obscore and obs_radio columns or expressions]
+%FROM
+%  ivoa.obscore
+%  NATURAL JOIN ivoa.obs_radio
+%WHERE
+%  [constraints]
+%\end{lstlisting}
+The ObsCore Extension for Radio data is accessed in a table containing also ObsCore fields within a TAP
+\citep{2019ivoa.spec.0927D} service.\todo{I think we should require a
+few UDFs on TAP services: ivo\_interval\_overlaps, ivo\_specconv} At this
+point, the name of this table is fixed to \verb|ivoa.obscore_radio|.
+However, in order to allow for later evolution -- which may allow
+multiple compliant tables per service --, this name should not be used
+for discovery (see sect.~\ref{sec:registry}).
 
-The ObsCore extension for radio (including or not visibility data) described above SHOULD  be added to the main ObsCore table. The standardID for this extented table will be ivo://ivoa.net/std/ObsCore\#radioExt-1.0". This implies that the  core ObsCore attributes follow version 1.1 of the Obscore standard.
-\textit{ In practice a  table containing only the extension attributes  MAY be added to the same schema. The full extension table will then be a view joining the core table and the  table with extension attribue only via an extended ObsTAP ADQL query. A single dataset in each observation will be associated to a single row in ObsCore. It will be identified by a unique obs\_publisher\_did. This obs\_publisher\_did can be used as a foreign key to join the main table and the extension table.}
+A TAP service that has \verb|ivoa.obscore_radio| must also have a table
+compliant to any version 1 of ObsCore, i.e., a table
+\verb|ivoa.obscore|; containing only the basic ObsCore attributes.
+This table can be implemented as a simple view on the \verb|ivoa.obscore_radio|
+table
 
-In the registry, the Obscore table and the Extended table MUST be described in the tableset of the service. They will show respectively the ObsCore Model utype "ivo://ivoa.net/std/ObsCore\#core-1.0" an the extended Obscore Model utype "ivo://ivoa.net/std/ObsCore\#radioExt-1.0" . 
+To ensure that all compliant services can execute the same queries,
+all columns in table~\ref{tab:ExtensionAtt} must be present in such a
+table, although any may be NULL. Additional columns may be present\todo{can we make rules such that such additional columns
+will not interfere with later extensions?}.
+
+The intention is that clients will write queries like
+\begin{lstlisting}
+SELECT [any obscore and obs_radio columns or expressions]
+FROM
+ivoa.obscore_radio
+
+WHERE
+[constraints]
+\end{lstlisting}
+% commented : Markus initial PR
+%without having to know the exact foreign key(s) in use on any given
+%service.  This means that while one service can opt to join on
+%\verb|obs_publisher_did| (we expect this to be a very common choice),
+%other services may choose to join on, say, artificial keys.
+
+% main text previous Markus PR
+%The ObsCore extension for radio (including or not visibility data) described above SHOULD  be added to the main ObsCore table.
+%The standardID for this extented table will be ivo://ivoa.net/std/ObsCore\#radioExt-1.0". This implies that the  core ObsCore attributes follow version 1.1 of the Obscore standard.
+%\textit{ In practice a  table containing only the extension attributes  MAY be added to the same schema.
+%The full extension table will then be a view joining the core table and the  table with extension attribue only via an extended ObsTAP ADQL query.
+%A single dataset in each observation will be associated to a single row in ObsCore. It will be identified by a unique obs\_publisher\_did.
+%This obs\_publisher\_did can be used as a foreign key to join the main table and the extension table.}
+%
+%In the registry, the Obscore table and the Extended table MUST be described in the tableset of the service.
+%They will show respectively the ObsCore Model utype "ivo://ivoa.net/std/ObsCore\#core-1.0" an the extended Obscore Model utype "ivo://ivoa.net/std/ObsCore\#radioExt-1.0" . 
 
 
 %first table 
@@ -429,7 +510,7 @@ In the registry, the Obscore table and the Extended table MUST be described in t
 \sptablerule
 \texttt{s\_resolution\_max}&\texttt{Angular resolution, longest baseline and min frequency dependant}&\texttt{Char.SpatialAxis.\newline Resolution.Bounds.\newline Limits.HiLim}&{pos.angResolution;stat.max}&arcsec&radio\cr
 \sptablerule
-\texttt{s\_fov\_min}&\texttt{field of view diameter,  min value, max frequency dependant}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.LowLim}&{phys.angSize;instr.fov;\newline stat.min}&deg&radio\cr
+\texttt{s\_fov\_min}&\texttt{field of view diameter,  min value, max frequency dependent}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.LowLim}&{phys.angSize;instr.fov;\newline stat.min}&deg&radio\cr
 \sptablerule
 \texttt{s\_fov\_max}&\texttt{field of view diameter,  max value, min frequency dependant}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.HiLim}&{phys.angSize;instr.fov;\newline stat.max}&deg&radio\cr
 \sptablerule
@@ -439,7 +520,7 @@ In the registry, the Obscore table and the Extended table MUST be described in t
 \sptablerule
 \texttt{f\_max}&\texttt{spectral coverage max in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.HiLim}&{em.freq;stat.max}&Mhz&radio\cr
 \sptablerule
-\texttt{f\_rsolution}&\texttt{absolute spectral resolution in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.HiLim}&{em.freq;stat.max}&Khz&radio\cr
+\texttt{f\_resolution}&\texttt{absolute spectral resolution in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.HiLim}&{em.freq;stat.max}&Khz&radio\cr
 \sptablerule
 \texttt{t\_exp\_min}&\texttt{minimum integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline LoLim}&{time.duration;obs.exposure;\newline stat.min}&s&radio\cr
 \sptablerule
@@ -447,15 +528,15 @@ In the registry, the Obscore table and the Extended table MUST be described in t
 \sptablerule
 \texttt{t\_exp\_mean}&\texttt{average integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline HiLim}&{time.duration;obs.exposure\newline stat.mean}&s&radio\cr
 \sptablerule
-\texttt{uv\_distance\_min}&\texttt{minimal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;stat.min&m&interferometry \cr
+\texttt{uv\_distance\_min}&\texttt{minimal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;\newline stat.min&m&interferometry \cr
 \sptablerule
-\texttt{uv\_distance\_max}&\texttt{maximal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;stat.max&m&interferometry \cr
+\texttt{uv\_distance\_max}&\texttt{maximal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;\newline stat.max&m&interferometry \cr
 \sptablerule
 \texttt{uv\_distribution\_ecc}&\texttt{eccentricity of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Eccentricity}&stat.fourier;pos&&interferometry \cr
 \sptablerule
-\texttt{uv\_distribution\_fill}&\texttt{filling factor of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline FillingFactor}&stat.fourier;pos;arith.ratio&&interferometry \cr
+\texttt{uv\_distribution\_fill}&\texttt{filling factor of uv distribution}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline FillingFactor}&stat.fourier;pos;\newline arith.ratio&&interferometry \cr
 \sptablerule
-\texttt{uv\_distribution\_map}&\texttt{uv distribution map}&\texttt{Char.UVAxis.\newline  Sampling.\newline Sensitivity.Map}&stat.fourier;pos;meta.ref.url&&interferometry \cr
+\texttt{uv\_distribution\_map}&\texttt{access to map}&\texttt{Char.UVAxis.\newline  Sampling.\newline Sensitivity.Map}&stat.fourier;pos;\newline meta.ref.url&&interferometry \cr
 \sptablerule
 %\texttt{s\_beam\_dirty}&\texttt{dirty beam}&\texttt{- (via DataLink}&{via DataLink}&&interferometry\cr
 %\sptablerule
@@ -468,26 +549,26 @@ In the registry, the Obscore table and the Extended table MUST be described in t
 \end{longtable}
 \end{landscape}
 
-%second table 
+%second table
 \begin{landscape}
 \begin{longtable}{l  p{4cm} p{4cm} p{4.5cm} l l l}
 \sptablerule
 \textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}&\textbf{validity}\cr
 \sptablerule
-% mireille here for antennas features , it is clear it belongs to instrument. 
+% mireille here for antennas features , it is clear it belongs to instrument.
 %Not useful to use the term in the name .
-%\texttt{instrument\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&instr.baseline;meta.number& \cr
+%\texttt{instr\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&instr.baseline;meta.number& \cr
 \sptablerule
-\texttt{instrument\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param&&interferometry, beamforming \cr
+\texttt{instr\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param&&interferometry, \newline beamforming \cr
 \sptablerule
 % same for all antenae features
-\texttt{instrument\_ant\_min\_dist}&\texttt{minimum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m&interferometry \cr
+\texttt{instr\_ant\_min\_dist}&\texttt{minimum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m&interferometry \cr
 \sptablerule
-\texttt{instrument\_ant\_max\_dist}&\texttt{maximum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MaxDist}&instr.baseline;stat.max&m&interferometry \cr
+\texttt{instr\_ant\_max\_dist}&\texttt{maximum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MaxDist}&instr.baseline;stat.max&m&interferometry \cr
 \sptablerule
-\texttt{instrument\_ant\_diameter}&\texttt{diameter of telecope or antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr.param&m&radio \cr
+\texttt{instr\_ant\_diameter}&\texttt{diameter of telecope or antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr.param&m&radio \cr
 \sptablerule
-\texttt{instrument\_feed}&\texttt{number of feeds}&\texttt{Provenance.ObsConfig.\newline Instrument.Feed}&instr.param&& radio  \cr
+\texttt{instr\_feed}&\texttt{number of feeds}&\texttt{Provenance.ObsConfig.\newline Instrument.Feed}&instr.param&& radio  \cr
 \sptablerule
 \texttt{scan\_mode}&\texttt{scan mode (on-off, \newline raster map, on-the-fly map,...)\newline }&\texttt{Provenance.\newline Observation.\newline sky\_scan\_mode}&instr.param&& radio \cr
 \sptablerule
@@ -496,6 +577,86 @@ In the registry, the Obscore table and the Extended table MUST be described in t
 \label{tab:ExtensionAtt_instrumental}
 \end{longtable}
 \end{landscape}
+% c!ommented below : Markus PR version
+%\section{Registry Aspects}
+%\label{sec:registry}
+%
+%Services compliant with this specification are registered using
+%VODataService \citep{2021ivoa.spec.1102D} tablesets.  Compliant tables
+%use the utype
+%$$
+%\hbox{\nolinkurl{ivo://ivoa.net/std/obsradio#table-1.0}.}
+%$$
+%
+%While it is admitted that the table only sits in the tableset of the
+%embedding TAP service, implementors are urged to use a seperate registry
+%record with the main TAP service as an auxiliary capability
+%\citep{2019ivoa.spec.0520D}.  In this way, meaningful information
+%on coverage in space, time, and spectraum as per VODataService 1.2 can
+%be communicated to the Registry, which, again, data providers are urged
+%to do.  There is no expectation that the coverage information only
+%pertains to data with entries in \verb|ivoa.obs_radio|, i.e., it may be
+%a copy of the coverage of the full Obscore table.\todo{Is that
+%acceptable?  Or should we require pure radio coverage?}
+%
+%A sample registry record for an obs\_radio table comes with this
+%specification\footnote{\auxiliaryurl{sample-record.xml}}.
+%
+%To obtain access URLs of all TAP services that have compliant tables
+%together with their table names (which in this major version are fixed
+%to \verb|ivoa.obs_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
+%query like:
+%
+%\begin{lstlisting}
+%SELECT DISTINCT(access_url), table_name
+%FROM rr.res_table
+%  NATURAL JOIN rr.capability
+%  NATURAL JOIN rr.interface
+%WHERE
+%  standard_id LIKE 'ivo://ivoa.net/std/tap%'
+%  AND intf_role='std'
+%  AND table_utype LIKE 'ivo://ivoa.net/std/obsradio#table-1.%'
+%\end{lstlisting}
+
+\section{Registry Aspects}
+\label{sec:registry}
+
+Services compliant with this specification are registered using
+VODataService \citep{2021ivoa.spec.1102D} tablesets. Compliant tables
+use the utype
+$$
+\hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore#radioExt-1.0}.}
+$$
+
+While it is admitted that the table only sits in the tableset of the
+embedding TAP service, implementors are urged to use a seperate registry
+record with the main TAP service as an auxiliary capability
+\citep{2019ivoa.spec.0520D}. In this way, meaningful information
+on coverage in space, time, and spectrum as per VODataService 1.2 can
+be communicated to the Registry, which, again, data providers are urged
+to do. There is no expectation that the coverage information only
+pertains to data with entries in \verb|ivoa.obscore_radio|, i.e., it may be
+a copy of the coverage of the basic ObsCore table.\todo{Is that
+acceptable? Or should we require pure radio coverage?}
+
+A sample registry record for an obscore\_radio table comes with this
+specification\footnote{\auxiliaryurl{sample-record.xml}}.
+
+To obtain access URLs of all TAP services that have compliant tables
+together with their table names (which in this major version are fixed
+to \verb|ivoa.obscore_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
+query like:
+
+\begin{lstlisting}
+SELECT DISTINCT(access_url), table_name
+FROM rr.res_table
+NATURAL JOIN rr.capability
+NATURAL JOIN rr.interface
+WHERE
+standard_id LIKE 'ivo://ivoa.net/std/tap%'
+AND intf_role='std'
+AND table_utype LIKE 'ivo://ivoa.net/std/ObsCore#radioExt-%'
+\end{lstlisting}
 
 \appendix
 
