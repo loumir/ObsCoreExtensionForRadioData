@@ -19,7 +19,7 @@ CONTAINS(POINT(s_ra, s_dec),CIRCLE,187.7059308,+12.3911232,0.25)) = 1)) AND
 \end{verbatim}
 
 \subsection{Use case - s\_resolution\_max}
-\textit{Morphological study of SNR IC443. Select any dataset obtained in scanning mode map (raster or on-the-fly) with s\_resolution\_max less than the desired spatial resolution of 1 arcmin.}
+\textit{Morphological study of SNR IC443. Select any dataset obtained in map scanning mode (raster or on-the-fly) with s\_resolution\_max less than the desired spatial resolution of 1 arcmin.}
 
 Show me all datasets satisfying: \\
 I. Maximum spatial resolution < 0.017 deg \\
@@ -33,7 +33,7 @@ CONTAINS(POINT(s_ra,s_dec),CIRCLE(94.2500000,+22.5699997,0.25)) = 1)) AND
 \end{verbatim}
 
 \subsection{Use case - s\_fov\_min - large field of views}
-\textit{Select any dataset obtained in scanning mode map (raster or on-the-fly) with minimum field of view larger than 0.8 degree. For instance, investigate the region surrounding cluster Abell 194.}
+\textit{Select any dataset obtained in map scanning mode (raster or on-the-fly) with minimum field of view larger than 0.8 degree. For instance, investigate the region surrounding cluster Abell 194.}
 
 Show me all datasets satisfying:\\
 I. Minimum FOV > 0.8 deg \\
@@ -68,7 +68,7 @@ Show me all datasets satisfying: \\
 I. Target name = 3C 48 \\
 II. obs\_collection = ?INAF-Medicina, single dish?\\
 III. Observed frequency in the range 20-21 GHz \\
-IV. dataproduct\_type = spatial\_profile or scan\_mode = map\\
+IV. dataproduct\_type = spatial\_profile or scan\_mode contains map\\
 V. 51544 < observation time (MJD) < 60309 \\
 \begin{verbatim}
 SELECT * FROM ivoa.ObscoreRadioExtended
@@ -95,7 +95,7 @@ f_max < 1.5e+9
 \end{verbatim}
 
 \subsection{Use case - frequency selection  for images }
-\textit{Any low frequency image or cube  defined as smaller than 1 Ghz.}\\ \\
+\textit{Any image or cube observed at frequencies below 1 GHz.}\\ \\
 Show me all datasets satisfying:\\
 I. Product type is image or cube \\
 II. higher spectral limit < 1Ghz
