@@ -169,7 +169,7 @@ IIV. maximal duration per sample  < 0.05 s \\
 
 \begin{verbatim}
       SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE instrument_type = 'beamForming' AND
+      WHERE instr_type = 'beamForming' AND
       dataproduct_type = 'timeseries' AND
       t_resolution < 0.1 AND
       t_exp_max < 0.05 
@@ -184,7 +184,7 @@ III. Target name = 3C 273 or \\
 IV. position inside 3 arcmin around  	187.2779159404900 +02.0523882305500
 \begin{verbatim}
       SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE instrument_type = 'SD' AND
+      WHERE instr_type = 'SD' AND
       scan_mode = 'raster' AND
       (target_name = '3C 273' OR
        CONTAINS(POINT(s_ra,s_dec), CIRCLE(187.2779159404900, +02.0523882305500,0.05)) = 1)     
@@ -200,8 +200,8 @@ III. higher spectral limit < 1Ghz \\
 IV. position inside 18 arcmin around 194.93502 +27.91246
 \begin{verbatim}
       SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE (instrument_type = 'SD' OR
-      instrument_type = 'beamForming') AND
+      WHERE (instr_type = 'SD' OR
+      instr_type = 'beamForming') AND
       CONTAINS(POINT(s_ra,s_dec),CIRCLE(194.93502, +27.91246, 0.3) = 1     
 \end{verbatim}
 
@@ -216,8 +216,8 @@ IV. position inside 18 arcmin around 194.93502 +27.91246
 
 \begin{verbatim}
       SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE (instrument_type = 'SD' OR
-      instrument_type = 'beamForming') AND
+      WHERE (instr_type = 'SD' OR
+      instr_type = 'beamForming') AND
       f_min > 500 AND
       f_max < 1000 AND
       CONTAINS(POINT(s_ra,s_dec),CIRCLE(194.93502, +27.91246, 0.3) = 1     
@@ -235,9 +235,9 @@ III. antenna maximum distance in meters  > 5000 \\
 
 \begin{verbatim}
       SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE instrument_type = 'interferometry' AND
-      instrument_ant_number > 40 AND
-      instrument_ant_max_dist > 5000 
+      WHERE instr_type = 'interferometry' AND
+      instr_ant_number > 40 AND
+      instr_ant_max_dist > 5000 
 \end{verbatim}
 
 
