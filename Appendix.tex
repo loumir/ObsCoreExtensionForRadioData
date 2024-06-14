@@ -1,8 +1,16 @@
 \section{Science use cases and translation to ADQL queries  based on ObsCore Radio extension  }
 \label{ADQLusecases}
 
+\textit{ The  queries in subsections \ref{sec:s_resolution_max} and \ref{sec:s_fov_min}
+can be run with s\_resolution\_min and s\_fov\_max instead of s\_resolution\_max and 
+ s\_fov\_min respectively, to obtain results in which at least part of the dataset satisfy the condition.\\
+For instance, consider datasets with a large observed bandwidth, like those taken with wide/ultrawide band receivers.
+The condition s\_resolution\_max<d\_typical may not be satisfied. At the same time, the user may want to select those 
+dataset where the desired condition on spatial resolution is matched at least partially  within the observed band.}
+
 %\subsection{Science case }
 \subsection{Use case - s\_resolution\_min}
+\label{sec:s_resolution_min}
 \textit{Comparative study of low surface brightness extended emission surrounding compact sources, like for instance Virgo A.
 In order to avoid washing out of diffuse emission the spatial resolution should not be too high.
 Select any dataset map (raster or on-the-fly) with s\_resolution\_min larger than the desired spatial resolution of 1 arcmin.}
@@ -19,6 +27,7 @@ CONTAINS(POINT(s_ra, s_dec),CIRCLE,187.7059308,+12.3911232,0.25)) = 1)) AND
 \end{verbatim}
 
 \subsection{Use case - s\_resolution\_max}
+\label{sec:s_resolution_max}
 \textit{Morphological study of SNR IC443. Select any dataset obtained in map scanning mode (raster or on-the-fly) with s\_resolution\_max less than the desired spatial resolution of 1 arcmin.}
 
 Show me all datasets satisfying: \\
@@ -33,6 +42,7 @@ CONTAINS(POINT(s_ra,s_dec),CIRCLE(94.2500000,+22.5699997,0.25)) = 1)) AND
 \end{verbatim}
 
 \subsection{Use case - s\_fov\_min - large field of views}
+\label{sec:s_fov_min}
 \textit{Select any dataset obtained in map scanning mode (raster or on-the-fly) with minimum field of view larger than 0.8 degree. For instance, investigate the region surrounding cluster Abell 194.}
 
 Show me all datasets satisfying:\\
@@ -47,6 +57,7 @@ CONTAINS(POINT(s_ra,s_dec),CIRCLE(21.5054167,-1.3672221,0.25)) = 1)) AND
 \end{verbatim}
 
 \subsection{Use case - s\_fov\_min - extended target completly included}
+\label{sec:s_fov_max}
 \textit{Pictor A has a typical angular extension  of 8 arcminutes , select any image/cube completely containing the target}
 Show me all datasets satisfying: \\
 I. Target name = Pictor A \\
@@ -56,11 +67,6 @@ WHERE target_name = 'Pictor A' AND
 CONTAINS(CIRCLE(79.9571789, -45.7788479,(8/60)/2),
 CIRCLE(s_ra, s_dec, s_fov_min/2)) = 1)
 \end{verbatim}
-
-\todo{Nb: The above queries can be run with s\_resolution\_min and s\_fov\_max instead of s\_resolution\_max and s\_fov\_min respectively, to obtain results in which at least part of the dataset satisfy the condition.
-
-For instance, consider datasets with a large observed bandwidth, like those taken with wide/ultrawide band receivers.
-The condition s\_resolution\_max<d\_typical may not be satisfied. At the same time, the user may want to select those dataset where the desired condition on spatial resolution is matched at least partially  within the observed band.}
 
 \subsection{Use case - dataproduct\_type}
 \textit{Select all observations of calibrator source 3C48 with the Medicina Grueff radio telescope at frequencies in the range 20-21 GHz, to investigate its flux variability (light curve) in the years 2000-2023}
@@ -79,19 +85,22 @@ target_name = '3C48' AND
 (t_min >= 51544 AND t_max <= 60309)
 \end{verbatim}
 
-\subsection{Use case - f\_resolution, f\_min, f\_max}
+\subsection{Use case - f\_resolution, frequency ranges}
+\label{sec:FreqRanges}
+
 \textit{Select any cube with spectral resolution better than 1 MHz and spectral range inside the 1 to 1.5 GHz band (around HI 21 cm line).}
 
 Show me all datasets satisfying:\\
 I. Product type is cube \\
 II. spectral resolution better than 1 MHz \\
-f\_min and f\_max are computed by means of a user defined function. \\
+III. em\_min and em\_max such than frequency bounds are included in the 1GHz to 1.5GHz range \\
 \begin{verbatim}
-SELECT * FROM ivoa.ObscoreRadioExtended
+SELECT *, 299792458 / em_max as f_min,  299792458 / em_min as f_max 
+FROM ivoa.ObscoreRadioExtended
 WHERE dataproduct_type = 'cube' AND
 f_resolution < 1000000 AND
-f_min > 1.0 e+9 AND
-f_max < 1.5e+9
+299792458 / em_max  > 1.0 e+9 AND
+299792458 / em_min < 1.5e+9
 \end{verbatim}
 
 \subsection{Use case - frequency selection  for images }
