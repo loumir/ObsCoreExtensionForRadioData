@@ -95,7 +95,36 @@ f_max < 1.5e+9
 
 
  
-% end section Alexandra's science case 
+% end section Alexandra's science case
+
+% start of Mark's (VLBI) science cases
+
+% These use NATURAL JOIN
+% Should these restrict the dataproduct_type?
+
+Give me high-resolution data on possible persistent radio sources with
+an arc second of FRB 121102:
+
+\begin{verbatim}
+SELECT * FROM ivoa.obscore NATURAL JOIN ivoa.obs_radio
+WHERE CONTAINS(POINT(s_ra,s_dec),CIRCLE(82.99458,33.14794,0.0003)) = 1 AND
+s_resolution_max < 0.001
+\end{verbatim}
+
+Give me data on extended HI emission around the source 3C84 that can
+be imaged with reasonable fidelity:
+
+\begin{verbatim}
+SELECT * FROM ivoa.obscore NATURAL JOIN ivoa.obs_radio
+WHERE CONTAINS(POINT(s_ra,s_dec),CIRCLE(24.4212500,33.1588889,0.003)) = 1 AND
+s_maximum_angular_scale > 0.018 AND
+uv_distribution_fill > 0.2 AND
+uv_distribution_ecc < 0.75 AND
+em_min < 0.21 AND
+em_max > 0.21
+\end{verbatim}
+
+% end of Mark's (VLBI) science cases
 
 \subsection{FB : Use case 1.1 data product and targer object selection }
 \textit{Any raw interferometry observation containing target Fornax cluster.}\\
