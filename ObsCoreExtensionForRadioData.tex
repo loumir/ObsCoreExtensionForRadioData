@@ -402,8 +402,9 @@ in the preliminary analysis $N^{uv}_{samples} = 1000$.
 % Mireille: moved time param below uv space because uv plane deals with spatial features
 
 \subsection{time parameters}
-\emph{t\_exp\_min, t\_exp\_max}and \emph{t\_exp\_mean} are added in the case of variation in the individual timestamps 
-duration. This is usually not the case for SD data and these parameters will be set to NULL in this case.
+When the sampling along the time axis is not even, 
+\emph{t\_exp\_min, t\_exp\_max} and \emph{t\_exp\_mean} need to be added to cope with the variation in the individual time samples
+duration. This is usually not the case for SD data and \emph{t\_exp\_min, t\_exp\_max} will be set to NULL in this case.
 
 \subsection{observational configuration and instrumental parameters}
 These parameters are intended to describe the main telescope(s) characteristics for both SD antennas and interferometers. 
