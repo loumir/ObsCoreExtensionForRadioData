@@ -402,8 +402,9 @@ in the preliminary analysis $N^{uv}_{samples} = 1000$.
 % Mireille: moved time param below uv space because uv plane deals with spatial features
 
 \subsection{time parameters}
-\emph{t\_exp\_min, t\_exp\_max}and \emph{t\_exp\_mean} are added in the case of variation in the individual timestamps 
-duration. This is usually not the case for SD data and these parameters will be set to NULL in this case.
+When the sampling along the time axis is not even, 
+\emph{t\_exp\_min, t\_exp\_max} and \emph{t\_exp\_mean} need to be added to cope with the variation in the individual time samples
+duration. This is usually not the case for SD data and \emph{t\_exp\_min, t\_exp\_max} will be set to NULL in this case.
 
 \subsection{observational configuration and instrumental parameters}
 These parameters are intended to describe the main telescope(s) characteristics for both SD antennas and interferometers. 
@@ -532,7 +533,7 @@ order to make it directly available for service users.
 \sptablerule
 \texttt{s\_fov\_max}&\texttt{field of view diameter,  max value, min frequency dependant}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.HiLim}&{phys.angSize;instr.fov;\newline stat.max}&deg&radio\cr
 \sptablerule
-\texttt{s\_maximum\_angular\_scale}&\texttt{maximum scale in dataset, shortest baseline and  frequency dependant}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim}&{phys.angSize;stat.max}&arcsec&interferometry\cr
+\texttt{s\_maximum\_angular\_scale}&\texttt{maximum scale in dataset, shortest baseline and  frequency dependant}& &{phys.angSize;stat.max}&arcsec&interferometry\cr
 \sptablerule
 %\texttt{f\_min}&\texttt{spectral coverage min in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.LoLim}&{em.freq;stat.min}&Mhz&radio\cr
 %\sptablerule
