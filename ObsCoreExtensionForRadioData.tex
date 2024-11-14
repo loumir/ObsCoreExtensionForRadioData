@@ -432,7 +432,7 @@ response  will contain \#auxiliary  for links to these maps or plots while  the 
 \section{The ivoa.obscore\_radio table}
 \label{sec:implementation}
 The ObsCore Extension for Radio is accessed as a table within a TAP
-\citep{2019ivoa.spec.0927D} service.\todo{I think we should require a
+\citep{2019ivoa.spec.0927D} service.\footnote{I think we should require a
 few UDFs on TAP services: ivo\_interval\_overlaps, ivo\_specconv}  At this
 point, the name of this table is fixed to \verb|ivoa.obscore_radio|.
 However, in order to allow for later evolution -- which may allow
@@ -452,7 +452,7 @@ To ensure that all compliant services can execute the same queries,
 all columns in table~\ref{tab:ExtensionAtt} must be present in such a
 table, although any may be NULL. At least a foreign key into \verb|ivoa.obscore| will typically
 make the extension table user-visible. Additional free columns (such as f\_min, f\_max) may also
-be added.\todo{can we make rules such that such additional columns
+be added.\footnote{can we make rules such that such additional columns
 will not interfere with later extensions?}.
 
 The intention is that clients will write queries like
