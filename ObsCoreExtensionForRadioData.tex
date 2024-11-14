@@ -323,6 +323,7 @@ querying parameters we propose to add to ObsCore in order to better describe rad
 The last column indicates if the attribute is useful for all radio datasets or only for visibilities, beam forming, or single dish data.
 
 \subsection{spatial parameters}
+Typical values of the parameters s\_fov and s\_resolution  are estimated assuming the typical value of the spectral range which can be considered as (em\_max - em\_min)/2
 \emph{s\_fov\_min, s\_fov\_max} are estimated like the typical value (see subsection \ref{sec:fov}). 
 In the case of SD pointed observations with mono-feed receivers and the majority of interferometric observations the minimum and maximum
 $\lambda$ values in the spectral range(s) will be used in the formula. In the case of mapping scans or multi-feed/PAF receivers
@@ -465,8 +466,8 @@ WHERE
   [constraints]
 \end{lstlisting}
 
-It is also possible to include a view performing this JOIN in the ivoa schema in
-order to make it directly available for service users. 
+In addition a view performing this JOIN is included in the ivoa schema in
+order to make it directly available for service users . 
 
 % commented below: FB version
 %The ObsCore Extension for Radio data is accessed in a table containing also ObsCore fields within a TAP
