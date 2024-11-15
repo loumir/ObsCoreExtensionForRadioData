@@ -268,16 +268,18 @@ A typical value for  the size of the field of view is to be computed on the obse
 %mid value of the spectral range
 receiver nominal wavelength and D coincides with the telescope diameter (SD case) or the largest diameter of the array antennae or telescopes (interferometric case).
 In interferometry, the correlator can also restrict the fov depending on the trade-off set to build the signal. 
-
+Nominal wavelength SHOULD be taken as the mid value of the spectral range except if data providers have good reasons to propose another value which should be documented in the FIELD DESCRIPTION tag in that case. 
 \subsection{s\_resolution}
 \label{sec:res}
 In the case of SD using mono- or multi-feed/PAF receivers this is the beam size inferred from the wavelength and telescope diameter.
 In the case of interferometry, a typical value for the spatial resolution will be given by $\lambda / L$ where $\lambda$
 is the %mid value of the spectral range
 receiver nominal wavelength and L is the longest distance in the \emph{uv} plane.
-
-For beamforming applied to SD \emph{s\_resolution} is set by the size of one individual electronically-formed beam, while in the interferometric
-case it is ruled by the maximum distance among the radio stations.
+As above nominal wavelength SHOULD be taken as the mid value of the spectral range except if data providers want  
+for secific reasons. 
+For beamforming applied to SD \emph{s\_resolution} is set by the size of one individual electronically-formed beam.
+%while in the interferometric case it is ruled by the maximum distance among the radio stations.
+% redondant statement above ?
  
 \subsection{s\_region}
 The shape of the covered region. 
@@ -323,17 +325,20 @@ querying parameters we propose to add to ObsCore in order to better describe rad
 The last column indicates if the attribute is useful for all radio datasets or only for visibilities, beam forming, or single dish data.
 
 \subsection{spatial parameters}
-Typical values of the parameters s\_fov and s\_resolution  are estimated assuming the typical value of the spectral range which can be considered as (em\_max - em\_min)/2
-\emph{s\_fov\_min, s\_fov\_max} are estimated like the typical value (see subsection \ref{sec:fov}). 
+
+For extended spectral range datasets \emph{s\_fov\_min, s\_fov\_max} are estimated like in the typical value case (see subsection \ref{sec:fov}).  
 In the case of SD pointed observations with mono-feed receivers and the majority of interferometric observations the minimum and maximum
-$\lambda$ values in the spectral range(s) will be used in the formula. In the case of mapping scans or multi-feed/PAF receivers
-\emph{ s\_fov\_min} and \emph{s\_fov\_max} are derived as the minimum and maximum sizes of the circular region encompassing the covered area.
+$\lambda$ values in the spectral range(s) will be used in the formula to estimate respectively \emph{s\_fov\_min} and  emph{s\_fov\_max}. \\
+In the case of mapping scans or multi-feed/PAF receivers \emph{ s\_fov\_min} and \emph{s\_fov\_max} are derived as the minimum and maximum sizes of the 
+circular region encompassing the covered area.
 
 
-\emph{s\_resolution\_min, s\_resolution\_max} are estimated like the typical value (see subsection \ref{sec:res}) where $\lambda$ is replaced by the minimum and maximum wavelength of the spectral range(s). The size D is the telescope diameter for SD observations and the largest distance in the \emph{uv} plane. Beam forming may represent an exception to this rule, see \ref{sec:res}.
+\emph{s\_resolution\_best, s\_resolution\_worse} are estimated like the typical value (see subsection \ref{sec:res}) where $\lambda$ is replaced respectively by the minimum and maximum wavelength of the spectral range(s). The size D is the telescope diameter for SD observations and the largest distance in the \emph{uv} plane for interferometry. Beam forming may represent an exception to this rule, see \ref{sec:res}.
 
-In the case of interferometry, the \emph{s\_maximum\_angular\_scale} is estimated as $\lambda/l$ where $\lambda$ is the typical
-wavelength and l is the typical smallest distance in the \emph{uv} plane.
+In the case of interferometry, we introduce the new \emph{s\_maximum\_angular\_scale} which is estimated as $\lambda/l$ where $\lambda$ is the typical
+wavelength (and again typical value SHOULD be estimated as the mid value of the spectral range apart from documented exceptions) and l is the typical smallest distance in the \emph{uv} plane. This parameter is not relevant for other observation modes.
+The maximum angular scale is also variable along the spectral range. That's why we bound it with \emph{s\_maximum\_angular\_scale\_min} and \emph{s\_maximum\_angular\_scale\_max} estimated as  respectively $\lambda\_min/l$ and  $\lambda\_max/l$
+
 
 
 \subsection{frequency characterization}
