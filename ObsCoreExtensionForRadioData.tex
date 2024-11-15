@@ -649,11 +649,18 @@ order to make it directly available for service users .
 \label{sec:registry}
 
 Services compliant with this specification are registered using
-VODataService \citep{2021ivoa.spec.1102D} tablesets. Compliant tables
+VODataService \citep{2021ivoa.spec.1102D} tablesets. The view table providing the
+join between the basic ObsCore table  and the obscore_radio table
 use the utype
 $$
 \hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore#radioExt-1.0}.}
 $$
+and this is a signature of the compliance of the service with the current specification.
+
+Discovering the obscore_radio table alone would be  irrelevant  because querying this
+extension table per se doesn't make sense.
+However, being sure our ivoa schema  contains both the ObsCore table and the obscore_radio table,
+the user is able  to  build any natural JOIN query between these two tables. 
 
 While it is admitted that the table only sits in the tableset of the
 embedding TAP service, implementors are urged to use a seperate registry
@@ -663,15 +670,15 @@ on coverage in space, time, and spectrum as per VODataService 1.2 can
 be communicated to the Registry, which, again, data providers are urged
 to do. There is no expectation that the coverage information only
 pertains to data with entries in \verb|ivoa.obscore_radio|, i.e., it may be
-a copy of the coverage of the basic ObsCore table.\todo{Is that
+a copy of the coverage of the basic ObsCore table.\footnote{Is that
 acceptable? Or should we require pure radio coverage?}
 
-A sample registry record for an obscore\_radio table comes with this
-specification\footnote{\auxiliaryurl{sample-record.xml}}.
+%A sample registry record for an obscore\_radio table comes with this
+%specification\footnote{\auxiliaryurl{sample-record.xml}}.
 
-In order to find out directly if the ivoa schema contains the radio extension
-the schema MUST be defined in the registry with the utype
-\hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore#obscore-radioExt-1.0}}
+%In order to find out directly if the ivoa schema contains the radio extension
+%the schema MUST be defined in the registry with the utype
+%\hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore#obscore-radioExt-1.0}}
 
 To obtain access URLs of all TAP services that have compliant tables
 together with their table names (which in this major version are fixed
@@ -689,19 +696,19 @@ AND intf_role='std'
 AND table_utype LIKE 'ivo://ivoa.net/std/ObsCore#radioExt-%'
 \end{lstlisting}
 
-Alternatively the schema and tables can be discovered this way
+%Alternatively the schema and tables can be discovered this way
 
-\begin{lstlisting}
-SELECT DISTINCT(access_url), table_name, schema_name
-FROM rr.res_table
-NATURAL JOIN rr.capability
-NATURAL JOIN rr.interface
-NATURAL JOIN rr.res_schema
-WHERE 
-standard_id LIKE 'ivo://ivoa.net/std/tap%'
-AND intf_role='std'
-AND schema_utype LIKE 'ivo://ivoa.net/std/ObsCore#obscore-radioExt-%'
-\end{lstlisting}
+%\begin{lstlisting}
+%SELECT DISTINCT(access_url), table_name, schema_name
+%FROM rr.res_table
+%NATURAL JOIN rr.capability
+%NATURAL JOIN rr.interface
+%NATURAL JOIN rr.res_schema
+%WHERE 
+%standard_id LIKE 'ivo://ivoa.net/std/tap%'
+%AND intf_role='std'
+%AND schema_utype LIKE 'ivo://ivoa.net/std/ObsCore#obscore-radioExt-%'
+%\end{lstlisting}
 
 \appendix
 
