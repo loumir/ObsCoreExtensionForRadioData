@@ -650,14 +650,14 @@ order to make it directly available for service users .
 
 Services compliant with this specification are registered using
 VODataService \citep{2021ivoa.spec.1102D} tablesets. The view table providing the
-join between the basic ObsCore table  and the obscore_radio table
+join between the basic ObsCore table  and the obscore\_radio table
 use the utype
 $$
 \hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore#radioExt-1.0}.}
 $$
 and this is a signature of the compliance of the service with the current specification.
 
-Discovering the obscore_radio table alone would be  irrelevant  because querying this
+Discovering the obscore\_radio table alone would be  irrelevant  because querying this
 extension table per se doesn't make sense.
 However, being sure our ivoa schema  contains both the ObsCore table and the obscore_radio table,
 the user is able  to  build any natural JOIN query between these two tables. 
