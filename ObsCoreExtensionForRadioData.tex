@@ -574,10 +574,10 @@ order to make it directly available for service users .
 \caption{ObsCore extension proposal for radio data}
 \label{tab:ExtensionAtt}
 \end{longtable}
-\end{landscape}
+%\end{landscape}
 
 %second table
-\begin{landscape}
+%\begin{landscape}
 \begin{longtable}{l  p{4cm} p{4cm} p{4.5cm} l l l}
 \sptablerule
 \textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}&\textbf{validity}\cr
@@ -586,7 +586,7 @@ order to make it directly available for service users .
 %Not useful to use the term in the name .
 %\texttt{instr\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&instr.baseline;meta.number& \cr
 \sptablerule
-\texttt{instr\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.AntNumber}&meta.number;instr.param&&interferometry, \newline beamforming \cr
+\texttt{instr\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param&&interferometry, \newline beamforming \cr
 \sptablerule
 % same for all antenae features
 \texttt{instr\_ant\_min\_dist}&\texttt{minimum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m&interferometry \cr
@@ -599,7 +599,7 @@ order to make it directly available for service users .
 \sptablerule
 \texttt{scan\_mode}&\texttt{scan mode (on-off, \newline raster map, on-the-fly map,...)\newline }&\texttt{Provenance.\newline Observation.\newline sky\_scan\_mode}&instr.param&& radio \cr
 \sptablerule
-\texttt{tracking\_mode}&\texttt{targeted, alt-azimuth, wobble, ...)\newline }&\texttt{Provenance.Observation.\newline tracking\_mode}&instr.param&& radio \cr
+\texttt{tracking\_mode}&\texttt{targeted, alt-azimuth, wobble, ...)\newline }&\texttt{Provenance.\newline Observation.\newline tracking\_mode}&instr.param&& radio \cr
 \caption{ObsCore extension proposal for instrumental parameters for radio data}
 \label{tab:ExtensionAtt_instrumental}
 \end{longtable}
