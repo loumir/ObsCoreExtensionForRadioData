@@ -335,9 +335,9 @@ circular region encompassing the covered area.
 
 \emph{s\_resolution\_best, s\_resolution\_worse} are estimated like the typical value (see subsection \ref{sec:res}) where $\lambda$ is replaced respectively by the minimum and maximum wavelength of the spectral range(s). The size D is the telescope diameter for SD observations and the largest distance in the \emph{uv} plane for interferometry. Beam forming may represent an exception to this rule, see \ref{sec:res}.
 
-In the case of interferometry, we introduce the new \emph{s\_maximum\_angular\_scale} which is estimated as $\lambda/l$ where $\lambda$ is the typical
+In the case of interferometry, we introduce the new \emph{s\_largest\_angular\_scale} which is estimated as $\lambda/l$ where $\lambda$ is the typical
 wavelength (and again typical value SHOULD be estimated as the mid value of the spectral range apart from documented exceptions) and l is the typical smallest distance in the \emph{uv} plane. This parameter is not relevant for other observation modes.
-The maximum angular scale is also variable along the spectral range. That's why we bound it with \emph{s\_maximum\_angular\_scale\_min} and \emph{s\_maximum\_angular\_scale\_max} estimated as  respectively $\lambda\_min/l$ and  $\lambda\_max/l$
+The largest angular scale is also variable along the spectral range. That's why we bound it with \emph{s\_largest\_angular\_scale\_min} and \emph{s\_largest\_angular\_scale\_max} estimated as  respectively $\lambda\_min/l$ and  $\lambda\_max/l$
 
 
 
@@ -539,11 +539,11 @@ order to make it directly available for service users .
 \sptablerule
 \texttt{s\_fov\_max}&\texttt{field of view diameter,  max value, min frequency dependant}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.HiLim}&{phys.angSize;instr.fov;\newline stat.max}&deg&radio\cr
 \sptablerule
-\texttt{s\_maximum\_angular\_scale}&\texttt{maximum scale in dataset, shortest baseline and  for typical frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim}&{phys.angSize;stat.max}&arcsec&interferometry\cr
+\texttt{s\_largest\_angular\_scale}&\texttt{maximum scale in dataset, shortest baseline and  for typical frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim}&{phys.angSize;stat.max}&arcsec&interferometry\cr
 \sptablerule
-\texttt{s\_maximum\_angular\_scale\_min}&\texttt{smallest maximum scale in dataset, shortest baseline and for highest frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim.Low}&{phys.angSize;stat.max}&arcsec&interferometry\cr
+\texttt{s\_largest\_angular\_scale\_min}&\texttt{smallest maximum scale in dataset, shortest baseline and for highest frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim.Low}&{phys.angSize;stat.max}&arcsec&interferometry\cr
 \sptablerule
-\texttt{s\_maximum\_angular\_scale\_max}&\texttt{largest maximum scale in dataset, shortest baseline and  for lowest frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim.Hi}&{phys.angSize;stat.max}&arcsec&interferometry\cr
+\texttt{s\_largest\_angular\_scale\_max}&\texttt{largest maximum scale in dataset, shortest baseline and  for lowest frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim.Hi}&{phys.angSize;stat.max}&arcsec&interferometry\cr
 \sptablerule
 %\texttt{f\_min}&\texttt{spectral coverage min in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.LoLim}&{em.freq;stat.min}&Mhz&radio\cr
 %\sptablerule
