@@ -417,8 +417,8 @@ Such instrumental characteristics give an approximate idea on the spanned angula
 
 The more global parameter to define is the instrument type allowing to discriminate single dish observations from interferometry or beam forming ones.
 
-Parameters \emph{instr\_ant\_number, instr\_ant\_min\_dist} and  \emph{instr\_ant\_max\_dist} are related to interferometers only while 
-\emph{instr\_ant\_diameter, instr\_feed } are valid also for SD.
+Parameters \emph{instr\_tel\_number, instr\_tel\_min\_dist} and  \emph{instr\_tel\_max\_dist} are related to interferometers only while 
+\emph{instr\_tel\_diameter, instr\_feed } are valid also for SD.
 We note that \emph{instr\_feed} could also  account for the number of beams in the case of a beam forming/PAF receiver.
 
 The scanning strategy adopted in an observation is described by the parameter \emph{scan\_mode}. This parameter covers both spatial
@@ -583,16 +583,16 @@ order to make it directly available for service users .
 \sptablerule
 % mireille here for antennas features , it is clear it belongs to instrument.
 %Not useful to use the term in the name .
-%\texttt{instr\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&instr.baseline;meta.number& \cr
+%\texttt{instr\_tel\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&instr.baseline;meta.number& \cr
 \sptablerule
-\texttt{instr\_ant\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param&&interferometry, \newline beamforming \cr
+\texttt{instr\_tel\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param&&interferometry, \newline beamforming \cr
 \sptablerule
 % same for all antenae features
-\texttt{instr\_ant\_min\_dist}&\texttt{minimum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m&interferometry \cr
+\texttt{instr\_tel\_min\_dist}&\texttt{minimum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m&interferometry \cr
 \sptablerule
-\texttt{instr\_ant\_max\_dist}&\texttt{maximum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MaxDist}&instr.baseline;stat.max&m&interferometry \cr
+\texttt{instr\_tel\_max\_dist}&\texttt{maximum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MaxDist}&instr.baseline;stat.max&m&interferometry \cr
 \sptablerule
-\texttt{instr\_ant\_diameter}&\texttt{diameter of telecope or antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr.param&m&radio \cr
+\texttt{instr\_tel\_diameter}&\texttt{diameter of telecope or antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr.param&m&radio \cr
 \sptablerule
 \texttt{instr\_feed}&\texttt{number of feeds}&\texttt{Provenance.ObsConfig.\newline Instrument.Feed}&instr.param&& radio  \cr
 \sptablerule
