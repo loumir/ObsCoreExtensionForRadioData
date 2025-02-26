@@ -686,7 +686,13 @@ to \verb|ivoa.obscore_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
 query like:
 
 \begin{lstlisting}
-C
+SELECT DISTINCT(access_url), table_name
+FROM rr.res_table
+NATURAL JOIN rr.capability
+NATURAL JOIN rr.interface
+WHERE
+standard_id LIKE 'ivo://ivoa.net/std/tap%'
+AND intf_role='std'
 AND table_utype LIKE 'ivo://ivoa.net/std/ObsCore#radioExt-%'
 \end{lstlisting}
 
