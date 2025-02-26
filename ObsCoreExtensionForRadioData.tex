@@ -441,9 +441,9 @@ The ObsCore Extension for Radio is accessed as a table within a TAP
 \citep{2019ivoa.spec.0927D} service.\footnote{I think we should require a
 few UDFs on TAP services: ivo\_interval\_overlaps, ivo\_specconv}  At this
 point, the name of this table is fixed to \verb|ivoa.obscore_radio|.
-However, in order to allow for later evolution -- which may allow
-multiple compliant tables per service --, this name should not be used
-for discovery (see sect.~\ref{sec:registry}).
+%However, in order to allow for later evolution -- which may allow
+%multiple compliant tables per service --, this name should not be used
+%for discovery (see sect.~\ref{sec:registry}).
 
 A TAP service that has \verb|ivoa.obscore_radio| must also have a table
 compliant to any version 1 of ObsCore, i.e., a table
@@ -648,13 +648,14 @@ order to make it directly available for service users .
 \label{sec:registry}
 
 Services compliant with this specification are registered using
-VODataService \citep{2021ivoa.spec.1102D} tablesets. The view table providing the
-join between the basic ObsCore table  and the obscore\_radio table
-use the utype
-$$
-\hbox{\nolinkurl{ivo://ivoa.net/std/obscore#radioext-1.0}.}
-$$
-and this is a signature of the compliance of the service with the current specification.
+VODataService \citep{2021ivoa.spec.1102D} tablesets. 
+%The view table providing the
+%join between the basic ObsCore table  and the obscore\_radio table
+%use the utype
+%$$
+%\hbox{\nolinkurl{ivo://ivoa.net/std/obscore#radioext-1.0}.}
+%$$
+%and this is a signature of the compliance of the service with the current specification.
 
 Discovering the obscore\_radio table alone would be  irrelevant  because querying this
 extension table per se doesn't make sense.
@@ -685,13 +686,7 @@ to \verb|ivoa.obscore_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
 query like:
 
 \begin{lstlisting}
-SELECT DISTINCT(access_url), table_name
-FROM rr.res_table
-NATURAL JOIN rr.capability
-NATURAL JOIN rr.interface
-WHERE
-standard_id LIKE 'ivo://ivoa.net/std/tap%'
-AND intf_role='std'
+C
 AND table_utype LIKE 'ivo://ivoa.net/std/ObsCore#radioExt-%'
 \end{lstlisting}
 
