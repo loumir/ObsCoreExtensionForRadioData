@@ -656,10 +656,15 @@ VODataService \citep{2021ivoa.spec.1102D} tablesets.
 %\hbox{\nolinkurl{ivo://ivoa.net/std/obscore#radioext-1.0}.}
 %$$
 %and this is a signature of the compliance of the service with the current specification.
+Due to the status of the current specification as an endorsed note, and in prevision of a major 
+upgrade of the ObsCore specification itself which will address the definition of standardID for the 
+different extensions and recomand how to expose them in the compliant services, we don't define
+any standardID for the extension yet. The discovery of the services and schema containing the
+radio extension  table MUST be done using the table_name only as stated below.
 
-Discovering the obscore\_radio table alone would be  irrelevant  because querying this
-extension table per se doesn't make sense.
-However, being sure our ivoa schema  contains both the ObsCore table and the obscore\_radio table,
+However, discovering the obscore\_radio table alone would be  irrelevant  because querying this
+extension table per se doesn't make sense. The same schema MUST also contain the ObsCore table.   
+Being sure our ivoa schema  contains these both tables,
 the user is able  to  build any natural JOIN query between these two tables. 
 
 While it is admitted that the table only sits in the tableset of the
@@ -686,14 +691,16 @@ to \verb|ivoa.obscore_radio|), use a RegTAP \citep{2019ivoa.spec.1011D}
 query like:
 
 \begin{lstlisting}
-SELECT DISTINCT(access_url), table_name
+SELECT DISTINCT(access_url), schema_name, table_name
 FROM rr.res_table
 NATURAL JOIN rr.capability
 NATURAL JOIN rr.interface
+NATURAL JOIN rr.res_schema
 WHERE
 standard_id LIKE 'ivo://ivoa.net/std/tap%'
 AND intf_role='std'
-AND table_utype LIKE 'ivo://ivoa.net/std/ObsCore#radioExt-%'
+AND table_name LIKE '%obs_radio'
+AND schema_name LIKE '%ivoa%'
 \end{lstlisting}
 
 %Alternatively the schema and tables can be discovered this way
