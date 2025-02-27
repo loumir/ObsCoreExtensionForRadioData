@@ -442,6 +442,9 @@ The ObsCore Extension for Radio is accessed as a table within a TAP
 \citep{2019ivoa.spec.0927D} service.\footnote{I think we should require a
 few UDFs on TAP services: ivo\_interval\_overlaps, ivo\_specconv}  At this
 point, the name of this table is fixed to \verb|ivoa.obscore_radio|.
+Within the ivoa, it is forbidden to use this name for anything else than a table compliant
+with this specification.
+
 %However, in order to allow for later evolution -- which may allow
 %multiple compliant tables per service --, this name should not be used
 %for discovery (see sect.~\ref{sec:registry}).
