@@ -295,7 +295,8 @@ coefficients of the image Fourier transform. Its UCD string is \emph{stat.fourie
 
 \subsection{t\_exptime}
 Total duration of the observation for the given dataset or ObsCore entry. For instance  in case of multiple targets, \emph{t\_exptime}
-will be computed for each source and written in the appropriate ObsCore Table entry.
+will be computed for each source and written in the appropriate ObsCore Table entry. The specific case of time series is adressed in another
+specification.
 
 
 
@@ -406,10 +407,10 @@ in the preliminary analysis $N^{uv}_{samples} = 1000$.
 
 % Mireille: moved time param below uv space because uv plane deals with spatial features
 
-\subsection{time parameters}
-When the sampling along the time axis is not even, 
-\emph{t\_exp\_min, t\_exp\_max} and \emph{t\_exp\_mean} need to be added to cope with the variation in the individual time samples
-duration. This is usually not the case for SD data and \emph{t\_exp\_min, t\_exp\_max} will be set to NULL in this case.
+%\subsection{time parameters}
+%When the sampling along the time axis is not even, 
+%\emph{t\_exp\_min, t\_exp\_max} and \emph{t\_exp\_mean} need to be added to cope with the variation in the individual time samples
+%duration. This is usually not the case for SD data and \emph{t\_exp\_min, t\_exp\_max} will be set to NULL in this case.
 
 \subsection{observational configuration and instrumental parameters}
 These parameters are intended to describe the main telescope(s) characteristics for both SD antennas and interferometers. 
@@ -550,12 +551,12 @@ order to make it directly available for service users .
 %\sptablerule
 \texttt{f\_resolution}&\texttt{absolute spectral resolution in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.HiLim}&{em.freq;stat.max}&Khz&radio\cr
 \sptablerule
-\texttt{t\_exp\_min}&\texttt{minimum integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline LoLim}&{time.duration;obs.exposure;\newline stat.min}&s&radio\cr
-\sptablerule
-\texttt{t\_exp\_max}&\texttt{maximum integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline HiLim}&{time.duration;obs.exposure;\newline stat.max}&s&radio\cr
-\sptablerule
-\texttt{t\_exp\_mean}&\texttt{average integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline HiLim}&{time.duration;obs.exposure\newline stat.mean}&s&radio\cr
-\sptablerule
+%\texttt{t\_exp\_min}&\texttt{minimum integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline LoLim}&{time.duration;obs.exposure;\newline stat.min}&s&radio\cr
+%\sptablerule
+%\texttt{t\_exp\_max}&\texttt{maximum integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline HiLim}&{time.duration;obs.exposure;\newline stat.max}&s&radio\cr
+%\sptablerule
+%\texttt{t\_exp\_mean}&\texttt{average integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline HiLim}&{time.duration;obs.exposure\newline stat.mean}&s&radio\cr
+%\sptablerule
 \texttt{uv\_distance\_min}&\texttt{minimal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;\newline stat.min&m&interferometry \cr
 \sptablerule
 \texttt{uv\_distance\_max}&\texttt{maximal distance in uv plane}&\texttt{Char.UVAxis.\newline  Coverage.Bounds.\newline Limits.LoLim}&stat.fourier;pos;\newline stat.max&m&interferometry \cr
