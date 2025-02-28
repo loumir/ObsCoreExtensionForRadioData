@@ -432,7 +432,7 @@ We include the same term here in the extension.
 \subsection{Auxiliary datasets useful for data quality estimation}
 
 Auxiliary datasets such as  \emph{uv} distribution map, dirty beam maps, frequency/amplitude plots, phase/amplitude plots are useful for astronomers to check data quality.
-In that case DataLink \citep{2015ivoa.spec.0617D} may provide a solution to attach these auxiliary data to ObsCore records. The semantics FIELD in the \{link\}
+In that case DataLink \citep{2023ivoa.spec.1215B} may provide a solution to attach these auxiliary data to ObsCore records. The semantics FIELD in the \{link\}
 response  will contain \#auxiliary  for links to these maps or plots while  the content\_qualifier FIELD introduced from 1.1  could contain a vocabulary as defined in ( TO BE COMPLETED ).
 
 
@@ -671,16 +671,16 @@ extension table per se doesn't make sense. The same schema MUST also contain the
 Being sure our ivoa schema  contains these both tables,
 the user is able  to  build any natural JOIN query between these two tables. 
 
-While it is admitted that the table only sits in the tableset of the
-embedding TAP service, implementors are urged to use a seperate registry
-record with the main TAP service as an auxiliary capability
-\citep{2019ivoa.spec.0520D}. In this way, meaningful information
-on coverage in space, time, and spectral axes as per VODataService 1.2 can
-be communicated to the Registry, which, again, data providers are urged
-to do. There is no expectation that the coverage information only
-pertains to data with entries in \verb|ivoa.obscore_radio|, i.e., it may be
-a copy of the coverage of the basic ObsCore table.\footnote{Is that
-acceptable? Or should we require pure radio coverage?}
+%While it is admitted that the table only sits in the tableset of the
+%embedding TAP service, implementors are urged to use a seperate registry
+%record with the main TAP service as an auxiliary capability
+%\citep{2019ivoa.spec.0520D}. In this way, meaningful information
+%on coverage in space, time, and spectral axes as per VODataService 1.2 can
+%be communicated to the Registry, which, again, data providers are urged
+%to do. There is no expectation that the coverage information only
+%pertains to data with entries in \verb|ivoa.obscore_radio|, i.e., it may be
+%a copy of the coverage of the basic ObsCore table.\footnote{Is that
+%acceptable? Or should we require pure radio coverage?}
 
 %A sample registry record for an obscore\_radio table comes with this
 %specification\footnote{\auxiliaryurl{sample-record.xml}}.
@@ -726,17 +726,6 @@ AND schema_name LIKE '%ivoa%'
 \input{Appendix.tex}
 
 
-\bibliography{ivoatex/ivoabib,ivoatex/docrepo
-@misc{2023ivoa.spec.1215B,
-author = {{Bonnarel}, Fran{\c{c}}ois and {Dowler}, Patrick and {Michel}, Laurent and {Demleitner}, Markus and {Taylor}, Mark},
-title = "{IVOA DataLink Version 1.1}",
-howpublished = {IVOA Recommendation 15 December 2023},
-year = 2023,
-month = dec,
-pages = {1215},
-doi = {10.5479/ADS/bib/2023ivoa.spec.1215B},
-adsurl = {https://ui.adsabs.harvard.edu/abs/2023ivoa.spec.1215B},
-adsnote = {Provided by the SAO/NASA Astrophysics Data System}
-}}
+\bibliography{ivoatex/ivoabib,ivoatex/docrepo,addoc.bib}
 
 \end{document}
