@@ -8,9 +8,8 @@ DOCVERSION = 1.0
 
 # Publication date, ISO format; update manually for "releases"
 DOCDATE = 2025-02-28
-
 # What is it you're writing: NOTE, WD, PR, or REC
-DOCTYPE = PR
+DOCTYPE = PEN
 
 AUTHOR_EMAIL=francois.bonnarel@astro.unistra.fr
 
