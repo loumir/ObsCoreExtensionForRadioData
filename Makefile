@@ -23,7 +23,7 @@ SOURCES = $(DOCNAME).tex role_diagram.pdf Appendix.tex
 FIGURES = role_diagram.pdf
 
 # List of PDF figures (for vector graphics)
-VECTORFIGURES = 
+VECTORFIGURES = role_diagram.svg
 
 # Additional files to distribute (e.g., CSS, schema files, examples...)
 AUX_FILES =
