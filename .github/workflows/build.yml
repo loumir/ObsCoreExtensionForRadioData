@@ -23,11 +23,9 @@ jobs:
       run: |
         sudo apt update
         sudo apt install texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended xsltproc latexmk cm-super
-      
+        
     - name: Build the document
-      run: 
-        make update  # this pulls in the current ivoatex
-        make update-ci
+      run: make
       
     - name: Check the output
       run: |
