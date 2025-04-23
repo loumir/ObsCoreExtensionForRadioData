@@ -41,6 +41,12 @@
 
 
 
+%definition of table names 
+%\def\radioexttable {ivoa.obscore-radio-ext} % explicit 
+\def\radioexttable {ivoa.obsradio} % not explicitely related to Obscore 
+\def\radioexttable {ivoa.obscore-radio} 
+%definition of standard id for  utypes content 
+%\def\obsradioSTDID {ivo://ivoa.net/std/obscore-radio-ext#table-1.0} 
 
 \begin{document}
 
@@ -432,8 +438,8 @@ We include the same term here in the extension.
 \subsection{Auxiliary datasets useful for data quality estimation}
 
 Auxiliary datasets such as  \emph{uv} distribution map, dirty beam maps, frequency/amplitude plots, phase/amplitude plots are useful for astronomers to check data quality.
-In that case DataLink \citep{2023ivoa.spec.1215B} may provide a solution to attach these auxiliary data to ObsCore records. The semantics FIELD in the \{link\}
-response  will contain \#auxiliary  for links to these maps or plots while  the content\_qualifier FIELD introduced from 1.1  could contain a vocabulary as defined in ( TO BE COMPLETED ).
+In that case DataLink \citep{2023ivoa.spec.1215B} may provide a solution to attach these auxiliary data to ObsCore records. The \texttt{semantics} FIELD in the \{link\}
+response  will contain \#auxiliary  for links to these maps or plots while  the \texttt{content\_qualifier} FIELD introduced from 1.1  could contain a term from a defined vocabulary (to be defined) following the IVOA vocabulary definition  \citep{2021ivoa.spec.0525D}.
 
 
 \section{The ivoa.obscore\_radio table}
@@ -607,7 +613,7 @@ WHERE
 \label{tab:ExtensionAtt_instrumental}
 \end{longtable}
 \end{landscape}
-% c!ommented below : Markus PR version
+% commented below : Markus PR version
 %\section{Registry Aspects}
 %\label{sec:registry}
 %
