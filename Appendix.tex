@@ -23,10 +23,13 @@ II Target Virgo A or position inside 15 arcmin from 187.7059308,+12.3911232 \\
 III Scan mode is raster map or on-the-fly map
 
 \begin{verbatim}
-s_resolution_min > 0.017 AND
-WHERE (target_name = 'Virgo A' OR
-CONTAINS(POINT(s_ra, s_dec),CIRCLE,187.7059308,+12.3911232,0.25)) = 1)) AND
-(scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
+SELECT * FROM ivoa.obscore
+NATURAL JOIN  ivoa.obscore-radio 
+WHERE
+s_resolution_min > 0.017 
+ AND (target_name = 'Virgo A' OR
+CONTAINS(POINT(s_ra, s_dec),CIRCLE,187.7059308,+12.3911232,0.25)) = 1)) 
+AND  (scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
 \end{verbatim}
 
 \subsection{Use case - s\_resolution\_max}
@@ -38,10 +41,13 @@ I. Maximum spatial resolution < 0.017 deg \\
 II Target IC443 or position inside 15 arcmin from 94.2500000,+22.5699997 \\
 
 \begin{verbatim}
-s_resolution_max < 0.017 AND
-WHERE (target_name = 'IC443' OR
-CONTAINS(POINT(s_ra,s_dec),CIRCLE(94.2500000,+22.5699997,0.25)) = 1)) AND
-(scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
+SELECT * FROM ivoa.obscore
+NATURAL JOIN  ivoa.obscore-radio 
+WHERE s_resolution_max < 0.017 
+AND
+ (target_name = 'IC443' OR
+CONTAINS(POINT(s_ra,s_dec),CIRCLE(94.2500000,+22.5699997,0.25)) = 1)) 
+AND (scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
 \end{verbatim}
 
 \subsection{Use case - s\_fov\_min - large field of views}
@@ -52,11 +58,12 @@ Show me all datasets satisfying:\\
 I. Minimum FOV > 0.8 deg \\
 II Target name = Abell 194 or position inside 15 arcmin from 21.5054167, -1.3672221 \\
 \begin{verbatim}
-SELECT * FROM ivoa.ObscoreRadioExtended
+SELECT * FROM ivoa.obscore
+NATURAL JOIN  ivoa.obscore-radio 
 WHERE s_fov_min > 0.8 AND
 (target_name = 'Abell 194' OR
-CONTAINS(POINT(s_ra,s_dec),CIRCLE(21.5054167,-1.3672221,0.25)) = 1)) AND
-(scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
+CONTAINS(POINT(s_ra,s_dec),CIRCLE(21.5054167,-1.3672221,0.25)) = 1)) 
+AND (scan_mode = 'raster map' OR scan_mode = 'on-the-fly map')
 \end{verbatim}
 
 \subsection{Use case - s\_fov\_min - extended target completly included}
@@ -66,6 +73,8 @@ Show me all datasets satisfying: \\
 I. Target name = Pictor A \\
 II. The circle defined by the minimum FOV of the dataset fully contains the circle delimiting Pictor A. \\
 \begin{verbatim}
+SELECT * FROM ivoa.obscore
+NATURAL JOIN  ivoa.obscore-radio 
 WHERE target_name = 'Pictor A' AND
 CONTAINS(CIRCLE(79.9571789, -45.7788479,(8/60)/2),
 CIRCLE(s_ra, s_dec, s_fov_min/2)) = 1)
@@ -79,13 +88,15 @@ II. obs\_collection = ?INAF-Medicina, single dish?\\
 III. Observed frequency in the range 20-21 GHz \\
 IV. dataproduct\_type = spatial\_profile or scan\_mode contains map\\
 V. 51544 < observation time (MJD) < 60309 \\
+
 \begin{verbatim}
-SELECT * FROM ivoa.ObscoreRadioExtended
-WHERE obs_collection EQ ?INAF-Medicina, single dish? AND
-(em_min >=20000 AND em_max <= 21000) AND
-(dataproduct_type EQ 'spatial profile' OR scan_mode LIKE "*map*") AND
-target_name = '3C48' AND
-(t_min >= 51544 AND t_max <= 60309)
+SELECT * FROM ivoa.obscore
+NATURAL JOIN  ivoa.obscore-radio
+WHERE obs_collection EQ 'INAF-Medicina, single dish' 
+AND (em_min >=20000 AND em_max <= 21000) 
+AND (dataproduct_type EQ 'spatial profile' OR scan_mode LIKE "*map*") 
+AND  target_name = '3C48' 
+AND  (t_min >= 51544 AND t_max <= 60309)
 \end{verbatim}
 
 \subsection{Use case - f\_resolution, frequency ranges}
@@ -99,7 +110,8 @@ II. spectral resolution better than 1 MHz \\
 III. em\_min and em\_max such than frequency bounds are included in the 1GHz to 1.5GHz range \\
 \begin{verbatim}
 SELECT *, 299792458 / em_max as f_min,  299792458 / em_min as f_max 
-FROM ivoa.ObscoreRadioExtended
+FROM ivoa.obscore 
+NATURAL JOIN  ivoa.obscore-radio
 WHERE dataproduct_type = 'cube' AND
 f_resolution < 1000000 AND
 299792458 / em_max  > 1.0 e+9 AND
@@ -112,10 +124,10 @@ Show me all datasets satisfying:\\
 I. Product type is image or cube \\
 II. higher spectral limit < 1Ghz
 \begin{verbatim}
-      SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE (dataproduct_type = 'image' OR
-      dataproduct_type = 'cube') AND
-      299792458 / em_min  < 1e9
+      SELECT * FROM ivoa.obscore
+      WHERE (dataproduct_type = 'image' 
+      OR  dataproduct_type = 'cube') 
+      AND 299792458 / em_min  < 1e9
 \end{verbatim}
 % Mireille Louys: shall we also look for spectra with these frequency constrains ? 
 
@@ -132,9 +144,9 @@ II. higher spectral limit < 1Ghz
 \textit{Give me high-resolution data on possible persistent radio sources within an arc second of FRB 121102:}
 
 \begin{verbatim}
-SELECT * FROM ivoa.obscore NATURAL JOIN ivoa.obs_radio
-WHERE CONTAINS(POINT(s_ra,s_dec),CIRCLE(82.99458,33.14794,0.0003)) = 1 AND
-s_resolution_max < 0.001
+SELECT * FROM ivoa.obscore NATURAL JOIN ivoa.obscore-radio
+WHERE CONTAINS(POINT(s_ra,s_dec),CIRCLE(82.99458,33.14794,0.0003)) = 1 
+AND s_resolution_max < 0.001
 \end{verbatim}
 
 \subsection{Use case - reasonable fidelity}
@@ -143,13 +155,14 @@ s_resolution_max < 0.001
 be imaged with reasonable fidelity:}
 
 \begin{verbatim}
-SELECT * FROM ivoa.obscore NATURAL JOIN ivoa.obs_radio
-WHERE CONTAINS(POINT(s_ra,s_dec),CIRCLE(24.4212500,33.1588889,0.003)) = 1 AND
-s_maximum_angular_scale > 0.018 AND
-uv_distribution_fill > 0.2 AND
-uv_distribution_ecc < 0.75 AND
-em_min < 0.21 AND
-em_max > 0.21
+SELECT * FROM ivoa.obscore 
+NATURAL JOIN ivoa.obscore-radio
+WHERE CONTAINS(POINT(s_ra,s_dec),CIRCLE(24.4212500,33.1588889,0.003)) = 1 
+AND s_largest_angular_scale > 0.018 
+AND uv_distribution_fill > 0.2 
+AND uv_distribution_ecc < 0.75 
+AND em_min < 0.21 
+AND em_max > 0.21
 \end{verbatim}
 
 % end of Mark's (VLBI) science cases
@@ -161,13 +174,10 @@ Show me all  observation identifiers satisfying:\\
 I. DataType = visibility \\
 II. Target Name = Fornax Cluster \\
 \begin{verbatim}
-      SELECT obs_id FROM ivoa.ObscoreRadioExtended
-      WHERE dataproduct_type = 'visibility'
-      target_name = 'Fornax cluster'
+      SELECT obs_id FROM ivoa.obscore
+      WHERE dataproduct_type = 'visibility' 
+      AND target_name = 'Fornax cluster'
 \end{verbatim}
-
-
-
 
 
 \subsection{Use case - maximum angular scale selection}
@@ -177,11 +187,11 @@ I. Product type is visibility \\
 II. Maximum angular scale  >  0.018 deg \\
 III. Position within 1 arcsec of 82.99458 + 33.14794
 \begin{verbatim}
-      SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE dataproduct_type = 'visibility' AND
-      max_angular_scale > 0.018 AND
-      max_angular_scale > 0.018 AND
-      CONTAINS(POINT(s_ra,s_dec),CIRCLE(82.99458, 33.14794,0.0003)) = 1))
+      SELECT * FROM ivoa.obscore 
+      NATURAL JOIN  ivoa.obscore-radio
+      WHERE dataproduct_type = 'visibility' 
+      AND s_largest_angular_scale_max  > 0.018 
+      AND CONTAINS(POINT(s_ra,s_dec),CIRCLE(82.99458, 33.14794,0.0003)) = 1))
 \end{verbatim}
 
 \subsection{Use case - maximum angular scale selection with reasonable fidelity}
@@ -194,12 +204,13 @@ III. uv distribution filling factor  > 0.7 \\
 IV. uv distribtion factor eccentricity  < 0.1 \\
 V. Position within 1 arcsec of 82.99458 + 33.14794
 \begin{verbatim}
-      SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE dataproduct_type = 'visibilty' AND
-      max_angular_scale > 0.018 AND
-      uv_distribution_fill > 0.7 AND
-      uv_distribution_ecc < 0.1 AND 
-      CONTAINS(POINT(s_ra,s_dec),CIRCLE(82.99458, 33.14794,0.0003)) =1))
+      SELECT * FROM ivoa.obscore 
+      NATURAL JOIN  ivoa.obscore-radio
+      WHERE dataproduct_type = 'visibilty' 
+      AND s_largest_angular_scale_max > 0.018 
+      AND uv_distribution_fill > 0.7 
+      AND uv_distribution_ecc < 0.1  
+      AND CONTAINS(POINT(s_ra,s_dec),CIRCLE(82.99458, 33.14794,0.0003)) =1))
 \end{verbatim}
 
 \subsection{Use case -  time selection }
@@ -211,11 +222,12 @@ III. time resolution < 0.1 s\\
 IIV. maximal duration per sample  < 0.05 s \\
 
 \begin{verbatim}
-      SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE instr_type = 'beamForming' AND
-      dataproduct_type = 'timeseries' AND
-      t_resolution < 0.1 AND
-      t_exp_max < 0.05 
+       SELECT * FROM ivoa.obscore 
+      NATURAL JOIN  ivoa.obscore-radio
+      WHERE instr_type = 'beamForming' 
+      AND dataproduct_type = 'timeseries' 
+      AND t_resolution < 0.1 AND
+      AND t_exp_max < 0.05 
 \end{verbatim}
 
 \subsection{Use case -  instrument type and mode selection }
@@ -227,29 +239,15 @@ II. Scan mode is raster \\
 III. Target name = 3C 273 or \\
 IV. position inside 3 arcmin around  	187.2779159404900 +02.0523882305500
 \begin{verbatim}
-      SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE instr_type = 'SD' AND
-      scan_mode = 'raster' AND
-      (target_name = '3C 273' OR
+      SELECT * FROM ivoa.obscore 
+      NATURAL JOIN  ivoa.obscore-radio
+      WHERE instr_type = 'SD' 
+      AND scan_mode = 'raster' 
+      AND (target_name = '3C 273' OR
        CONTAINS(POINT(s_ra,s_dec), CIRCLE(187.2779159404900, +02.0523882305500,0.05)) = 1)     
 \end{verbatim}
 
 % use case FB 
-\subsection{Use case - instrument type selection}
-\textit{Any single dish or beam forming dataset  with spectral range inside the 500 Mhz - 1Ghz band and in the Coma Cluster.}\\ \\
-Show me all datasets satisfying:\\
-I. Instrument type is Single dish or beam forming \\
-II. lower spectral limit > 500 Mhz \\
-III. higher spectral limit < 1Ghz \\
-IV. position inside 18 arcmin around 194.93502 +27.91246
-\begin{verbatim}
-      SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE (instr_type = 'SD' OR
-      instr_type = 'beamForming') AND
-      CONTAINS(POINT(s_ra,s_dec),CIRCLE(194.93502, +27.91246, 0.3) = 1     
-\end{verbatim}
-
-
 \subsection{Use case - instrument type and frequency selection }
 \textit{Any single dish or beam forming dataset  with spectral range inside the 500 Mhz - 1Ghz band and in the Coma Cluster.}\\ \\
 Show me all datasets satisfying:\\
@@ -259,15 +257,14 @@ III. higher spectral limit < 1Ghz \\
 IV. position inside 18 arcmin around 194.93502 +27.91246
 
 \begin{verbatim}
-      SELECT * FROM ivoa.ObscoreRadioExtended
+      SELECT * FROM ivoa.obscore 
+      NATURAL JOIN  ivoa.obscore-radio
       WHERE (instr_type = 'SD' OR
-      instr_type = 'beamForming') AND
-      f_min > 500 AND
-      f_max < 1000 AND
-      CONTAINS(POINT(s_ra,s_dec),CIRCLE(194.93502, +27.91246, 0.3) = 1     
+      instr_type = 'beamForming') 
+      AND f_min > 500 
+      AND f_max < 1000 
+      AND CONTAINS(POINT(s_ra,s_dec),CIRCLE(194.93502, +27.91246, 0.3) = 1     
 \end{verbatim}
-
-
 
 
 \subsection{Use case - instrument parameters selection }
@@ -278,10 +275,10 @@ II. number of antennae > 40 \\
 III. antenna maximum distance in meters  > 5000 \\
 
 \begin{verbatim}
-      SELECT * FROM ivoa.ObscoreRadioExtended
-      WHERE instr_type = 'interferometry' AND
-      instr_ant_number > 40 AND
-      instr_ant_max_dist > 5000 
+      SELECT * FROM ivoa.obscore-radio
+      WHERE instr_type = 'interferometry' 
+      AND instr_tel_number > 40 
+      AND instr_tel_max_dist > 5000 
 \end{verbatim}
 
 

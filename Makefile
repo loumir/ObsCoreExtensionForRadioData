@@ -7,11 +7,11 @@ DOCNAME = ObsCoreExtensionForRadioData
 DOCVERSION = 1.0
 
 # Publication date, ISO format; update manually for "releases"
-DOCDATE = 2025-02-28
+DOCDATE = 2025-04-25
 # What is it you're writing: NOTE, WD, PR, or REC
 DOCTYPE = PEN
 
-AUTHOR_EMAIL=francois.bonnarel@astro.unistra.fr
+AUTHOR_EMAIL=mireille.louys@unistra.fr, francois.bonnarel@astro.unistra.fr
 
 IVOA_GROUP = Data Model
 
@@ -20,7 +20,7 @@ IVOA_GROUP = Data Model
 SOURCES = $(DOCNAME).tex role_diagram.pdf Appendix.tex
 
 # List of pixel image files to be included in submitted package
-FIGURES = role_diagram.pdf
+FIGURES = role_diagram.pdf SingleDish.png 
 
 # List of PDF figures (for vector graphics)
 VECTORFIGURES = role_diagram.svg
