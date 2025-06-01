@@ -439,29 +439,19 @@ It is applicable to  SD as well as  interferometry cases.
 	\textbf{value}&\textbf{definition}\cr
 \sptablerule
 \sptablerule
-	\texttt{on}&\texttt{pointed measurement, total power}\cr
+	\texttt{on-source}&\texttt{pointed measurement}\cr
 \sptablerule
-	\texttt{on-spectral}&\texttt{pointed spectrum}\cr
+	\texttt{on-off}&\texttt{switched measurements between two positions (source and background)}\cr
 \sptablerule
-	\texttt{on-off}&\texttt{switched measurements between two positions}\cr
-\sptablerule
-	\texttt{on-off-spectral}&\texttt{switched spectral measurements between two positions}\cr
-\sptablerule
-	\texttt{raster}&\texttt{successive measurement spots on a rectangular mesh}\cr
-\sptablerule
-	\texttt{raster-spectral}&\texttt{successively obtained spectra on a rectangular mesh}\cr
+	\texttt{raster-map}&\texttt{successive measurement spots on a rectangular mesh}\cr
 \sptablerule
 	\texttt{on-the-fly-cross-scan}&\texttt{successive continuous measurements along two orthogonal directions}\cr
 \sptablerule
-	\texttt{on-the-fly-cross-scan-spectral}&\texttt{successiveley obtained spectra along two orthogonal directions}\cr
-\sptablerule
-	\texttt{on-the-fly-map-scan}&\texttt{successive continuous measurements along parallel directions}\cr
-\sptablerule
-	\texttt{on-the-fly-map-scan-spectral}&\texttt{successively obtained spectra along two orthogonal directions}\cr
+	\texttt{on-the-fly-map}&\texttt{successive continuous measurements along parallel directions}\cr
 \sptablerule
 	\texttt{skydip}&\texttt{long strip of measurements}\cr
 \sptablerule
-	\texttt{skydip-spectral}&\texttt{set of spectra obtained along a long strip}\cr
+	\texttt{frequency-switching}&\texttt{switch from line frequency band to a lineless frequency band }\cr
 
 %	\texttt{target}&\texttt{extrasolar target follow up}\cr
 \sptablerule
@@ -471,18 +461,18 @@ It is applicable to  SD as well as  interferometry cases.
 
 
 Pointing mode distinguishes observations pointed on a fixed target from  
-observations fixed on a given elevation and azimuth. In addition the  
-wobble mode observes both the source and the surrounding background. 
+observations fixed on a given elevation and azimuth. 
+%In addition the wobble mode observes both the source and the surrounding background. 
 The ObsLocTAP specification \citep{2021ivoa.spec.0724S} defines the term 
 \emph{tracking\_type} for describing this as well as a  vocabulary for 
-these modes. We include the same term here in the extension. The set of 
-possible values for radio astronomy data is the following:
+these modes. We include the same term here in the extension. The two 
+possible values for radio astronomy data are the following:
 \begin{itemize}
 	\item Sidereal : observations pointed on a fixed targeti, as defined in 
 		ObsLocTAP
 	\item Fixed-az-el-transit : observations fixed on a given elevation 
-		and azimuthi, as in ObsLocTAP
-	\item Wobble : observations measuring both the source and the surroundings	
+		and azimuth, as in ObsLocTAP
+%	\item Wobble : observations measuring both the source and the surroundings	
 \end{itemize}
 
 \subsection{Auxiliary datasets useful for data quality estimation}
