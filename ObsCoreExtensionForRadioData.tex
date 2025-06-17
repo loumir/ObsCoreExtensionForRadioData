@@ -353,8 +353,8 @@ For users willing to access spectral ranges in frequencies we can imagine severa
 \begin{itemize}
 	\item compute two free parameters \emph{f\_min} and \emph{f\_max} this way \emph{f\_min} = c / \emph{em\_max} and \emph{f\_max} = c / \emph{em\_min} with c = 299 792 458 m/s
 	\item express queries and results in terms of frequencies by using the same  formulae in the ADQL queries (see \ref{sec:FreqRanges})
-
-	\item let the interface do these conversions	
+	\item let the interface do these conversions 
+	\item use User Defined Functions on TAP services, like  \emph{ivo\_interval\_overlaps, ivo\_specconv}	
 \end{itemize}
 
 %\textit{To avoid inconsistency between the core attributes \emph{em\_min, em\_max} and \emph{em\_respower} and these additional quantities we suggest to compute these new quantities when building a view on top of the basic ObsCore table. The frequency attributes MUST be expressed in Hz to allow interoperability.} 
@@ -362,11 +362,8 @@ For users willing to access spectral ranges in frequencies we can imagine severa
 \subsection{Spatial frequency coverage for visibilities  }
 These parameters are valid for interferometry only.
 
-%uv\_distance\_min and uv\_distance\_max are straigthforward.
 The absolute \emph{uv}\_distance\_min and \emph{uv}\_distance\_max  in the \emph{uv} plane give some outlier minimum and maximum scale in some direction.
-%are evaluated by fitting an ellipse on the visibilities present in the uv plane.
 
-% Mireille but still for the spec it is good to redefine them here
 To compute the ellipse's eccentricity of the \emph{uv} distribution a principal component analysis
 (PCA) with 2 components is performed over the data points sampling the \emph{uv} plane to select the
 main axis of data scattering. 
@@ -426,7 +423,7 @@ We note that \emph{instr\_feed} could also  account for the number of beams in t
 
 The scanning strategy adopted in an observation is described by the parameter \emph{scan\_mode}. This parameter covers both spatial
 and frequency scanning modes (see Sect.~\ref{subsec:sd} for details and table~\ref{tab:scanmode} for possible values).
-It is applicable to  SD as well as  interferometry cases.
+It is applicable to  SD as well as to interferometry cases.
 
 
 \begin{longtable}{ | p{5cm}| p{7cm}|  }
@@ -450,10 +447,9 @@ It is applicable to  SD as well as  interferometry cases.
 
 %	\texttt{target}&\texttt{extrasolar target follow up}\cr
 \sptablerule
-\caption{Values and definitions of the scan-mode attribute.}
+\caption{Values and definitions of the scan\_mode attribute.}
 \label{tab:scanmode}
 \end{longtable}
-
 
 Pointing mode distinguishes observations pointed on a fixed target from  
 observations fixed on a given elevation and azimuth. 
@@ -470,20 +466,20 @@ possible values for radio astronomy data are the following:
 %	\item Wobble : observations measuring both the source and the surroundings	
 \end{itemize}
 
-\subsection{Auxiliary datasets useful for data quality estimation}
+\subsection{Auxiliary datasets  for data quality estimation}
 
 Auxiliary datasets such as  \emph{uv} distribution map, dirty beam maps, frequency/amplitude plots, phase/amplitude plots are useful for astronomers to check data quality.
 
-In that case DataLink \citep{2023ivoa.spec.1215B} may provide a solution to attach these auxiliary data to ObsCore records. The \texttt{semantics} FIELD in the \{link\}
-response  will contain \#auxiliary  for links to these maps or plots while  the \texttt{content\_qualifier} FIELD introduced from 1.1  could contain a term from a defined vocabulary (to be defined) following the IVOA vocabulary definition  \citep{2021ivoa.spec.0525D}.
+In that case,  DataLink \citep{2023ivoa.spec.1215B} may provide a solution to attach these auxiliary data files to ObsCore records. The link , described in  the specification as  \{link\}
+response  will contain \#auxiliary in the \texttt{semantics} FIELD  to bind  maps or plots  and a term identifying the nature of the data file in  the \texttt{content\_qualifier} FIELD. Such a term would belong to a defined vocabulary  following the IVOA vocabulary definition  \citep{2021ivoa.spec.0525D} . See the example below. 
+% insert data link example table here 
 
 \section{The ivoa.obscore\_radio table}
 \label{sec:implementation}
 The ObsCore Extension for Radio is accessed as a table within a TAP
-\citep{2019ivoa.spec.0927D} service.\footnote{I think we should require a
-few UDFs on TAP services: ivo\_interval\_overlaps, ivo\_specconv}  At this
+\citep{2019ivoa.spec.0927D} service.  At this
 point, the name of this table is fixed to \verb|ivoa.obscore_radio|.
-Within the ivoa, it is forbidden to use this name for anything else than a table compliant
+Within the IVOA, it is forbidden to use this name for anything else than a table compliant
 with this specification.
 
 %However, in order to allow for later evolution -- which may allow
@@ -492,63 +488,28 @@ with this specification.
 
 A TAP service that has \verb|ivoa.obscore_radio| must also have a table
 compliant to any version 1 of ObsCore, i.e., a table
-\verb|ivoa.obscore| containing only the basic ObsCore attributes.
-the two tables must share exactly the obs\_publisher\_did 
-column such
+\verb|ivoa.obscore| containing only the basic ObsCore attributes. The two tables must share exactly the \emph{obs\_publisher\_did} column such
 that a \verb|NATURAL JOIN| will yield per-dataset rows of obscore and
 radio extension metadata.  
-%Which columns these are is site-specific.
 
 To ensure that all compliant services can execute the same queries,
-all columns in tables~\ref{tab:ExtensionAtt} and \ref{tab:ExtensionAtt_instrumental} must be present in such a
-table, although any may be NULL. At least a foreign key into \verb|ivoa.obscore| will typically
-make the extension table user-visible. Additional free columns (such as \emph{f\_min}, \emph{f\_max} ) may also
-be added.\footnote{can we make rules such that such additional columns
-will not interfere with later extensions?}.
+all columns described in following tables ~\ref{tab:ExtensionAtt} , ~\ref{tab:ExtensionAtt_interferometry} and \ref{tab:ExtensionAtt_instrumental} must be gathered  in the \verb|ivoa.obscore_radio|
+table, although some of them may be NULL if no value apply . At least a foreign key into \verb|ivoa.obscore| will typically
+make the extension table user-visible. 
+%Additional free columns (such as \emph{f\_min}, \emph{f\_max} ) may also be added.
+%\footnote{can we make rules such that such additional columns will not interfere with later extensions?}.
 
 The intention is that clients will write queries like
 \begin{lstlisting}
 SELECT [any obscore and obscore_radio columns or expressions]
-FROM
-  ivoa.obscore
-  NATURAL JOIN ivoa.obscore_radio
-WHERE
-  [constraints]
+FROM  ivoa.obscore
+NATURAL JOIN ivoa.obscore_radio
+WHERE [constraints]
 \end{lstlisting}
 
 %In addition a view performing this JOIN is included in the ivoa schema in
 %order to make it directly available for service users . 
 
-% commented below: FB version
-%The ObsCore Extension for Radio data is accessed in a table containing also ObsCore fields within a TAP
-%\citep{2019ivoa.spec.0927D} service.\todo{I think we should require a
-%few UDFs on TAP services: ivo\_interval\_overlaps, ivo\_specconv} At this
-%point, the name of this table is fixed to \verb|ivoa.obscore_radio|.
-%However, in order to allow for later evolution -- which may allow
-%multiple compliant tables per service --, this name should not be used
-%for discovery (see sect.~\ref{sec:registry}).
-%
-%A TAP service that has \verb|ivoa.obscore_radio| must also have a table
-%compliant to any version 1 of ObsCore, i.e., a table
-%\verb|ivoa.obscore|; containing only the basic ObsCore attributes.
-%This table can be implemented as a simple view on the \verb|ivoa.obscore_radio|
-%table
-%
-%To ensure that all compliant services can execute the same queries,
-%all columns in table~\ref{tab:ExtensionAtt} must be present in such a
-%table, although any may be NULL. Additional columns may be present\todo{can we make rules such that such additional columns
-%
-%will not interfere with later extensions?}.
-%
-%The intention is that clients will write queries like
-%\begin{lstlisting}
-%SELECT [any obscore and obs_radio columns or expressions]
-%FROM
-%ivoa.obscore_radio
-%
-%WHERE
-%[constraints]
-%\end{lstlisting}
 % commented : Markus initial PR
 %without having to know the exact foreign key(s) in use on any given
 %service.  This means that while one service can opt to join on
@@ -584,7 +545,7 @@ WHERE
 \sptablerule
 \texttt{f\_resolution}&\texttt{absolute spectral resolution in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.HiLim}&{em.freq;stat.max}&Khz\cr
 \sptablerule
-\caption{ObsCore extension proposal for radio data in general.}
+\caption{ObsCore extension columns proposal for radio data in general.}
 \label{tab:ExtensionAtt}
 \end{longtable}
 \end{landscape}
@@ -626,7 +587,7 @@ WHERE
 %\sptablerule
 %\texttt{frequency\_amplitude}&\texttt{dirty beam}&\texttt{via DataLink}&{via DataLink}&&interferometry\cr
 %\sptablerule
-\caption{ObsCore extension proposal for radio interferometry.}
+\caption{ObsCore extension columns proposal for radio interferometry.}
 \label{tab:ExtensionAtt_interferometry}
 \end{longtable}
 \end{landscape}
@@ -653,7 +614,7 @@ WHERE
 \texttt{tracking\_type}&\texttt{target tracking modes}&\texttt{Provenance.\newline Observation.\newline tracking\_mode}&instr.param& \cr
 \sptablerule
 
-\caption{ObsCore radio extension proposal for instrumental parameters.}
+\caption{ObsCore radio extension columns for instrumental parameters.}
 \label{tab:ExtensionAtt_instrumental}
 \end{longtable}
 \end{landscape}
@@ -704,9 +665,7 @@ WHERE
 Services compliant with this specification are registered using
 VODataService \citep{2021ivoa.spec.1102D} tablesets. 
 Compliant tables use the utype
-$$
-\hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore#radioExt-1.0}.}
-$$
+$$ \hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore#radioExt-1.0}.} $$
 %
 %The view table providing the
 %join between the basic ObsCore table  and the obscore\_radio table
@@ -725,21 +684,16 @@ embedding TAP service, implementors are urged to use a seperate registry
 record with the main TAP service as an auxiliary capability
 \citep{2019ivoa.spec.0520D}. In this way, meaningful information
 on coverage in space, time, and spectral axes as per VODataService 1.2 can
-be communicated to the Registry, which, again, data providers are urged
+be communicated to the Registry, which data providers are urged
 to do.
 %There is no expectation that the coverage information only
 %pertains to data with entries in \verb|ivoa.obscore_radio|, i.e., it may be
 %a copy of the coverage of the basic ObsCore table.\footnote{Is that
 %acceptable? Or should we require pure radio coverage?}
 
-
-However, discovering the obscore\_radio table alone would be  irrelevant  because querying this
-extension table per se doesn't make sense. The same service delivering the \verb|obscore_radio| table 
-MUST also contain the ObsCore table.   
+However, discovering the \verb|obscore_radio| table alone would be  irrelevant. The same service delivering the \verb|obscore_radio| table MUST also contain the ObsCore table.   
 Being sure our service  contains these both tables,
 the user is able  to  build any natural JOIN query between these two tables. 
-
-
 
 %A sample registry record for an obscore\_radio table comes with this
 %specification\footnote{\auxiliaryurl{sample-record.xml}}.
@@ -763,7 +717,7 @@ WHERE
   AND intf_role='std'
   AND table_utype LIKE 'ivo://ivoa.net/std/ObsCore#radioExt-1.%'
   AND EXISTS (select 1 from rr.res_table where
-    table_name LIKE '%obscore')
+    			table_name LIKE '%obscore')
 \end{lstlisting}
 
 In the current status of the ObsCore specification the last statement in the WHERE clause
@@ -774,11 +728,11 @@ In the future  this statement could be replaced   by
     table_utype LIKE 'ivo://ivoa.net/std/obscore#core-1.%')
 \end{lstlisting}
  
-When we will have other extensions (for example for time) we may want to 
-discover services which deliver several extensions in addition to obscore 
+When we will have other extensions (for example for time series or high energy data) we may want to 
+discover services which supporting  several extensions in addition to the obscore 
 main table.
 
-This could be done by queries such as  
+Querying ObsTAP services with multiple extensions could be done by querying the relational registry  such as:  
 
 \begin{lstlisting}
 SELECT DISTINCT(access_url), table_name
@@ -800,14 +754,12 @@ $$
 \hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore#timeExt-1.0}}
 $$
 
-In addition the schema containing the ObsCore main table and potentially some of the  extensions
+In addition the TAP schema containing the ObsCore main table and potentially some of the  extensions
 SHOULD use the root ObsCore standardID utype :
 $$
 \hbox{\nolinkurl{ivo://ivoa.net/std/ObsCore}}
 $$
-
-
-in such a way that the query
+Then the following query would allow to discover all services exposing ObsCore metadata as well as  which extension tables they deliver.
 
 \begin{lstlisting}
 SELECT DISTINCT(access_url), table_name, schema_name
@@ -821,9 +773,7 @@ AND intf_role='std'
 AND schema_utype LIKE 'ivo://ivoa.net/std/ObsCore'
 \end{lstlisting}
 
-would allow to discover all services delivering ObsCore and which extension tables they deliver.
-
-
+\newpage
 \appendix
 
 \input{Appendix.tex}
