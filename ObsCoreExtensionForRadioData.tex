@@ -426,27 +426,27 @@ and frequency scanning modes (see Sect.~\ref{subsec:sd} for details and table~\r
 It is applicable to  SD as well as to interferometry cases.
 
 
-\begin{longtable}{ | p{5cm}| p{7cm}|  }
-\sptablerule
+\begin{longtable}{ | p{4.5cm}| p{7cm}|  }
+\hline
 	\textbf{value}&\textbf{definition}\cr
-\sptablerule
-\sptablerule
+\hline
+\hline
 	\texttt{on-source}&pointed measurement\cr
-\sptablerule
+\hline
 	\texttt{on-off}&switched measurements between two positions (source and background)\cr
-\sptablerule
+\hline
 	\texttt{raster-map}&successive measurement spots on a rectangular mesh\cr
-\sptablerule
+\hline
 	\texttt{on-the-fly-cross-scan}&successive continuous measurements along two orthogonal directions\cr
-\sptablerule
+\hline
 	\texttt{on-the-fly-map}&successive continuous measurements along parallel directions\cr
-\sptablerule
+\hline
 	\texttt{skydip}&long strip of measurements\cr
-\sptablerule
+\hline
 	\texttt{frequency-switching}&switch from line frequency band to a lineless frequency band \cr
 
 %	\texttt{target}&\texttt{extrasolar target follow up}\cr
-\sptablerule
+\hline
 \caption{Values and definitions of the scan\_mode attribute.}
 \label{tab:scanmode}
 \end{longtable}
@@ -531,20 +531,20 @@ WHERE [constraints]
 %first table 
         
 \begin{landscape}
-\begin{longtable}{ l p{4cm}| p{4cm}| l l |}
-\sptablerule
-\textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}\cr
-\sptablerule
-\texttt{ s\_resolution\_min}&\texttt{ Angular resolution, longest baseline and  max frequency dependent}&{ Char.SpatialAxis.\newline Resolution.Bounds.\newline Limits.LoLim}&{pos.angResolution;stat.min}&{arcsec}\cr
-\sptablerule
-\texttt{s\_resolution\_max}&\texttt{Angular resolution, longest baseline and min frequency dependent}&\texttt{Char.SpatialAxis.\newline Resolution.Bounds.\newline Limits.HiLim}&{pos.angResolution;stat.max}&arcsec\cr
-\sptablerule
-\texttt{s\_fov\_min}&\texttt{field of view diameter, min value, max frequency dependent}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.LowLim}&{phys.angSize;instr.fov;\newline stat.min}&deg\cr
-\sptablerule
-\texttt{s\_fov\_max}&\texttt{field of view diameter, max value, min frequency dependent}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.HiLim}&{phys.angSize;instr.fov;\newline stat.max}&deg\cr
-\sptablerule
-\texttt{f\_resolution}&\texttt{absolute spectral resolution in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.HiLim}&{em.freq;stat.max}&Khz\cr
-\sptablerule
+\begin{longtable}{l p{4.5cm}| p{4cm}| l l |}
+\hline
+\textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}\\
+\hline
+\texttt{ s\_resolution\_min}&\texttt{ Angular resolution, \newline longest baseline and \newline  max frequency dependent}&{ Char.SpatialAxis.\newline Resolution.Bounds.\newline Limits.LoLim}&{pos.angResolution;stat.min}&{arcsec}\\
+\hline
+\texttt{s\_resolution\_max}&\texttt{Angular resolution, \newline longest baseline and \newline min frequency dependent}&\texttt{Char.SpatialAxis.\newline Resolution.Bounds.\newline Limits.HiLim}&{pos.angResolution;stat.max}&arcsec \\
+\hline
+\texttt{s\_fov\_min}&\texttt{field of view diameter, \newline min value, \newline max frequency dependent}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.LowLim}&{phys.angSize;instr.fov;\newline stat.min}&deg\\
+\hline
+\texttt{s\_fov\_max}&\texttt{field of view diameter, \newline max value, \newline min frequency dependent}&\texttt{Char.SpatialAxis.\newline Coverage.Bounds.\newline Extent.HiLim}&{phys.angSize;instr.fov;\newline stat.max}&deg\\
+\hline
+\texttt{f\_resolution}&\texttt{absolute spectral resolution\newline in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.HiLim}&{em.freq;stat.max}&Khz\\
+\hline
 \caption{ObsCore extension columns proposal for radio data in general.}
 \label{tab:ExtensionAtt}
 \end{longtable}
@@ -552,41 +552,42 @@ WHERE [constraints]
 
 %second table 
 \begin{landscape}
-\begin{longtable}{l p{4.5cm}| p{4cm}| l l | }
-\sptablerule
-\textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}\cr
-\sptablerule
-\texttt{s\_largest\_angular\_scale}&\texttt{maximum scale in dataset, shortest baseline and  for typical frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim}&{phys.angSize;stat.max}&arcsec \cr
-\sptablerule
-\texttt{s\_largest\_angular\_scale\_min}&\texttt{smallest maximum scale in dataset, shortest baseline and for highest frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim.Low}&{phys.angSize;stat.max}&arcsec \cr
-\sptablerule
-\texttt{s\_largest\_angular\_scale\_max}&\texttt{largest maximum scale in dataset, shortest baseline and  for lowest frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim.Hi}&{phys.angSize;stat.max}&arcsec \cr
-\sptablerule
+\begin{longtable}{l p{4.5cm}| p{4cm}| l l |}
+\hline
+\
+\textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}\\
+\hline
+\texttt{s\_largest\_angular\_scale}&\texttt{maximum scale in dataset, shortest baseline and  for typical frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim}&{phys.angSize;stat.max}&arcsec \\
+\hline
+\texttt{s\_largest\_angular\_scale\_min}&\texttt{smallest maximum scale in dataset, shortest baseline and for highest frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim.Low}&{phys.angSize;stat.max}&arcsec \\
+\hline
+\texttt{s\_largest\_angular\_scale\_max}&\texttt{largest maximum scale in dataset, shortest baseline and  for lowest frequency}&\texttt{Char.SpatialAxis.\newline Resolution.Scale.\newline Limits.HiLim.Hi}&{phys.angSize;stat.max}&arcsec \\
+\hline
 %\texttt{f\_min}&\texttt{spectral coverage min in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.LoLim}&{em.freq;stat.min}&Mhz&radio\cr
-%\sptablerule
+%\hline
 %\texttt{f\_max}&\texttt{spectral coverage max in frequency}&\texttt{Char.SpectralAxis.\newline Coverage.Bounds\newline Limits.HiLim}&{em.freq;stat.max}&Mhz&radio\cr
-%\sptablerule
+%\hline
 
 %\texttt{t\_exp\_min}&\texttt{minimum integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline LoLim}&{time.duration;obs.exposure;\newline stat.min}&s&radio\cr
-%\sptablerule
+%\hline
 %\texttt{t\_exp\_max}&\texttt{maximum integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline HiLim}&{time.duration;obs.exposure;\newline stat.max}&s&radio\cr
-%\sptablerule
+%\hline
 %\texttt{t\_exp\_mean}&\texttt{average integration time per sample}&\texttt{Char.TimeAxis.\newline Sampling.Extent\newline HiLim}&{time.duration;obs.exposure\newline stat.mean}&s&radio\cr
-%\sptablerule
-\texttt{uv\_distance\_min}&\texttt{minimal distance in uv plane}&\texttt{Char.UVAxis.Coverage\newline .Bounds.Limits.LoLim}&stat.fourier;pos;\newline stat.min&m \cr
-\sptablerule
-\texttt{uv\_distance\_max}&\texttt{maximal distance in uv plane}&\texttt{Char.UVAxis.Coverage\newline .Bounds.Limits.LoLim}&stat.fourier;pos;\newline stat.max&m \cr
-\sptablerule
-\texttt{uv\_distribution\_ecc}&\texttt{eccentricity of uv distribution}&\texttt{Char.UVAxis.Coverage\newline .Bounds.Eccentricity}&stat.fourier;pos& null \cr
-\sptablerule
-\texttt{uv\_distribution\_fill}&\texttt{filling factor of uv distribution}&\texttt{Char.UVAxis.Coverage\newline .Bounds.FillingFactor}&stat.fourier;pos;\newline arith.ratio& null \cr
-\sptablerule
+%\hline
+\texttt{uv\_distance\_min}&\texttt{minimal distance in uv plane}&\texttt{Char.UVAxis.Coverage\newline .Bounds.Limits.LoLim}&stat.fourier;pos;stat.min&m \\
+\hline
+\texttt{uv\_distance\_max}&\texttt{maximal distance in uv plane}&\texttt{Char.UVAxis.Coverage\newline .Bounds.Limits.LoLim}&stat.fourier;pos;stat.max&m \\
+\hline
+\texttt{uv\_distribution\_ecc}&\texttt{eccentricity of uv distribution}&\texttt{Char.UVAxis.Coverage\newline .Bounds.Eccentricity}&stat.fourier;pos& null \\
+\hline
+\texttt{uv\_distribution\_fill}&\texttt{filling factor of uv distribution}&\texttt{Char.UVAxis.Coverage\newline .Bounds.FillingFactor}&stat.fourier;pos;\newline arith.ratio& null \\
+\hline
 %\texttt{s\_beam\_dirty}&\texttt{dirty beam}&\texttt{- (via DataLink}&{via DataLink}&&interferometry\cr
-%\sptablerule
+%\hline
 %\texttt{phase\_amplitude}&\texttt{phase amplitude plot}&\texttt{via DataLink}&{via DataLink}&&interferometry\cr
-%\sptablerule
+%\hline
 %\texttt{frequency\_amplitude}&\texttt{dirty beam}&\texttt{via DataLink}&{via DataLink}&&interferometry\cr
-%\sptablerule
+%\hline
 \caption{ObsCore extension columns proposal for radio interferometry.}
 \label{tab:ExtensionAtt_interferometry}
 \end{longtable}
@@ -594,25 +595,25 @@ WHERE [constraints]
 
 %third  table
 \begin{landscape}
-\begin{longtable}{l p{4cm} | p{4cm} | l l l }
-\sptablerule
-\textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}\cr
-\sptablerule
-\texttt{instr\_tel\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param& \cr
-\sptablerule
+\begin{longtable}{l p{4.2cm} | p{4cm} | l l l }
+\hline
+\textbf{column name}&\textbf{definition}&\textbf{utype}&\textbf{ucd}&\textbf{unit}\\
+\hline
+\texttt{instr\_tel\_number}&\texttt{number of antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline AntNumber}&meta.number;instr.param& \\
+\hline
 % same for all antenae features
-\texttt{instr\_tel\_min\_dist}&\texttt{minimum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m \cr
-\sptablerule
-\texttt{instr\_tel\_max\_dist}&\texttt{maximum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MaxDist}&instr.baseline;stat.max&m \cr
-\sptablerule
-\texttt{instr\_tel\_diameter}&\texttt{diameter of telecope or antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr.param&m \cr
-\sptablerule
-\texttt{instr\_feed}&\texttt{number of feeds}&\texttt{Provenance.ObsConfig.\newline Instrument.Feed}&instr.param&  \cr
-\sptablerule
-\texttt{scan\_mode}&\texttt{sky and spectral axis scan mode }&\texttt{Provenance.\newline Observation.\newline sky\_scan\_mode}&instr.param& \cr
-\sptablerule
-\texttt{tracking\_type}&\texttt{target tracking modes}&\texttt{Provenance.\newline Observation.\newline tracking\_mode}&instr.param& \cr
-\sptablerule
+\texttt{instr\_tel\_min\_dist}&\texttt{minimum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MinDist}&instr.baseline;stat.min&m \\
+\hline
+\texttt{instr\_tel\_max\_dist}&\texttt{maximum distance between antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline MaxDist}&instr.baseline;stat.max&m \\
+\hline
+\texttt{instr\_tel\_diameter}&\texttt{diameter of telecope or antennas in array}&\texttt{Provenance.ObsConfig.\newline Instrument.Array.\newline Diameter}&instr.param&m \\
+\hline
+\texttt{instr\_feed}&\texttt{number of feeds}&\texttt{Provenance.ObsConfig.\newline Instrument.Feed}&instr.param&  \\
+\hline
+\texttt{scan\_mode}&\texttt{sky and spectral axis scan mode }&\texttt{Provenance.\newline Observation.\newline sky\_scan\_mode}&instr.param& \\
+\hline
+\texttt{tracking\_type}&\texttt{target tracking modes}&\texttt{Provenance.\newline Observation.\newline tracking\_mode}&instr.param& \\
+\hline
 
 \caption{ObsCore radio extension columns for instrumental parameters.}
 \label{tab:ExtensionAtt_instrumental}
