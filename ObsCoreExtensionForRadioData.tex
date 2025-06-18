@@ -296,9 +296,8 @@ coefficients of the image Fourier transform. Its UCD string is \emph{stat.fourie
 
 \subsection{t\_exptime}
 Total duration of the observation for the given dataset or ObsCore entry. For instance  in case of multiple targets, \emph{t\_exptime}
-will be computed for each source and written in the appropriate ObsCore Table entry. The specific case of time series is adressed in another
+will be computed for each source and written in the appropriate ObsCore Table entry. The specific case of time series is addressed in another
 specification\footnote{https://www.ivoa.net/documents/ObsCoreTimeExtension/20240717/index.html, IVOA working draft}.
-
 
 
 \subsection{t\_resolution}
@@ -337,8 +336,7 @@ circular region encompassing the covered area.
 
 In the case of interferometry, we introduce the new \emph{s\_largest\_angular\_scale} which is estimated as $\lambda/l$ where $\lambda$ is the typical
 wavelength (and again typical value SHOULD be estimated as the mid value of the spectral range apart from documented exceptions) and l is the typical smallest distance in the \emph{uv} plane. This parameter is not relevant for other observation modes.
-The largest angular scale is also variable along the spectral range. That's why we bound it with \emph{s\_largest\_angular\_scale\_min} and \emph{s\_largest\_angular\_scale\_max} estimated as  respectively $\lambda\_min/l$ and  $\lambda\_max/l$
-
+The largest angular scale is also variable along the spectral range. That's why we bound it with \emph{s\_largest\_angular\_scale\_min} and \emph{s\_largest\_angular\_scale\_max} estimated as  respectively $\lambda\_min/l$ and  $\lambda\_max/l$F
 
 \subsection{Frequency characterization}
 
@@ -728,10 +726,10 @@ In the future  this statement could be replaced   by
 \end{lstlisting}
  
 When we will have other extensions (for example for time series or high energy data) we may want to 
-discover services which supporting  several extensions in addition to the obscore 
+discover services which supporting  several extensions in addition to the ObsCore 
 main table.
 
-Querying ObsTAP services with multiple extensions could be done by querying the relational registry  such as:  
+Searching ObsTAP services with multiple extensions could be done by a query to the relational registry  such as:  
 
 \begin{lstlisting}
 SELECT DISTINCT(access_url), table_name
