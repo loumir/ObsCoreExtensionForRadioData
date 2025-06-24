@@ -431,19 +431,19 @@ It is applicable to  SD as well as to interferometry cases.
 \hline
 	\texttt{on-off}&switched measurements between two positions (source and background)\cr
 \hline
-	\texttt{raster-map}&successive measurement spots on a rectangular mesh\cr
+	\texttt{raster-map}&successive measurement spots on a predefined mesh (generally regular and rectangular)\cr
 \hline
-	\texttt{on-the-fly-cross-scan}&successive continuous measurements along two orthogonal directions\cr
+	\texttt{on-the-fly-cross-scan}&successive continuous measurements  along a predefined spatial pattern\cr
 \hline
 	\texttt{on-the-fly-map}&successive continuous measurements along parallel directions\cr
 \hline
-	\texttt{skydip}&long strip of measurements\cr
+	\texttt{skydip}&successive continuous measurements along a large span in elevation at a given azimuth (acquired for calibration purposes)\cr
 \hline
-	\texttt{frequency-switching}&switch from line frequency band to a lineless frequency band \cr
+	\texttt{frequency-switching}&subsequent measurements of the same target at two different central frequencies acquired with the same receiver \cr
 
 %	\texttt{target}&\texttt{extrasolar target follow up}\cr
 \hline
-\caption{Values and definitions of the scan\_mode attribute.}
+\caption{Values and definitions of the \emph{scan\_mode} attribute.}
 \label{tab:scanmode}
 \end{longtable}
 
@@ -457,7 +457,7 @@ possible values for radio astronomy data are the following:
 \begin{itemize}
 	\item \texttt{sidereal} : observations pointed on a fixed target, as defined in 
 		ObsLocTAP
-	\item \texttt{fixed-az-el-transit} : observations fixed on a given elevation 
+	\item \texttt{fixed-az-el} : observations fixed on a given elevation 
 		and azimuth, as in ObsLocTAP
 %	\item Wobble : observations measuring both the source and the surroundings	
 \end{itemize}
