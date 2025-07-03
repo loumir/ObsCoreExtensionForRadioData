@@ -470,30 +470,31 @@ In that case,  DataLink \citep{2023ivoa.spec.1215B} may provide a solution to at
 %\{link\} response  will contain \#auxiliary in the \texttt{semantics} FIELD  to bind  maps or plots  and a term identifying the nature of the data file in  the \texttt{content\_qualifier} FIELD. Such a term would belong to a defined vocabulary  following the IVOA vocabulary definition  \citep{2021ivoa.spec.0525D} . See the example below. 
 % insert data link example table here 
 \begin{table}[h]
-\begin{center}
+\begin{flushleft}
 \begin{tabular}{| l l l l l | |}
 \hline
-{\bf parameter} & {\bf assoc. data } & {\bf assoc. data}  \\
+{\bf parameter} & {\bf DL record  } & {\bf DL record}  \\
 \hline
-ID  (of ObsCore record )  & ivo://aaa/bb & ivo://aaa/bb  \\
+ID   & ivo://aaa/bb & ivo://aaa/bb  \\
+(of ObsCore record )  &  &   \\
 \hline
 access\_url     &http://atca/aaa & http://atca/bbb\\
 \hline
-description     & \emph{uv} coverage map   & freq/amplitude plot   \\
+description     & \emph{uv} coverage map   & dirty beam image  \\
 \hline
-semantics       & auxiliary&  auxiliary\\
+semantics       & auxiliary&  calibration\\
 \hline
 content\_type   & image/png& image/png \\
 \hline
-content\_length & 25000 & 500 000\\
+content\_length & 25000 & 1000 000\\
 \hline
-content\_qualifier & \footnotesize{\url{http://ivoa.net/rdf/product_type/image}} &\footnotesize{\ \url{http://myvocab/plot} }\\
+content\_qualifier & \footnotesize{\url{www.ivoa.net/rdf/product-type#image}} &  \footnotesize{\url{www.ivoa.net/rdf/product-type#image}}\\
 \hline
-local\_semantics &   uv\_distribution\_map& frequency\_amplitude \\
+local\_semantics &   uv\_distribution\_map& dirty\_beam  \\
 \hline
 \end{tabular}
-\end{center}
-\caption{Metadata of the datalink response for an ObsCore  \emph{visibility} data set  associated to two auxiliary data file :  \emph{uv} map and frequency plot in their own column. }
+\end{flushleft}
+\caption{Metadata of the Data Link (DL) response for an ObsCore  \emph{visibility} data set  associated to two auxiliary data file :  \emph{uv} map and dirty beam image in their own column. }
 \label{fig:linkFields}
 \end{table}
 
