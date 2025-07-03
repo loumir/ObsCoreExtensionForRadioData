@@ -336,7 +336,7 @@ circular region encompassing the covered area.
 
 In the case of interferometry, we introduce the new \emph{s\_largest\_angular\_scale} which is estimated as $\lambda/l$ where $\lambda$ is the typical
 wavelength (and again typical value SHOULD be estimated as the mid value of the spectral range apart from documented exceptions) and l is the typical smallest distance in the \emph{uv} plane. This parameter is not relevant for other observation modes.
-The largest angular scale is also variable along the spectral range. That's why we bound it with \emph{s\_largest\_angular\_scale\_min} and \emph{s\_largest\_angular\_scale\_max} estimated as  respectively $\lambda\_min/l$ and  $\lambda\_max/l$F
+The largest angular scale is also variable along the spectral range. That's why we bound it with \emph{s\_largest\_angular\_scale\_min} and \emph{s\_largest\_angular\_scale\_max} estimated as  respectively $\lambda\_min/l$ and  $\lambda\_max/l$
 
 \subsection{Frequency characterization}
 
@@ -466,9 +466,41 @@ possible values for radio astronomy data are the following:
 
 Auxiliary datasets such as  \emph{uv} distribution map, dirty beam maps, frequency/amplitude plots, phase/amplitude plots are useful for astronomers to check data quality.
 
-In that case,  DataLink \citep{2023ivoa.spec.1215B} may provide a solution to attach these auxiliary data files to ObsCore records. The link , described in  the specification as  \{link\}
-response  will contain \#auxiliary in the \texttt{semantics} FIELD  to bind  maps or plots  and a term identifying the nature of the data file in  the \texttt{content\_qualifier} FIELD. Such a term would belong to a defined vocabulary  following the IVOA vocabulary definition  \citep{2021ivoa.spec.0525D} . See the example below. 
+In that case,  DataLink \citep{2023ivoa.spec.1215B} may provide a solution to attach these auxiliary data files to ObsCore records. The link between a data set and its associated data files, is described by a set of parameters in  the specification as  shown in the datalink table example below.
+%\{link\} response  will contain \#auxiliary in the \texttt{semantics} FIELD  to bind  maps or plots  and a term identifying the nature of the data file in  the \texttt{content\_qualifier} FIELD. Such a term would belong to a defined vocabulary  following the IVOA vocabulary definition  \citep{2021ivoa.spec.0525D} . See the example below. 
 % insert data link example table here 
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{| l l l l l | |}
+\hline
+{\bf parameter} & {\bf assoc. data } & {\bf assoc. data}  \\
+\hline
+ID  (of ObsCore record )  & ivo://aaa/bb & ivo://aaa/bb  \\
+\hline
+access\_url     &http://atca/aaa & http://atca/bbb\\
+\hline
+description     & \emph{uv} coverage map   & freq/amplitude plot   \\
+\hline
+semantics       & auxiliary&  auxiliary\\
+\hline
+content\_type   & image/png& image/png \\
+\hline
+content\_length & 25000 & 500 000\\
+\hline
+content\_qualifier & \footnotesize{\url{http://ivoa.net/rdf/product_type/image}} &\footnotesize{\ \url{http://myvocab/plot} }\\
+\hline
+local\_semantics &   uv\_distribution\_map& frequency\_amplitude \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Metadata of the datalink response for an ObsCore  \emph{visibility} data set  associated to two auxiliary data file :  \emph{uv} map and frequency plot in their own column. }
+\label{fig:linkFields}
+\end{table}
+
+
+
+
+%end datalink table 
 
 \section{The ivoa.obscore\_radio table}
 \label{sec:implementation}
@@ -726,7 +758,7 @@ In the future  this statement could be replaced   by
 \end{lstlisting}
  
 When we will have other extensions (for example for time series or high energy data) we may want to 
-discover services which supporting  several extensions in addition to the ObsCore 
+discover services  supporting  several extensions in addition to the ObsCore 
 main table.
 
 Searching ObsTAP services with multiple extensions could be done by a query to the relational registry  such as:  
